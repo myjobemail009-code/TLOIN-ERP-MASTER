@@ -2,109 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.1 - MASTER REGISTRY NEXUS</title>
+    <title>TLOIN ERP v28.2 - MODULE 1 UNLOCKED</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --school: #2980b9; --ngo: #16a085; --admin: #c0392b; --locked: #7f8c8d;
+            --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
         }
-        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); overflow-x: hidden; }
-        .registry-card { background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd; margin: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: none; }
-        .registry-card.active { display: block; animation: slideUp 0.4s ease; }
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; }
         
+        /* THE MASTER HUB LAYOUT */
+        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+        #sidebar { background: var(--navy); border-right: 5px solid var(--gold); color: white; }
+        .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; text-transform: uppercase; cursor: pointer; border-left: 4px solid transparent; }
+        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
+
+        #viewport { padding: 30px; overflow-y: auto; }
+        .registry-card { background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+        /* INPUT STYLING */
         .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 25px 0 15px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        
         label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 4px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
         
-        /* IMAGE UPLOAD STATIC DESIGN */
-        .photo-upload { width: 120px; height: 120px; border: 2px dashed var(--navy); display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: var(--navy); cursor: pointer; background: #fff; margin-bottom: 10px; }
-        .doc-upload { border: 1px solid var(--gold); padding: 10px; font-size: 9px; background: #fffcf0; cursor: pointer; }
-
-        /* ITEMIZATION TABLE */
-        .item-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .item-table th { background: var(--navy); color: white; font-size: 9px; padding: 10px; text-align: left; }
+        /* SPECIALIZED COMPONENTS */
+        .photo-gate { width: 120px; height: 120px; border: 2px dashed var(--navy); display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; background: #f9f9f9; cursor: pointer; }
+        .item-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+        .item-table th { background: var(--navy); color: white; padding: 10px; text-align: left; }
         .item-table td { border: 1px solid #eee; padding: 8px; }
-
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 11px; margin-top: 20px; }
-        
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div style="background:var(--navy); padding: 10px 20px; display:flex; gap:10px;">
-        <button onclick="ShowTab('student')" style="background:none; border:none; color:white; font-size:9px; font-weight:800; cursor:pointer;">STUDENT</button>
-        <button onclick="ShowTab('staff')" style="background:none; border:none; color:white; font-size:9px; font-weight:800; cursor:pointer;">STAFF/VOLUNTEER</button>
-        <button onclick="ShowTab('donations')" style="background:none; border:none; color:white; font-size:9px; font-weight:800; cursor:pointer;">DONATIONS</button>
-        <button onclick="ShowTab('ngo')" style="background:none; border:none; color:white; font-size:9px; font-weight:800; cursor:pointer;">NGO MEMBERS/GRANTS</button>
-    </div>
+<div id="tloin-nexus">
+    <aside id="sidebar">
+        <div style="padding:25px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            <h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.2</h2>
+            <p style="font-size:8px; opacity:0.6;">MODULE 1: MASTER REGISTRY</p>
+        </div>
+        <div class="nav-item active" onclick="Mod.show('student')">Student Registry</div>
+        <div class="nav-item" onclick="Mod.show('staff')">Staff & Volunteers</div>
+        <div class="nav-item" onclick="Mod.show('donations')">Donation Control</div>
+        <div class="nav-item" onclick="Mod.show('ngo_members')">NGO Club & Grants</div>
+    </aside>
 
-    <div id="tab-student" class="registry-card active">
-        <div style="display:flex; gap:30px;">
-            <div><div class="photo-upload">MANDATORY PHOTO<br>(Click to Upload)</div></div>
-            <div style="flex:1;">
-                <div class="section-h">Student Full Biodata</div>
-                <div class="grid-3">
-                    <div><label>First Name</label><input type="text"></div>
-                    <div><label>Middle Name</label><input type="text"></div>
-                    <div><label>Surname</label><input type="text"></div>
-                </div>
-                <div class="grid-3">
-                    <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
-                    <div><label>Date of Birth</label><input type="date"></div>
-                    <div><label>Class Selector</label>
-                        <select>
-                            <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
-                            <option>K.G. 1</option><option>K.G. 2</option>
-                            <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
-                            <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
-                        </select>
+    <main id="viewport">
+        <div id="reg-student" class="registry-card">
+            <div style="display:flex; gap:20px;">
+                <div class="photo-gate">MANDATORY PHOTO<br>UPLOAD</div>
+                <div style="flex:1;">
+                    <div class="section-h">Student Biodata</div>
+                    <div class="grid-3">
+                        <input type="text" placeholder="First Name">
+                        <input type="text" placeholder="Middle Name">
+                        <input type="text" placeholder="Surname">
+                    </div>
+                    <div class="grid-3">
+                        <select><option>Creche</option><option>Nursery 1</option><option>Primary 4</option></select>
+                        <input type="date">
+                        <select><option>Male</option><option>Female</option></select>
                     </div>
                 </div>
             </div>
+            <div class="section-h">Medical History (International Standard)</div>
+            <div class="grid-3">
+                <input type="text" placeholder="Blood Group">
+                <input type="text" placeholder="Known Allergies">
+                <input type="text" placeholder="Chronic Conditions">
+            </div>
+            <div class="section-h">Parents / Guardian & Emergency</div>
+            <div class="grid-2">
+                <fieldset><legend>Guardian</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone"></fieldset>
+                <fieldset><legend>Emergency Person</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone"></fieldset>
+            </div>
+            <label>Optional Document Upload (Birth Cert/ID)</label><input type="file">
+            <button class="btn-seal">Seal Student Record</button>
         </div>
 
-        <div class="section-h">International Medical History & Allergies</div>
-        <div class="grid-3">
-            <div><label>Blood Group</label><input type="text" placeholder="e.g. O+"></div>
-            <div><label>Known Allergies</label><input type="text" placeholder="Nuts, Penicillin, etc."></div>
-            <div><label>Chronic Conditions</label><input type="text" placeholder="Asthma, etc."></div>
+        <div id="reg-staff" class="registry-card" style="display:none;">
+            <div class="section-h">Staff / Volunteer Professional Profile</div>
+            <div class="grid-2">
+                <div class="photo-gate">PHOTO</div>
+                <div><label>ID Card Scan Area</label><input type="file"></div>
+            </div>
+            <div class="grid-3">
+                <input type="text" placeholder="Full Name">
+                <select><option>Permanent</option><option>Volunteer</option></select>
+                <select><option>School Wing</option><option>NGO Wing</option></select>
+            </div>
+            <div class="grid-2">
+                <input type="text" placeholder="Job Role">
+                <input type="number" placeholder="Salary/Allowance (GHS)">
+            </div>
+            <button class="btn-seal">Seal Staff Profile</button>
         </div>
 
-        <div class="section-h">Comprehensive Guardian & Emergency Contact</div>
-        <div class="grid-2">
-            <fieldset style="border:1px solid #ddd; padding:15px; border-radius:5px;">
-                <legend style="font-size:9px; font-weight:800;">Primary Guardian</legend>
-                <label>Full Name</label><input type="text">
-                <label>Phone Number</label><input type="text">
-                <label>Home Address (Digital Address)</label><input type="text">
-            </fieldset>
-            <fieldset style="border:1px solid #ddd; padding:15px; border-radius:5px;">
-                <legend style="font-size:9px; font-weight:800;">Emergency Contact (Different Person)</legend>
-                <label>Full Name</label><input type="text">
-                <label>Phone Number</label><input type="text">
-                <label>Relationship to Student</label><input type="text">
-            </fieldset>
+        <div id="reg-donations" class="registry-card" style="display:none;">
+            <div class="section-h">Donation Entry (Cash & Items)</div>
+            <div class="grid-3">
+                <input type="text" placeholder="Donor Source">
+                <select id="dtype" onchange="Mod.toggleDon()"><option value="item">Items/Supplies</option><option value="cash">Cash</option></select>
+                <select><option>General</option><option>Special Program</option></select>
+            </div>
+            <div id="don-item-view">
+                <table class="item-table">
+                    <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Value (GHS)</th><th>Package</th></tr></thead>
+                    <tbody><tr><td><input type="text" value="Rice"></td><td><input type="number" value="4"></td><td>Bags</td><td>2400</td><td>50kg</td></tr></tbody>
+                </table>
+            </div>
+            <div id="don-cash-view" style="display:none;">
+                <div class="grid-2"><select><option>GHS</option><option>USD</option></select><input type="number" placeholder="Equivalent GHS"></div>
+            </div>
+            <button class="btn-seal" style="margin-top:20px;">Seal Transaction</button>
         </div>
-        <div class="doc-upload" style="margin-top:15px;">📁 OPTIONAL: UPLOAD BIRTH CERTIFICATE/GHANA CARD SCAN (PDF)</div>
-        <button class="btn-seal">Seal & Lock Student Profile</button>
-    </div>
 
-    <div id="tab-staff" class="registry-card">
-        <div style="display:flex; gap:30px;">
-            <div class="photo-upload">MANDATORY PHOTO</div>
-            <div style="flex:1;">
-                <div class="section-h">Staff/Volunteer Professional Biodata</div>
-                <div class="grid-3">
-                    <div><label>Full Name</label><input type="text"></div>
-                    <div><label>Ghana Card / ID No.</label><input type="text"></div>
-                    <div><label>Role / Position</label><input type="text"></div>
+        <div id="reg-ngo_members" class="registry-card" style="display:none;">
+            <div class="section-h">Member & Grant Profile</div>
+            <div class="grid-2">
+                <div class="photo-gate">PHOTO</div>
+                <div class="grid-2">
+                    <input type="text" placeholder="Full Name">
+                    <input type="text" placeholder="Group Name">
                 </div>
             </div>
+            <div class="section-h">Business Grant / Soft Loan Repayment</div>
+            <div class="grid-3">
+                <select><option>Weekly Repayment</option><option>Monthly Repayment</option></select>
+                <input type="number" placeholder="Interest %">
+                <input type="number" placeholder="Total Repayment (GHS)">
+            </div>
+            <button class="btn-seal">Lock Grant Agreement</button>
         </div>
-        <div class="grid-3">
-            <div><label>Employment Type</label><select><option>Permanent</option><option>Volunteer</option></select></div>
-            <div>
+    </main>
+</div>
+
+<script>
+    const Mod = {
+        show: (id) => {
+            document.querySelectorAll('.registry-card').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.nav-item').forEach(n => n
