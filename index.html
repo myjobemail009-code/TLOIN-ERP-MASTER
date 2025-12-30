@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.13 - FULL COMMAND CONSOLE</title>
+    <title>TLOIN ERP v28.14 - MODULE 1 COMPLETE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
@@ -11,161 +11,202 @@
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
         
-        /* SIDEBAR - LOCKED FORMATTING */
+        /* SIDEBAR - STATIC & LOCKED */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
         .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .nav-item { padding: 15px 20px; font-size: 9px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; }
         .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
 
-        /* VIEWPORT CONFIG */
+        /* VIEWPORT */
         #main-viewport { padding: 35px; overflow-y: auto; box-sizing: border-box; }
-        .module-desk { display: none; background: white; padding: 35px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 85vh; }
-        .module-desk.active { display: block; animation: slideUp 0.3s ease; }
+        .module-desk { background: white; padding: 35px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 85vh; }
         
-        /* REUSABLE SMART COMPONENTS */
-        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 20px 0 10px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
+        /* REGISTRY SELECTOR TABS */
+        .reg-tabs { display: flex; gap: 5px; margin-bottom: 25px; background: #eee; padding: 5px; border-radius: 8px; }
+        .tab { flex: 1; padding: 12px; font-size: 8px; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+        .tab.active { background: var(--navy); color: var(--gold); }
+
+        /* FORM BLOCKS */
+        .registry-form { display: none; }
+        .registry-form.active { display: block; animation: fadeIn 0.4s ease; }
+        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 10px; margin: 20px 0 10px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
-        input, select, textarea { width: 100%; padding: 11px; border: 1px solid #bbb; border-radius: 5px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
+        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #bbb; border-radius: 5px; font-size: 11px; margin-bottom: 10px; box-sizing: border-box; }
+        
         .photo-gate { width: 110px; height: 110px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: #888; background: #fafafa; }
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
 
-        /* TABLES FOR AUDITS & ACADEMICS */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
-        th { background: #f0f0f0; padding: 12px; text-align: left; font-size: 9px; text-transform: uppercase; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
+        /* SMART LOGIC: ITEMIZATION TABLE */
+        .item-list { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 8px; }
+        .item-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 5px; }
+        .item-row input { margin-bottom: 0; padding: 8px; font-size: 10px; }
+        .row-h { font-size: 8px; font-weight: 900; color: var(--locked); margin-bottom: 5px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.13</h2></div>
-        <div class="nav-item active" onclick="Launch(1)">01. Registry Nexus</div>
-        <div class="nav-item" onclick="Launch(2)">02. Academic Command</div>
-        <div class="nav-item" onclick="Launch(3)">03. Impact & Field Ops</div>
-        <div class="nav-item" onclick="Launch(4)">04. Attendance Gateway</div>
-        <div class="nav-item" onclick="Launch(5)">05. Unified Finance</div>
-        <div class="nav-item" onclick="Launch(6)">06. Health & Wellness</div>
-        <div class="nav-item" onclick="Launch(7)">07. Supply & Logistics</div>
-        <div class="nav-item" onclick="Launch(8)">08. Parent/Donor Portal</div>
-        <div class="nav-item" onclick="Launch(9)">09. HR & Payroll</div>
-        <div class="nav-item" onclick="Launch(10)">10. CEO Master Command</div>
+        <div class="brand"><h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.14</h2></div>
+        <div class="nav-item active">01. Registry Nexus</div>
+        <div class="nav-item">02. Academic Command</div>
+        <div class="nav-item">03. Impact & Field Ops</div>
+        <div class="nav-item">04. Attendance Gateway</div>
+        <div class="nav-item">05. Unified Finance</div>
+        <div class="nav-item">06. Health & Wellness</div>
+        <div class="nav-item">07. Supply & Logistics</div>
+        <div class="nav-item">08. Parent Portal</div>
+        <div class="nav-item">09. HR & Payroll</div>
+        <div class="nav-item">10. CEO Command</div>
     </aside>
 
     <main id="main-viewport">
-        <div id="desk-1" class="module-desk active">
-            <div class="section-h">Module 1: Registry Nexus (All Assets)</div>
-            <div class="grid-2">
-                <div class="item-box" style="border:1px solid #eee; padding:15px; border-radius:8px;">
-                    <label>Registration Type</label>
-                    <select id="reg-type">
-                        <option>Student (Full Biodata/Medicals)</option>
-                        <option>Staff/Volunteer (Ghana Card/ID Scan)</option>
-                        <option>NGO Member (Grant Vetting Ready)</option>
-                    </select>
-                </div>
-                <div class="item-box" style="border:1px solid #eee; padding:15px; border-radius:8px;">
-                    <label>Donation Portal</label>
-                    <select><option>Incoming (Rice/Milk/Cash)</option><option>Outgoing (Outreach/Audit Gate)</option></select>
-                </div>
+        <div class="module-desk">
+            <div class="reg-tabs">
+                <button class="tab active" onclick="SwitchReg('student')">1. Student</button>
+                <button class="tab" onclick="SwitchReg('staff')">2. Staff/Vol</button>
+                <button class="tab" onclick="SwitchReg('donin')">3. Donations (In)</button>
+                <button class="tab" onclick="SwitchReg('donout')">4. Donations (Out)</button>
+                <button class="tab" onclick="SwitchReg('club')">5. NGO Club</button>
+                <button class="tab" onclick="SwitchReg('grant')">6. Grant Desk</button>
             </div>
-            <div class="section-h">Registry Input Desk</div>
-            <div style="display:flex; gap:20px;">
-                <div class="photo-gate">MANDATORY<br>PASSPORT</div>
-                <div style="flex:1;"><label>ID / Birth Cert Scan</label><input type="file"></div>
-            </div>
-            <div class="grid-3">
-                <input type="text" placeholder="Full Name">
-                <input type="text" placeholder="Ghana Card No.">
-                <select><option>Class / Wing Selection</option></select>
-            </div>
-            <button class="btn-seal">Seal & Lock Record</button>
-        </div>
 
-        <div id="desk-2" class="module-desk">
-            <div class="section-h">Module 2: SBA Appraisal & Exam Master</div>
-            <div class="grid-2">
-                <select><option>Select Class</option></select>
-                <select><option>Academic Term</option></select>
+            <div id="reg-student" class="registry-form active">
+                <div class="section-h">Student Biodata & Int. Medicals</div>
+                <div style="display:flex; gap:20px;">
+                    <div class="photo-gate">MANDATORY<br>PHOTO</div>
+                    <div style="flex:1;">
+                        <div class="grid-3">
+                            <div><label>First Name</label><input type="text"></div>
+                            <div><label>Middle Name</label><input type="text"></div>
+                            <div><label>Surname</label><input type="text"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label>Class</label><select><option>Creche</option><option>Nursery 1&2</option><option>K.G. 1&2</option><option>Primary 1-6</option></select></div>
+                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+                            <div><label>D.O.B</label><input type="date"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-h">International Medical Practice History</div>
+                <div class="grid-3">
+                    <div><label>Blood Group</label><input type="text"></div>
+                    <div><label>Allergies</label><input type="text"></div>
+                    <div><label>Chronic History</label><input type="text"></div>
+                </div>
+                <div class="section-h">Parents/Guardian & Emergency</div>
+                <div class="grid-2">
+                    <fieldset><legend style="font-size:9px;">Guardian Biodata</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Address"></fieldset>
+                    <fieldset><legend style="font-size:9px;">Emergency Person</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone"></fieldset>
+                </div>
+                <label style="margin-top:10px;">Optional Document Upload</label><input type="file">
+                <button class="btn-seal">Seal Student Record</button>
             </div>
-            <table>
-                <thead><tr><th>Student</th><th>SBA (50%)</th><th>Exam (50%)</th><th>Appraisal (1-5)</th><th>Status</th></tr></thead>
-                <tbody><tr><td>Sample Name</td><td><input type="number"></td><td><input type="number"></td><td><select><option>5-Exceeds</option></select></td><td><span style="color:green;">PASS</span></td></tr></tbody>
-            </table>
-            <button class="btn-seal">Archive Termly Results</button>
-        </div>
 
-        <div id="desk-4" class="module-desk">
-            <div class="section-h">Module 4: Attendance Gateway (10:00 AM LOCK)</div>
-            <div style="background:#fff4e5; padding:20px; border:1px solid #ffcc00; margin-bottom:20px; border-radius:8px;">
-                <h4 style="margin:0; font-size:12px; color:var(--navy);">SYSTEM STATUS: HARD-LOCK ACTIVE</h4>
-                <p style="font-size:10px; margin:5px 0;">Late entries after 10:00 AM require CEO Digital PIN.</p>
+            <div id="reg-staff" class="registry-form">
+                <div class="section-h">Staff / Volunteer Registry</div>
+                <div style="display:flex; gap:20px;">
+                    <div class="photo-gate">PHOTO</div>
+                    <div style="flex:1;">
+                        <div class="grid-2">
+                            <div><label>Ghana Card/ID No.</label><input type="text"></div>
+                            <div><label>ID Card Scan</label><input type="file"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label>Job Role</label><input type="text"></div>
+                            <div><label>Type</label><select><option>Permanent</option><option>Volunteer</option></select></div>
+                            <div><label>Salary (GHS)</label><input type="number"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div><label>Permanent Assignment</label><select><option>NGO Wing</option><option>School Wing</option></select></div>
+                </div>
+                <button class="btn-seal">Seal Staff Record</button>
             </div>
-            <div class="grid-2">
-                <button class="btn-seal" style="background:var(--school)">Student Roll Call</button>
-                <button class="btn-seal" style="background:var(--admin); color:white;">Staff Biometric Sync</button>
-            </div>
-        </div>
 
-        <div id="desk-5" class="module-desk">
-            <div class="section-h">Module 5: Payment Vouchers & Fee Management</div>
-            <div class="grid-3">
-                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
-                    <label>Cash In Hand</label><h2 style="margin:0;">GHS 42,000</h2>
+            <div id="reg-donin" class="registry-form">
+                <div class="section-h">Donations (Incoming) - Resource Log</div>
+                <div class="grid-3">
+                    <div><label>Source</label><input type="text"></div>
+                    <div><label>Type</label><select id="din-t" onchange="Tgl('in')"><option value="item">Items</option><option value="cash">Cash</option></select></div>
+                    <div><label>Program</label><select><option>General</option><option>Special Program</option></select></div>
                 </div>
-                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
-                    <label>Cash at Bank</label><h2 style="margin:0;">GHS 108,500</h2>
+                <div id="din-item-box" class="item-list">
+                    <div class="row-h"><span>ITEM</span><span>QTY</span><span>UNIT</span><span>VALUE</span><span>PKG TYPE</span></div>
+                    <div class="item-row"><input type="text" value="Rice"><input type="number" value="4"><input type="text" value="Bags"><input type="number" value="2400"><input type="text" value="50kg Sacks"></div>
+                    <div class="item-row"><input type="text" value="Milk"><input type="number" value="3"><input type="text" value="Cartons"><input type="number" value="900"><input type="text" value="24 Tins/Ctn"></div>
                 </div>
-                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
-                    <label>NGO Reserve</label><h2 style="margin:0;">GHS 15,200</h2>
+                <div id="din-cash-box" style="display:none;" class="grid-2">
+                    <div><label>Currency</label><input type="text" placeholder="e.g. USD"></div>
+                    <div><label>GHS Equivalent</label><input type="number"></div>
                 </div>
+                <button class="btn-seal">Log Donation In</button>
             </div>
-            <div class="section-h">Recent Transactions</div>
-            <table>
-                <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Auth</th></tr></thead>
-                <tbody><tr><td>30 Dec 2025</td><td>School Supplies</td><td>Debit</td><td>2,400</td><td>VERIFIED</td></tr></tbody>
-            </table>
-            <button class="btn-seal">New Payment Voucher (PV)</button>
-        </div>
 
-        <div id="desk-9" class="module-desk">
-            <div class="section-h">Module 9: HR Command & Payroll Engine</div>
-            <div class="grid-3">
-                <div><label>Total Staff</label><input type="number" value="24" readonly></div>
-                <div><label>Total Payroll (GHS)</label><input type="number" value="38500" readonly></div>
-                <div><label>Tax/SSNIT Total</label><input type="number" value="4200" readonly></div>
+            <div id="reg-donout" class="registry-form">
+                <div class="section-h">Donations (Outgoing) - Disbursement & Outreach</div>
+                <div class="grid-3">
+                    <div><label>Outreach Program</label><input type="text"></div>
+                    <div><label>Type</label><select id="dout-t" onchange="Tgl('out')"><option value="item">Items</option><option value="cash">Cash</option></select></div>
+                    <div><label>Authorized By</label><input type="password" placeholder="CEO PIN"></div>
+                </div>
+                <div id="dout-item-box" class="item-list">
+                    <div class="row-h"><span>ITEM</span><span>QTY</span><span>UNIT</span><span>VALUE</span><span>PKG TYPE</span></div>
+                    <div class="item-row"><input type="text" placeholder="Item Name"><input type="number"><input type="text"><input type="number"><input type="text"></div>
+                </div>
+                <button class="btn-seal" style="background:var(--admin); color:white;">Seal Audit Authorized Outflow</button>
             </div>
-            <button class="btn-seal">Run Monthly Payroll</button>
-        </div>
 
-        <div id="desk-10" class="module-desk">
-            <div class="section-h">Module 10: CEO Strategic Master Command</div>
-            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
-                <div style="background:var(--navy); color:white; padding:30px; border-radius:12px;">
-                    <h3>Global Liquidity: GHS 165,700</h3>
-                    <p style="font-size:10px; color:var(--gold);">Impact Score: 98.4% Exceptional</p>
-                    <button style="background:var(--gold); border:none; padding:10px 20px; font-weight:900; cursor:pointer;">DOWNLOAD ANNUAL AUDIT</button>
+            <div id="reg-club" class="registry-form">
+                <div class="section-h">NGO Membership Club Registry</div>
+                <div style="display:flex; gap:20px;">
+                    <div class="photo-gate">PHOTO</div>
+                    <div style="flex:1;">
+                        <div class="grid-2">
+                            <div><label>Full Name</label><input type="text"></div>
+                            <div><label>Group to Join</label><input type="text"></div>
+                        </div>
+                        <label>Ghana Card ID & Scan</label>
+                        <div class="grid-2"><input type="text"><input type="file"></div>
+                    </div>
                 </div>
-                <div style="background:var(--admin); color:white; padding:30px; border-radius:12px;">
-                    <label style="color:white;">CEO Override PIN</label>
-                    <input type="password" style="background:rgba(255,255,255,0.1); border:1px solid white; color:white;">
-                    <button style="width:100%; padding:10px; background:white; color:var(--admin); border:none; font-weight:900;">AUTHORIZE LOCK RELEASE</button>
+                <label>Comprehensive Biodata (For Grant Vetting)</label>
+                <textarea rows="4" placeholder="Member business history, community address, etc."></textarea>
+                <button class="btn-seal">Register Club Member</button>
+            </div>
+
+            <div id="reg-grant" class="registry-form">
+                <div class="section-h">Business Grant / Soft Loan Calculator</div>
+                <div class="grid-3">
+                    <div><label>Principal (GHS)</label><input type="number"></div>
+                    <div><label>Interest (%)</label><input type="number"></div>
+                    <div><label>Plan</label><select><option>Weekly</option><option>Monthly</option></select></div>
                 </div>
+                <div class="grid-2">
+                    <div><label>Total To Pay</label><input type="number" readonly style="background:#eee; font-weight:bold;"></div>
+                </div>
+                <button class="btn-seal" style="background:var(--ngo); color:white;">Seal Grant Agreement</button>
             </div>
         </div>
     </main>
 </div>
 
 <script>
-    function Launch(n) {
-        document.querySelectorAll('.module-desk').forEach(d => d.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('desk-' + n).classList.add('active');
+    function SwitchReg(id) {
+        document.querySelectorAll('.registry-form').forEach(f => f.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('reg-' + id).classList.add('active');
         event.currentTarget.classList.add('active');
+    }
+    function Tgl(dir) {
+        const val = document.getElementById('d' + dir + '-t').value;
+        document.getElementById('d' + dir + '-item-box').style.display = (val === 'item') ? 'block' : 'none';
+        document.getElementById('d' + dir + '-cash-box').style.display = (val === 'cash') ? 'block' : 'none';
     }
 </script>
 </body>
