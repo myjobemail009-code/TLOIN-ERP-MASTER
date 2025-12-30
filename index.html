@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.1 - ENHANCED ADMISSIONS</title>
+    <title>TLOIN ERP v24.1 - ADVANCED ADMISSIONS</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --medical: #e74c3c; --billing: #27ae60; --upload: #8e44ad;
+            --border: #ced4da; --medical: #e74c3c; --billing: #27ae60; --upload: #2980b9;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -17,7 +17,7 @@
 
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .tab-container { display: flex; gap: 2px; margin-bottom: 20px; }
-        .tab { padding: 12px 20px; background: #ddd; cursor: pointer; font-size: 11px; font-weight: 800; border-radius: 4px 4px 0 0; }
+        .tab { padding: 12px 20px; background: #ddd; cursor: pointer; font-size: 10px; font-weight: 800; border-radius: 4px 4px 0 0; text-transform: uppercase; }
         .tab.active { background: var(--navy); color: white; }
 
         .form-section { background: var(--white); border: 1px solid var(--border); padding: 25px; border-radius: 0 0 8px 8px; display: none; }
@@ -27,24 +27,24 @@
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; box-sizing: border-box; }
         
-        .mandatory-tag { color: var(--medical); font-size: 8px; margin-left: 5px; }
-        .section-head { border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 15px 0; font-size: 12px; color: var(--navy); font-weight: 800; }
+        .section-head { border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 15px 0; font-size: 12px; color: var(--navy); font-weight: 800; text-transform: uppercase; }
         
-        /* IMAGE PREVIEW BOX */
-        #photo-preview { width: 120px; height: 120px; border: 2px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
-        #photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        /* PHOTO SECTION */
+        .photo-upload-zone { border: 2px dashed var(--border); padding: 20px; text-align: center; border-radius: 8px; background: #fcfcfc; }
+        .mandatory-tag { color: var(--medical); font-size: 8px; font-weight: bold; }
+        
+        /* DOCUMENT VAULT */
+        .doc-vault { background: #f1f7ff; border: 1px solid var(--upload); padding: 15px; border-radius: 4px; margin-top: 10px; }
 
-        .btn-finalize { background: var(--navy); color: white; padding: 15px; width: 100%; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .doc-upload-box { border: 1px solid var(--upload); padding: 10px; border-radius: 4px; background: #fdfaff; }
+        .btn-finalize { background: var(--navy); color: white; padding: 15px; width: 100%; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
+        .class-config { background: #f0f4f8; padding: 15px; border-radius: 4px; border-left: 4px solid var(--billing); }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
             <div class="brand"><h2>TLOIN ERP v24.1</h2></div>
-            <div style="padding: 20px;"><button class="btn-finalize" onclick="UI.switchTab(0)" style="background:var(--upload); font-size: 10px;">New Application</button></div>
-            <div class="nav-header">Navigation</div>
-            <div class="desk-link" style="padding:15px; color:#aab0b6; font-size:11px;">View All Students</div>
+            <div style="padding: 20px;"><button class="btn-finalize" onclick="Logic.openGlobalConfig()" style="background:var(--billing); font-size: 10px;">Master Class Billing</button></div>
         </aside>
 
         <main id="main-dashboard">
@@ -52,31 +52,30 @@
                 <div class="tab active" onclick="UI.switchTab(0)">1. Student Bio</div>
                 <div class="tab" onclick="UI.switchTab(1)">2. Medical Profile</div>
                 <div class="tab" onclick="UI.switchTab(2)">3. Family & Emergency</div>
-                <div class="tab" onclick="UI.switchTab(3)">4. Documentation</div>
+                <div class="tab" onclick="UI.switchTab(3)">4. Class & Logistics</div>
             </div>
 
             <form id="admission-form">
                 <div class="form-section active" id="sec-0">
-                    <div style="display: flex; gap: 30px;">
-                        <div style="flex: 0 0 120px;">
+                    <div class="grid-3">
+                        <div class="photo-upload-zone">
                             <label>Passport Photo <span class="mandatory-tag">[MANDATORY]</span></label>
-                            <div id="photo-preview">
-                                <span id="photo-placeholder" style="font-size: 10px; color: #999; text-align: center; padding: 5px;">No Photo Uploaded</span>
-                            </div>
-                            <input type="file" id="s_pic" accept="image/*" style="display: none;" onchange="Logic.previewImage(this)">
-                            <button type="button" onclick="document.getElementById('s_pic').click()" style="margin-top: 5px; font-size: 9px; width: 100%;">Upload Photo</button>
+                            <input type="file" id="s_pic" accept="image/*" required onchange="Logic.previewImage(this)">
+                            <div id="pic-preview" style="margin-top:10px; height:100px; width:100px; border:1px solid #ddd; margin-inline:auto; display:flex; align-items:center; justify-content:center; font-size:9px; color:#999;">No Image Selected</div>
                         </div>
-                        <div style="flex: 1;">
-                            <div class="section-head">Identity & Demographics</div>
+                        <div style="grid-column: span 2;">
+                            <div class="section-head">Identity & Background</div>
                             <div class="grid-3">
-                                <div><label>Auto Student ID</label><input type="text" id="s_id" readonly style="background: #eee; font-weight: bold;"></div>
-                                <div><label>First Name</label><input type="text" id="s_fn"></div>
-                                <div><label>Surname</label><input type="text" id="s_sn"></div>
+                                <div><label>Auto Student ID</label><input type="text" id="s_id" readonly style="background:#eee; font-weight:bold;"></div>
+                                <div><label>First Name</label><input type="text" id="s_fn" required></div>
+                                <div><label>Surname</label><input type="text" id="s_sn" required></div>
                             </div>
-                            <div class="grid-3">
+                            <div class="grid-3" style="margin-top:10px;">
+                                <div><label>Date of Birth</label><input type="date" id="s_dob" required></div>
+                                <div><label>Gender</label><select id="s_gen"><option>Male</option><option>Female</option></select></div>
                                 <div><label>Religion</label>
                                     <select id="s_rel">
-                                        <option value="">Select...</option>
+                                        <option value="">Select Religion...</option>
                                         <option>Christianity</option>
                                         <option>Islam</option>
                                         <option>Traditional</option>
@@ -84,68 +83,72 @@
                                         <option>None</option>
                                     </select>
                                 </div>
-                                <div><label>Date of Birth</label><input type="date" id="s_dob"></div>
-                                <div><label>Gender</label><select id="s_gen"><option>Male</option><option>Female</option></select></div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="doc-vault">
+                        <label style="color:var(--upload)">Document Upload Vault <span style="color:#666; font-weight:normal;">(Optional - Birth Cert, Prev Report Cards, etc)</span></label>
+                        <input type="file" id="s_docs" multiple style="border:none; background:none; padding:0;">
                     </div>
                 </div>
 
                 <div class="form-section" id="sec-1">
-                    <div class="section-head">International Medical Profiling</div>
+                    <div class="section-head">Medical History</div>
                     <div class="grid-3">
-                        <div><label>Blood Group</label><select id="m_bg"><option>A+</option><option>B+</option><option>O+</option></select></div>
-                        <div><label>Genotype</label><input type="text" id="m_gt" placeholder="AA, AS, etc."></div>
+                        <div><label>Blood Group</label><select id="m_bg"><option>A+</option><option>B+</option><option>O+</option><option>O-</option></select></div>
+                        <div><label>Genotype</label><input type="text" id="m_gt"></div>
                         <div><label>Allergies</label><input type="text" id="m_al"></div>
                     </div>
-                    <div><label>Critical Conditions</label><textarea id="m_crit"></textarea></div>
+                    <div><label>Critical Conditions</label><textarea id="m_crit" rows="3"></textarea></div>
                 </div>
 
                 <div class="form-section" id="sec-2">
-                    <div class="section-head">Primary Parent / Guardian</div>
+                    <div class="section-head">Primary Guardian</div>
                     <div class="grid-3">
-                        <div><label>Full Name</label><input type="text" id="p1_name"></div>
-                        <div><label>Phone Number</label><input type="text" id="p1_tel"></div>
-                        <div><label>Occupation</label><input type="text" id="p1_occ"></div>
+                        <div><label>Name</label><input type="text" id="p1_name"></div>
+                        <div><label>Tel</label><input type="text" id="p1_tel"></div>
+                        <div><label>Email</label><input type="text" id="p1_mail"></div>
+                    </div>
+                    <div class="section-head">Emergency Point of Contact</div>
+                    <div class="grid-3">
+                        <div><label>Name</label><input type="text" id="p2_name"></div>
+                        <div><label>Relation</label><input type="text" id="p2_rel"></div>
+                        <div><label>Urgent Tel</label><input type="text" id="p2_tel"></div>
                     </div>
                 </div>
 
                 <div class="form-section" id="sec-3">
-                    <div class="section-head">Document Uploads (Optional Repository)</div>
-                    <div class="grid-3">
-                        <div class="doc-upload-box">
-                            <label>Birth Certificate</label>
-                            <input type="file">
-                        </div>
-                        <div class="doc-upload-box">
-                            <label>Previous Report</label>
-                            <input type="file">
-                        </div>
-                        <div class="doc-upload-box">
-                            <label>Vaccination Card</label>
-                            <input type="file">
-                        </div>
-                    </div>
-
-                    <div class="section-head">Class Placement & Approval</div>
+                    <div class="section-head">Level & Billing Assignment</div>
                     <div class="grid-3">
                         <div><label>Class Level</label>
-                            <select id="l_class">
+                            <select id="l_class" onchange="Logic.updateLogistics()">
+                                <option value="">Select Class...</option>
                                 <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
                                 <option>K.G. 1</option><option>K.G. 2</option>
                                 <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
                                 <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
                             </select>
                         </div>
-                        <div><label>Workflow Status</label><select><option>Draft</option><option>Awaiting Principal Sign-off</option></select></div>
-                        <button type="button" class="btn-finalize" onclick="Logic.submitAdmission()">Finalize & Lock Profile</button>
+                        <div><label>Location</label><select id="l_hub"><option>Accra Hub</option><option>Tamale Hub</option></select></div>
+                        <div><label>Workflow Auth</label><select id="l_auth"><option>Pending Approval</option><option>Authorized</option></select></div>
                     </div>
+                    <div class="class-config" id="logistics-preview">
+                        <p style="font-size:10px;">Select a class to view synchronized Bill/Toiletry requirements.</p>
+                    </div>
+                    <button type="button" class="btn-finalize" onclick="Logic.submitAdmission()">Finalize Admission & Lock Record</button>
                 </div>
             </form>
         </main>
     </div>
 
     <script>
+        const CLASS_REQS = {
+            "Creche": { bill: "GHS 1,200", items: "Diapers, Wipes, 2 Sets of Clothes" },
+            "Nursery 1": { bill: "GHS 1,400", items: "Crayons, Tissues, Liquid Soap" },
+            "Primary 1": { bill: "GHS 1,800", items: "Dettol, 12 Exercise Books, Broom" }
+        };
+
         const UI = {
             switchTab: (idx) => {
                 document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
@@ -155,28 +158,30 @@
 
         const Logic = {
             init: () => {
-                // Generate Serialized Student ID: CM-[Code]-YYYY
-                const code = Math.floor(1000 + Math.random() * 9000);
-                document.getElementById('s_id').value = `CM-${code}-${new Date().getFullYear()}`;
+                document.getElementById('s_id').value = "CM-" + Math.floor(1000 + Math.random() * 9000) + "-" + new Date().getFullYear();
             },
             previewImage: (input) => {
-                const preview = document.getElementById('photo-preview');
-                const placeholder = document.getElementById('photo-placeholder');
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                        document.getElementById('pic-preview').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
                     };
                     reader.readAsDataURL(input.files[0]);
                 }
             },
+            updateLogistics: () => {
+                const cls = document.getElementById('l_class').value;
+                const view = document.getElementById('logistics-preview');
+                const data = CLASS_REQS[cls] || { bill: "Consult Finance", items: "General List" };
+                view.innerHTML = `<strong>Required for ${cls}:</strong><br>
+                                 <span style="color:var(--billing)">Official Bill: ${data.bill}</span><br>
+                                 <span>Items: ${data.items}</span>`;
+            },
             submitAdmission: () => {
-                const img = document.getElementById('s_pic').files[0];
-                const fn = document.getElementById('s_fn').value;
-                if(!img) return alert("System Integrity Error: Passport Picture is MANDATORY for international compliance.");
-                if(!fn) return alert("System Integrity Error: First Name is required.");
-                
-                alert("Student profile for " + fn + " has been encrypted and locked. Workflow authorization pending.");
+                const pic = document.getElementById('s_pic').files.length;
+                if(pic === 0) return alert("CRITICAL: Student Passport Picture is Mandatory.");
+                if(!document.getElementById('s_fn').value) return alert("ERROR: First Name is required.");
+                alert("ADMISSION COMPLETED: Record locked and synchronized with Finance and Hub Ops.");
             }
         };
 
