@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.2 - CURRICULUM MANAGEMENT</title>
+    <title>TLOIN ERP v24.3 - ATTENDANCE & HEALTH</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --curric: #8e44ad; --time: #2c3e50;
+            --border: #ced4da; --health: #c0392b; --attendance: #27ae60;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -16,110 +16,91 @@
         .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
 
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--curric); padding-bottom: 15px; margin-bottom: 25px; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--attendance); padding-bottom: 15px; margin-bottom: 25px; }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; }
+        .grid-attendance { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
+        select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
         
-        .btn-curric { background: var(--curric); color: white; padding: 12px; width: 100%; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 10px; }
-        
-        .timetable { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
-        .timetable th, .timetable td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        .timetable th { background: var(--navy); color: white; font-size: 9px; }
-        .subject-tag { background: #f0e6f7; color: var(--curric); padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
+        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+
+        .medical-alert { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 5px; border-radius: 4px; font-size: 9px; font-weight: bold; }
+        .btn-log { background: var(--attendance); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
+        .btn-health { background: var(--health); }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v24.2</h2></div>
-            <div class="nav-header">Academic Pillars</div>
-            <div class="desk-link active" onclick="location.reload()">Curriculum Desk</div>
-            <div class="desk-link" style="opacity:0.5">Lesson Plan Vault (Locked)</div>
-            <div class="desk-link" style="opacity:0.5">Examination Desk (Locked)</div>
-            
-            <div class="nav-header">Core Nexus</div>
-            <div class="desk-link" style="padding:15px; color:white; font-size:11px;">Main Campus Office</div>
+            <div class="brand"><h2>TLOIN ERP v24.3</h2></div>
+            <div class="nav-header">Daily Ops</div>
+            <div class="desk-link active" onclick="location.reload()">Attendance & Health</div>
+            <div class="nav-header">Registry Link</div>
+            <div class="desk-link" style="font-size:10px; color:var(--gold)">● Main Campus Verified</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Curriculum & Timetable Management</h2>
-                <span style="font-size: 10px; font-weight: 800; color: var(--curric);">ACADEMIC YEAR: 2025/2026</span>
+                <h2>Daily Attendance & Student Welfare</h2>
+                <div><input type="date" id="log_date" style="width:auto; margin:0;"></div>
             </div>
 
-            <div class="grid-2">
+            <div class="grid-attendance">
                 <div class="card">
-                    <label>Add New Subject / Module</label>
-                    <input type="text" id="sub_name" placeholder="e.g., Robotics & AI">
-                    
-                    <label>Department</label>
-                    <select id="sub_dept">
-                        <option>Computing & Tech</option>
-                        <option>Literacy & Languages</option>
-                        <option>Numeracy & Logic</option>
-                        <option>Creative Arts</option>
-                        <option>Physical Education</option>
-                    </select>
-                    
-                    <label>Applicable Classes</label>
-                    <div style="font-size: 10px; height: 100px; overflow-y: auto; border: 1px solid #eee; padding: 5px;">
-                        <input type="checkbox" style="width:auto;"> Creche <br>
-                        <input type="checkbox" style="width:auto;"> Nursery 1 & 2 <br>
-                        <input type="checkbox" style="width:auto;"> Primary 1 - 3 <br>
-                        <input type="checkbox" style="width:auto;"> Primary 4 - 6
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <label>Class: Primary 1</label>
+                        <button class="btn-log" onclick="alert('Attendance Saved and Synced to CEO Dashboard')">Save Roll Call</button>
                     </div>
-                    <button class="btn-curric" style="margin-top:15px;" onclick="alert('Subject Registered to Curriculum')">Register Subject</button>
-                </div>
-
-                <div class="card">
-                    <label>Master Timetable (Preview: Primary 1)</label>
-                    <table class="timetable">
+                    <table class="data-table">
                         <thead>
                             <tr>
-                                <th>TIME</th>
-                                <th>MON</th>
-                                <th>TUE</th>
-                                <th>WED</th>
-                                <th>THU</th>
-                                <th>FRI</th>
+                                <th>Student Name</th>
+                                <th>Status</th>
+                                <th>Health Flag</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="attendance_list">
                             <tr>
-                                <td>08:00</td>
-                                <td><span class="subject-tag">Math</span></td>
-                                <td><span class="subject-tag">ICT</span></td>
-                                <td><span class="subject-tag">Math</span></td>
-                                <td><span class="subject-tag">English</span></td>
-                                <td><span class="subject-tag">Robotics</span></td>
+                                <td><b>Kofi Mensah</b></td>
+                                <td><select style="margin:0;"><option>Present</option><option>Absent</option><option>Late</option></select></td>
+                                <td><span class="medical-alert">ALLERGY: PEANUTS</span></td>
                             </tr>
                             <tr>
-                                <td>09:30</td>
-                                <td colspan="5" style="background:#f9f9f9; color:#999; font-weight:bold;">SHORT BREAK</td>
-                            </tr>
-                            <tr>
-                                <td>10:00</td>
-                                <td><span class="subject-tag">English</span></td>
-                                <td><span class="subject-tag">Science</span></td>
-                                <td><span class="subject-tag">French</span></td>
-                                <td><span class="subject-tag">Library</span></td>
-                                <td><span class="subject-tag">Art</span></td>
+                                <td><b>Amma Asante</b></td>
+                                <td><select style="margin:0;"><option>Present</option><option>Absent</option><option>Late</option></select></td>
+                                <td><span style="color:green; font-size:9px;">✔ No Critical History</span></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="card" style="border-top: 5px solid var(--health);">
+                    <h3 style="font-size:12px; color:var(--health); margin-top:0;">Log Health Incident</h3>
+                    <label>Select Student</label>
+                    <select id="h_student"><option>Kofi Mensah</option><option>Amma Asante</option></select>
                     
-                    <div style="margin-top:20px;">
-                        <label>Upload Weekly Lesson Plan (PDF/DOC)</label>
-                        <input type="file">
-                        <button class="btn-curric" style="background:var(--navy)">Submit Plan for Approval</button>
-                    </div>
+                    <label>Incident Description</label>
+                    <textarea id="h_desc" rows="3" placeholder="Symptoms, injury details, or illness..."></textarea>
+                    
+                    <label>Action Taken</label>
+                    <input type="text" id="h_action" placeholder="First aid administered, Parent called, etc.">
+                    
+                    <label>Emergency Authorization</label>
+                    <select id="h_auth"><option>Managed In-House</option><option>Requires Hospital Transfer</option></select>
+                    
+                    <button class="btn-log btn-health" onclick="alert('Health Incident Logged & Emergency Contacts Notified')">Submit Incident Report</button>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        // Set today's date automatically
+        document.getElementById('log_date').valueAsDate = new Date();
+    </script>
 </body>
 </html>
