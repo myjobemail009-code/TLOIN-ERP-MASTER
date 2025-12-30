@@ -2,93 +2,179 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v27.5 - SECURE ACCESS</title>
+    <title>TLOIN ERP v27.6 - REFINED ACADEMIC COMMAND</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --glass: rgba(255, 255, 255, 0.9); --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --teacher: #2ecc71; --asst: #3498db; --head: #e74c3c; --border: #dcdde1;
         }
-        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, var(--navy) 0%, #001f3f 100%); 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; 
-        }
+        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
+        
+        #sidebar { background: var(--navy); border-right: 4px solid var(--gold); color: white; }
+        .nav-item { padding: 15px 20px; font-size: 10px; font-weight: 800; color: #aab; text-transform: uppercase; border-left: 4px solid transparent; }
+        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
 
-        .login-box { 
-            background: var(--glass); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18);
-            padding: 50px; border-radius: 15px; width: 380px; box-shadow: var(--shadow); 
-            text-align: center; position: relative;
-        }
+        #viewport { padding: 25px; overflow-y: auto; }
+        .role-header { display: flex; gap: 10px; margin-bottom: 20px; }
+        .role-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 9px; color: white; }
 
-        .gold-seal { width: 80px; height: 80px; background: var(--gold); border-radius: 50%; 
-            margin: -90px auto 20px auto; border: 5px solid var(--navy); display: flex; 
-            align-items: center; justify-content: center; font-weight: 900; color: var(--navy); font-size: 24px;
-        }
+        .console-card { display: none; background: white; border-radius: 10px; border: 1px solid var(--border); padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .console-card.active { display: block; }
 
-        h1 { font-size: 18px; color: var(--navy); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
-        p { font-size: 10px; color: #666; margin-bottom: 30px; font-weight: 700; text-transform: uppercase; }
+        .section-h { font-size: 11px; font-weight: 900; color: var(--navy); border-bottom: 2px solid #eee; padding-bottom: 8px; margin: 20px 0 15px 0; text-transform: uppercase; }
+        
+        /* TABLE LOGIC */
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        .input-group { text-align: left; margin-bottom: 20px; }
-        label { display: block; font-size: 9px; font-weight: 900; color: var(--navy); margin-bottom: 8px; text-transform: uppercase; }
-        input { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 10px rgba(255,204,0,0.3); }
+        /* APPRAISAL BASIS STYLING */
+        .basis-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; font-size: 8px; font-weight: 800; text-align: center; }
+        .basis-item { border: 1px solid #ddd; padding: 5px; border-radius: 4px; background: #fafafa; }
 
-        .btn-enter { background: var(--navy); color: var(--gold); border: none; padding: 18px; width: 100%; 
-            border-radius: 8px; font-weight: 900; text-transform: uppercase; cursor: pointer; 
-            font-size: 12px; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-        }
-        .btn-enter:hover { background: #001f3f; transform: translateY(-2px); }
-
-        .emergency-link { font-size: 9px; color: #888; margin-top: 20px; display: block; text-decoration: none; font-weight: 700; }
-        .emergency-link:hover { color: var(--navy); }
-
-        #error-msg { color: #d63031; font-size: 10px; font-weight: 800; margin-top: 15px; display: none; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="login-box" id="portal-container">
-    <div class="gold-seal">CM</div>
-    <h1>CLEVER MINDS</h1>
-    <p>Staff & Volunteer Portal</p>
+<div id="tloin-nexus">
+    <aside id="sidebar">
+        <div style="padding: 25px;"><h2 style="font-size:14px; color:var(--gold);">CLEVER MINDS</h2></div>
+        <div class="nav-item">1. Registry Nexus</div>
+        <div class="nav-item active-mod">2. Academic Command</div>
+    </aside>
 
-    <div class="input-group">
-        <label>Staff ID / Organization ID</label>
-        <input type="text" id="sid" placeholder="CM-STF-000">
-    </div>
+    <main id="viewport">
+        <div class="role-header">
+            <button class="role-btn" style="background:var(--teacher)" onclick="SwitchRole('teacher')">Class Teacher</button>
+            <button class="role-btn" style="background:var(--asst)" onclick="SwitchRole('asst')">Assistant Head</button>
+            <button class="role-btn" style="background:var(--head)" onclick="SwitchRole('head')">Headteacher</button>
+        </div>
 
-    <div class="input-group">
-        <label>Secure Access PIN</label>
-        <input type="password" id="pin" placeholder="••••">
-    </div>
+        <div id="con-teacher" class="console-card active">
+            <div class="section-h">Classroom Attendance (Radio Lock: Only 1 selection possible)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th style="text-align:center;">Present</th>
+                        <th style="text-align:center;">Absent</th>
+                        <th style="text-align:center;">Late</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kojo Antwi</td>
+                        <td style="text-align:center;"><input type="radio" name="att_1" checked></td>
+                        <td style="text-align:center;"><input type="radio" name="att_1"></td>
+                        <td style="text-align:center;"><input type="radio" name="att_1"></td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <button class="btn-enter" onclick="Auth.verify()">Authorize Access</button>
-    <div id="error-msg">ACCESS DENIED: INVALID CREDENTIALS</div>
+            <div class="section-h">Student Daily Appraisal (5 Core Basis)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>1. Academic Engagement</th>
+                        <th>2. Discipline/Conduct</th>
+                        <th>3. Social Interaction</th>
+                        <th>4. Uniform/Hygiene</th>
+                        <th>5. Homework Completion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kojo Antwi</td>
+                        <td><select><option>5 - Excellent</option><option>1 - Poor</option></select></td>
+                        <td><select><option>5 - Excellent</option><option>1 - Poor</option></select></td>
+                        <td><select><option>5 - Excellent</option><option>1 - Poor</option></select></td>
+                        <td><select><option>5 - Excellent</option><option>1 - Poor</option></select></td>
+                        <td><select><option>5 - Excellent</option><option>1 - Poor</option></select></td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <a href="#" class="emergency-link" onclick="Auth.showCEO()">Lost access? Use CEO Master Key</a>
+            <div class="section-h">Teacher's Daily Routine Log</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <input type="text" placeholder="Lesson Topic Delivered Today">
+                <select><option>Subject Coverage: On Track</option><option>Behind Schedule</option></select>
+            </div>
+            <textarea placeholder="Classroom Incidents or Special Student Needs..." style="width:100%; margin-top:10px;"></textarea>
+            <button class="btn-seal">Seal & Submit Daily Class Record</button>
+        </div>
+
+        <div id="con-asst" class="console-card">
+            <div class="section-h">Instructional Supervision & Logistics</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div style="background:#f0f7ff; padding:15px; border-radius:8px;">
+                    <label>TEACHER PUNCTUALITY TRACKER</label>
+                    <table style="background:transparent;">
+                        <tr><td>Class 1: Ms. Araba</td><td><span style="color:green">07:25 AM</span></td></tr>
+                        <tr><td>Class 3: Mr. Seth</td><td><span style="color:red">08:15 AM</span></td></tr>
+                    </table>
+                </div>
+                <div style="border:1px solid #ddd; padding:15px; border-radius:8px;">
+                    <label>STATIONERY & SUPPLY REQUESTS</label>
+                    <input type="text" placeholder="Items Needed (Markers, Chalk, etc)">
+                    <button class="btn-seal" style="background:var(--asst); padding:10px;">Send to Store/CEO</button>
+                </div>
+            </div>
+            <div class="section-h">Substitute Teacher Allocation</div>
+            <label>Absent Teacher:</label><select style="width:100%; padding:10px;"><option>Mr. Kojo (Class 4)</option></select>
+            <label>Assigned Relief:</label><select style="width:100%; padding:10px;"><option>Volunteer Araba</option></select>
+            <button class="btn-seal" style="background:var(--navy)">Lock Relief Assignment</button>
+        </div>
+
+        <div id="con-head" class="console-card">
+            <div class="section-h">Staff Quality Audit (5 Appraisal Basis)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Teacher Name</th>
+                        <th>1. Lesson Delivery</th>
+                        <th>2. Professionalism</th>
+                        <th>3. Records Keeping</th>
+                        <th>4. Class Environment</th>
+                        <th>5. Community Relation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ms. Janet</td>
+                        <td><select><option>Strong</option><option>Weak</option></select></td>
+                        <td><select><option>Strong</option><option>Weak</option></select></td>
+                        <td><select><option>Strong</option><option>Weak</option></select></td>
+                        <td><select><option>Strong</option><option>Weak</option></select></td>
+                        <td><select><option>Strong</option><option>Weak</option></select></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-h">Strategic Management</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div style="background:#fff5f5; padding:15px; border-radius:8px;">
+                    <label>PARENT DISCIPLINARY CASE LOG</label>
+                    <input type="text" placeholder="Student Name">
+                    <textarea placeholder="Outcome of Parent-Teacher Meeting..."></textarea>
+                </div>
+                <div style="border:1px solid #ddd; padding:15px; border-radius:8px;">
+                    <label>CURRICULUM COMPLIANCE SCORE</label>
+                    <div style="font-size:24px; font-weight:900; color:var(--head); text-align:center; padding:20px;">88%</div>
+                </div>
+            </div>
+            <button class="btn-seal" style="background:var(--head)">Generate Strategic Governance Report</button>
+        </div>
+    </main>
 </div>
 
 <script>
-    const Auth = {
-        verify: function() {
-            const id = document.getElementById('sid').value.toUpperCase();
-            const pin = document.getElementById('pin').value;
-            const err = document.getElementById('error-msg');
-
-            // --- MASTER ACCESS GRANT (v27.5-ADMIN-KEY) ---
-            // ID: CEO-MASTER | PIN: 9999
-            if((id === "CEO-MASTER" && pin === "9999") || (id.startsWith("CM-") && pin === "2026")) {
-                alert("ACCESS GRANTED. Redirecting to Registry Nexus...");
-                window.location.href = "index.html"; // Connects back to your main hosted ERP
-            } else {
-                err.style.display = "block";
-                setTimeout(() => { err.style.display = "none"; }, 3000);
-            }
-        },
-        showCEO: function() {
-            alert("CEO Emergency Protocol Initiated. Use ID: CEO-MASTER and PIN: 9999");
-        }
+    function SwitchRole(id) {
+        document.querySelectorAll('.console-card').forEach(c => c.classList.remove('active'));
+        document.getElementById('con-' + id).classList.add('active');
     }
 </script>
-
 </body>
 </html>
