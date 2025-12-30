@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.29 - MODULE 3: IMPACT & FIELD OPS</title>
+    <title>TLOIN ERP v28.30 - MODULE 4: ATTENDANCE GATEWAY</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
-            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0; --impact: #8e44ad;
+            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0; --attendance: #3498db;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -19,122 +19,117 @@
 
         /* VIEWPORT */
         #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .ops-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+        .att-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
         
-        /* NAVIGATION */
-        .ops-tabs { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; }
+        /* TABS */
+        .att-tabs { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; }
         .tab-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
         .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
 
-        /* STANDALONE DESKS */
-        .desk-pane { display: none; padding: 30px; animation: slideUp 0.3s ease; }
+        /* PANES */
+        .desk-pane { display: none; padding: 30px; animation: lockedFade 0.3s ease; }
         .desk-pane.active { display: block; }
         
-        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--impact); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--attendance); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
         
-        label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 8px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; }
+        /* ATTENDANCE TABLE */
+        .att-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .att-table th { background: #f8fafc; padding: 12px; text-align: left; border-bottom: 2px solid var(--border); font-size: 9px; }
+        .att-table td { padding: 12px; border-bottom: 1px solid #eee; }
 
-        /* FIELD METRICS CARD */
-        .metric-card { background: #fdfdfd; border: 1px solid #edf2f7; border-left: 5px solid var(--impact); padding: 20px; border-radius: 8px; }
-        .metric-val { font-size: 22px; font-weight: 900; color: var(--navy); }
-        .metric-label { font-size: 9px; font-weight: 700; color: #718096; text-transform: uppercase; }
+        /* STATUS TOGGLES */
+        .status-btn { padding: 6px 12px; border-radius: 20px; border: none; font-size: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-right: 5px; }
+        .present { background: #e6fffa; color: #234e52; border: 1px solid #38b2ac; }
+        .absent { background: #fff5f5; color: #822727; border: 1px solid #feb2b2; }
+        .late { background: #fffaf0; color: #7b341e; border: 1px solid #fbd38d; }
 
         .btn-execute { width: 100%; padding: 20px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 30px; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes lockedFade { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.29</h2></div>
+        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.30</h2></div>
         <div class="nav-item">01. Registry Nexus</div>
         <div class="nav-item">02. Academic Command</div>
-        <div class="nav-item active">03. Impact & Field Ops</div>
-        <div class="nav-item">04. Attendance Gateway</div>
-        <div class="nav-item">05. Unified Finance</div>
-        <div class="nav-item">06. Health & Wellness</div>
-        <div class="nav-item">07. Supply & Logistics</div>
-        <div class="nav-item">08. Parent Portal</div>
-        <div class="nav-item">09. HR & Payroll</div>
-        <div class="nav-item">10. CEO Command</div>
-    </aside>
+        <div class="nav-item">03. Impact & Field Ops</div>
+        <div class="nav-item active">04. Attendance Gateway</div>
+        </aside>
 
     <main id="main-viewport">
-        <div class="ops-console">
-            <div class="ops-tabs">
-                <button class="tab-btn active" onclick="SetDesk(1)">Outreach Logger</button>
-                <button class="tab-btn" onclick="SetDesk(2)">Beneficiary Tracker</button>
-                <button class="tab-btn" onclick="SetDesk(3)">Volunteer Field Logs</button>
-                <button class="tab-btn" onclick="SetDesk(4)">Impact Analytics</button>
+        <div class="att-console">
+            <div class="att-tabs">
+                <button class="tab-btn active" onclick="SetDesk(1)">Student Attendance</button>
+                <button class="tab-btn" onclick="SetDesk(2)">Staff Clock-In</button>
+                <button class="tab-btn" onclick="SetDesk(3)">Volunteer Field Check</button>
+                <button class="tab-btn" onclick="SetDesk(4)">Monthly Reports</button>
             </div>
 
             <div id="desk-1" class="desk-pane active">
-                <div class="section-tag">Project & Outreach Initialization</div>
-                <div class="grid-3">
-                    <div><label>Project Name</label><input type="text" placeholder="e.g. Rural Literacy Drive"></div>
-                    <div><label>Target Community</label><input type="text" placeholder="e.g. Asutware"></div>
-                    <div><label>Project Phase</label><select><option>Planning</option><option>Active Execution</option><option>Impact Assessment</option></select></div>
+                <div class="section-tag">Daily Classroom Attendance Registry</div>
+                <div style="margin-bottom: 20px; display: flex; gap: 15px;">
+                    <select style="padding:10px; border-radius:6px; border:1px solid var(--border);"><option>Class: Primary 4</option></select>
+                    <input type="date" style="padding:10px; border-radius:6px; border:1px solid var(--border);">
                 </div>
-                <div class="grid-2" style="margin-top:20px;">
-                    <div><label>Start Date</label><input type="date"></div>
-                    <div><label>Budget Allocated (GHS)</label><input type="number" placeholder="0.00"></div>
-                </div>
-                <label style="margin-top:20px;">Executive Summary of Field Objectives</label>
-                <textarea rows="4" placeholder="Describe the intended social change and intervention strategies..."></textarea>
-                <button class="btn-execute">Lock Field Project</button>
+                
+                <table class="att-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Status Control</th>
+                            <th>Time In</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kofi Mensah</td>
+                            <td>
+                                <button class="status-btn present">Present</button>
+                                <button class="status-btn absent">Absent</button>
+                                <button class="status-btn late">Late</button>
+                            </td>
+                            <td><input type="time" value="07:45"></td>
+                            <td><input type="text" placeholder="Note..."></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn-execute">Submit Daily Roll Call</button>
             </div>
 
             <div id="desk-2" class="desk-pane">
-                <div class="section-tag">Direct Beneficiary Documentation</div>
-                <div class="grid-3">
-                    <div class="metric-card"><div class="metric-val" id="b-count">1,240</div><div class="metric-label">Total Beneficiaries</div></div>
-                    <div class="metric-card"><div class="metric-val">45%</div><div class="metric-label">Female Participation</div></div>
-                    <div class="metric-card"><div class="metric-val">55%</div><div class="metric-label">Youth Engagement</div></div>
+                <div class="section-tag">Staff Performance & Punctuality Tracker</div>
+                <div style="background: #f1f5f9; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h3 style="margin:0; color: var(--navy);">08:14:22 AM</h3>
+                    <p style="font-size: 10px; font-weight: 800; color: #64748b;">CURRENT SYSTEM TIME</p>
                 </div>
-                <div style="margin-top:30px;">
-                    <label>Add New Beneficiary Entry</label>
-                    <div class="grid-3">
-                        <input type="text" placeholder="Full Name">
-                        <input type="text" placeholder="Location/House Number">
-                        <select><option>Student</option><option>Farmer</option><option>Artisan</option></select>
-                    </div>
-                </div>
-                <button class="btn-execute" style="background:var(--success); color:white;">Archive Beneficiary Data</button>
+                <table class="att-table" style="margin-top:20px;">
+                    <thead><tr><th>Staff Member</th><th>Role</th><th>Shift Start</th><th>Actual Clock-In</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ebenezer Appiah</td><td>Head Teacher</td><td>08:00 AM</td><td>08:05 AM</td><td><span style="color:var(--danger); font-weight:900;">LATE</span></td></tr>
+                    </tbody>
+                </table>
+                <button class="btn-execute">Archive Staff Logs</button>
             </div>
 
             <div id="desk-3" class="desk-pane">
-                <div class="section-tag">Volunteer Man-Hour Deployment</div>
+                <div class="section-tag">Volunteer On-Site Verification</div>
                 <div class="grid-2">
-                    <select><option>Select Volunteer</option></select>
-                    <input type="text" placeholder="Assigned Task">
+                    <div style="border: 1px solid var(--border); padding: 20px; border-radius: 10px;">
+                        <label>Assigned Community</label>
+                        <input type="text" value="Asutware Community Center" readonly>
+                    </div>
+                    <div style="border: 1px solid var(--border); padding: 20px; border-radius: 10px;">
+                        <label>GPS Verification Status</label>
+                        <div style="color:var(--success); font-weight:900; font-size:10px;">● COORDINATES MATCHED</div>
+                    </div>
                 </div>
-                <div class="grid-3" style="margin-top:20px;">
-                    <div><label>Time In</label><input type="time"></div>
-                    <div><label>Time Out</label><input type="time"></div>
-                    <div><label>Travel Allowance (GHS)</label><input type="number"></div>
-                </div>
-                <button class="btn-execute">Seal Field Log</button>
+                <button class="btn-execute" style="background:var(--success); color:white;">Verify Volunteer Presence</button>
             </div>
 
-            <div id="desk-4" class="desk-pane">
-                <div class="section-tag">Impact Scoring & Sustainable Development Goals (SDG)</div>
-                <div class="grid-2">
-                    <div class="metric-card" style="border-left-color: var(--navy);">
-                        <div class="metric-label">Primary SDG Target</div>
-                        <select style="margin-top:10px;"><option>SDG 4: Quality Education</option><option>SDG 2: Zero Hunger</option><option>SDG 1: No Poverty</option></select>
-                    </div>
-                    <div class="metric-card" style="border-left-color: var(--success);">
-                        <div class="metric-label">Social Return on Investment (SROI)</div>
-                        <div class="metric-val" style="font-size:18px;">3.4x Impact Multiplier</div>
-                    </div>
-                </div>
-                <button class="btn-execute">Generate CEO Impact Report</button>
-            </div>
         </div>
     </main>
 </div>
