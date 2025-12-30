@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - ERP v19.4</title>
+    <title>TLOIN & CLEVER MINDS - ERP v19.8</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --crisis: #e74c3c; --partner: #16a085; --success: #2ecc71;
+            --border: #ced4da; --media: #9b59b6; --task: #8e44ad; --ict: #3498db; --success: #2ecc71;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
@@ -33,29 +33,30 @@
         .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
         .data-table th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid var(--navy); }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
+        .bg-pending { background: #ffeaa7; color: #d35400; }
+        .bg-done { background: #55efc4; color: #00b894; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v19.4</h2></div>
+            <div class="brand"><h2>TLOIN ERP v19.8</h2></div>
             
-            <div class="nav-header">Risk & Safety</div>
-            <div class="desk-link" onclick="Nexus.load('Crisis')">Crisis & Incidents <span style="color:var(--crisis)">● ACTIVE</span></div>
+            <div class="nav-header">Communication</div>
+            <div class="desk-link" onclick="Nexus.load('Media')">Media & Public Relations <span style="color:var(--media)">● ACTIVE</span></div>
+            <div class="desk-link" onclick="Nexus.load('Tasks')">Internal Tasks <span style="color:var(--gold)">● PREVIEW</span></div>
             
-            <div class="nav-header">Governance & Partners</div>
-            <div class="desk-link" onclick="Nexus.load('Partner')">Strategic Partnerships</div>
-            <div class="desk-link" onclick="Nexus.load('Grants')">Grant Pipeline</div>
-            <div class="desk-link" onclick="Nexus.load('Board')">Board Decisions</div>
-            
-            <div class="nav-header">Finance & Assets</div>
-            <div class="desk-link" onclick="Nexus.load('Payroll')">Staff Payroll</div>
+            <div class="nav-header">Hub Operations</div>
+            <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hub Performance <span style="color:var(--gold)">● PREVIEW</span></div>
             <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry</div>
-            <div class="desk-link" onclick="Nexus.load('Procure')">Procurement</div>
             
-            <div class="nav-header">Impact & Legal</div>
-            <div class="desk-link" onclick="Nexus.load('ME')">M&E Impact</div>
-            <div class="desk-link" onclick="Nexus.load('Audit')">Tax Compliance</div>
+            <div class="nav-header">External Relations</div>
+            <div class="desk-link" onclick="Nexus.load('Partner')">Strategic Partnerships <span style="color:var(--gold)">● PREVIEW</span></div>
+            <div class="desk-link" onclick="Nexus.load('Grants')">Grant Pipeline</div>
+            
+            <div class="nav-header">Governance</div>
+            <div class="desk-link" onclick="Nexus.load('ME')">Impact Tracking</div>
             <div class="desk-link" onclick="Nexus.load('Policy')">Policy Vault</div>
         </aside>
 
@@ -65,94 +66,92 @@
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCgIN-yQ4rqy_8eM8Kvm_Dsb-ZPAVxEpwY",
-            authDomain: "tloin-erp.firebaseapp.com",
-            projectId: "tloin-erp",
-            storageBucket: "tloin-erp.firebasestorage.app",
-            messagingSenderId: "253792681992",
-            appId: "1:253792681992:web:377d3b86674f183d8b91bd"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
         const VAULT = {
             get: (key) => JSON.parse(localStorage.getItem(key)) || [],
             save: (key, data) => localStorage.setItem(key, JSON.stringify(data))
         };
 
+        // SAMPLE DATA INJECTION FOR PREVIEW FEEL
+        const initSampleData = () => {
+            if(VAULT.get('cm_task_erp').length === 0) {
+                VAULT.save('cm_task_erp', [
+                    {deadline: '2025-12-31', title: 'End of Year Impact Report', assignee: 'Kofi Mensah', status: 'In Progress'},
+                    {deadline: '2026-01-05', title: 'Tamale Hub Solar Maintenance', assignee: 'Technical Team', status: 'To Do'}
+                ]);
+            }
+            if(VAULT.get('cm_ict_erp').length === 0) {
+                VAULT.save('cm_ict_erp', [
+                    {date: '2025-12-29', hub: 'Accra Hub', students: '45', data: '120'},
+                    {date: '2025-12-29', hub: 'Tamale Hub', students: '32', data: '85'}
+                ]);
+            }
+        };
+        initSampleData();
+
         const Desks = {
-            Crisis: () => {
-                const logs = VAULT.get('cm_crisis_erp');
-                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.type}</b></td><td>${l.severity}</td><td>${l.status}</td></tr>`).join('');
+            Media: () => {
+                const logs = VAULT.get('cm_media_erp');
+                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.platform}</b></td><td>${l.topic}</td><td>${l.status}</td></tr>`).join('');
                 return `
                 <div class="form-card">
-                    <h2 style="color:var(--crisis); border-bottom: 2px solid var(--crisis); padding-bottom:10px;">CRISIS MANAGEMENT & INCIDENT REPORTING</h2>
+                    <h2 style="color:var(--media); border-bottom: 2px solid var(--media); padding-bottom:10px;">MEDIA & COMMUNICATIONS DESK</h2>
                     <div class="grid-3" style="margin-top:20px;">
-                        <div><label>Incident Type</label>
-                            <select id="cr_type">
-                                <option>Field Emergency</option>
-                                <option>Medical Incident</option>
-                                <option>Security Threat</option>
-                                <option>Equipment Theft/Loss</option>
-                                <option>Community Complaint</option>
+                        <div><label>Content Date</label><input type="date" id="m_date"></div>
+                        <div><label>Platform</label>
+                            <select id="m_plat">
+                                <option>Instagram/Facebook</option><option>LinkedIn</option>
+                                <option>Twitter/X</option><option>Website Blog</option><option>Press Release</option>
                             </select>
                         </div>
-                        <div><label>Date of Incident</label><input type="date" id="cr_date"></div>
-                        <div><label>Severity Level</label>
-                            <select id="cr_sev"><option>Low</option><option>Medium</option><option>High (Critical)</option></select>
-                        </div>
+                        <div><label>Campaign/Topic</label><input type="text" id="m_topic" placeholder="e.g. Volunteer Spotlight"></div>
                     </div>
                     <div style="margin-top:15px;">
-                        <label>Incident Description & Response Actions Taken</label>
-                        <textarea id="cr_desc" rows="3" placeholder="Provide a detailed account of what happened and how the team responded..."></textarea>
+                        <label>Post Caption / Media Brief</label>
+                        <textarea id="m_brief" rows="2" placeholder="What is the story we are telling?"></textarea>
                     </div>
-                    <div class="grid-3" style="margin-top:15px;">
-                        <div><label>Resolution Status</label>
-                            <select id="cr_stat"><option>Under Investigation</option><option>Resolved</option><option>Escalated to Board</option></select>
-                        </div>
-                        <div><label>Reporting Staff</label><input type="text" id="cr_staff" placeholder="Name"></div>
-                        <div><label>Location</label><input type="text" id="cr_loc" placeholder="Hub or Field Site"></div>
-                    </div>
-                    <button class="btn-erp" style="background:var(--crisis);" onclick="Logic.saveCrisis()">File Official Incident Report</button>
+                    <button class="btn-erp" style="background:var(--media);" onclick="Logic.saveMedia()">Schedule Media Post</button>
                 </div>
                 <table class="data-table">
-                    <thead><tr><th>Date</th><th>Type</th><th>Severity</th><th>Status</th></tr></thead>
-                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No incidents reported.</td></tr>'}</tbody>
+                    <thead><tr><th>Date</th><th>Platform</th><th>Topic</th><th>Status</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No scheduled posts.</td></tr>'}</tbody>
                 </table>`;
             },
-            Partner: () => `<h1>Strategic Partnerships</h1><p>Module Locked & Static.</p>`,
-            Grants: () => `<h1>Grant Pipeline</h1><p>Module Locked & Static.</p>`,
-            Board: () => `<h1>Board Decisions</h1><p>Module Locked & Static.</p>`,
-            Payroll: () => `<h1>Staff Payroll</h1><p>Module Locked & Static.</p>`,
-            Asset: () => `<h1>Asset Registry</h1><p>Module Locked & Static.</p>`,
-            Procure: () => `<h1>Procurement</h1><p>Module Locked & Static.</p>`,
-            ME: () => `<h1>M&E Impact</h1><p>Module Locked & Static.</p>`,
-            Audit: () => `<h1>Tax Compliance</h1><p>Module Locked & Static.</p>`,
-            Policy: () => `<h1>Policy Vault</h1><p>Module Locked & Static.</p>`
+            Tasks: () => {
+                const logs = VAULT.get('cm_task_erp');
+                const rows = logs.map(l => `<tr><td>${l.deadline}</td><td>${l.title}</td><td>${l.assignee}</td><td><span class="badge ${l.status === 'Completed' ? 'bg-done' : 'bg-pending'}">${l.status}</span></td></tr>`).join('');
+                return `<h2 style="color:var(--task)">Task Manager Preview</h2><table class="data-table"><thead><tr><th>Due</th><th>Task</th><th>Owner</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+            },
+            ICT: () => {
+                const logs = VAULT.get('cm_ict_erp');
+                const rows = logs.map(l => `<tr><td>${l.date}</td><td>${l.hub}</td><td>${l.students}</td><td>${l.data} GB</td></tr>`).join('');
+                return `<h2 style="color:var(--ict)">Hub Performance Preview</h2><table class="data-table"><thead><tr><th>Date</th><th>Hub</th><th>Students</th><th>Data</th></tr></thead><tbody>${rows}</tbody></table>`;
+            },
+            Partner: () => `<h1>Strategic Partnerships</h1><p>Preview Mode: UNICEF Ghana (Financial - Active)</p>`,
+            Asset: () => `<h1>Asset Registry</h1><p>Locked & Static.</p>`,
+            Grants: () => `<h1>Grant Pipeline</h1><p>Locked & Static.</p>`,
+            ME: () => `<h1>M&E Impact</h1><p>Locked & Static.</p>`,
+            Policy: () => `<h1>Policy Vault</h1><p>Locked & Static.</p>`
         };
 
         const Logic = {
-            saveCrisis: () => {
+            saveMedia: () => {
                 const data = {
-                    type: document.getElementById('cr_type').value,
-                    date: document.getElementById('cr_date').value,
-                    severity: document.getElementById('cr_sev').value,
-                    status: document.getElementById('cr_stat').value
+                    date: document.getElementById('m_date').value,
+                    platform: document.getElementById('m_plat').value,
+                    topic: document.getElementById('m_topic').value,
+                    status: 'Scheduled'
                 };
-                if(!data.date) return alert("Crisis Error: Date is required.");
-                db.collection("crisis_reports").add(data);
-                let list = VAULT.get('cm_crisis_erp'); list.push(data); VAULT.save('cm_crisis_erp', list);
-                Nexus.load('Crisis');
+                if(!data.date || !data.topic) return alert("Media Error: Date and Topic required.");
+                let list = VAULT.get('cm_media_erp'); list.push(data); VAULT.save('cm_media_erp', list);
+                Nexus.load('Media');
             }
         };
 
         const Nexus = {
-            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Module Loading...</h2>`; }
+            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Loading...</h2>`; }
         };
 
-        Nexus.load('Crisis');
+        Nexus.load('Media');
     </script>
 </body>
 </html>
