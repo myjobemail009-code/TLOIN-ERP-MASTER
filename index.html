@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.12 - MODULE 1 MASTER</title>
+    <title>TLOIN ERP v28.13 - FULL COMMAND CONSOLE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
@@ -11,223 +11,161 @@
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
         
-        /* SIDEBAR NAVIGATION */
+        /* SIDEBAR - LOCKED FORMATTING */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
         .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 15px 20px; font-size: 9px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .nav-item { padding: 15px 20px; font-size: 9px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; }
         .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
 
-        /* VIEWPORT */
-        #main-viewport { padding: 40px; overflow-y: auto; box-sizing: border-box; }
-        .module-desk { background: white; padding: 40px; border-radius: 15px; border: 1px solid #ddd; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 85vh; }
+        /* VIEWPORT CONFIG */
+        #main-viewport { padding: 35px; overflow-y: auto; box-sizing: border-box; }
+        .module-desk { display: none; background: white; padding: 35px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 85vh; }
+        .module-desk.active { display: block; animation: slideUp 0.3s ease; }
         
-        /* INTERNAL REGISTRIES */
-        .registry-tabs { display: flex; gap: 5px; margin-bottom: 30px; background: #f0f0f0; padding: 6px; border-radius: 8px; }
-        .reg-btn { flex: 1; padding: 12px; font-size: 8px; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; border-radius: 4px; transition: 0.2s; }
-        .reg-btn.active { background: var(--navy); color: var(--gold); }
+        /* REUSABLE SMART COMPONENTS */
+        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 20px 0 10px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
+        input, select, textarea { width: 100%; padding: 11px; border: 1px solid #bbb; border-radius: 5px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
+        .photo-gate { width: 110px; height: 110px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: #888; background: #fafafa; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
 
-        .sub-form { display: none; }
-        .sub-form.active { display: block; }
+        /* TABLES FOR AUDITS & ACADEMICS */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+        th { background: #f0f0f0; padding: 12px; text-align: left; font-size: 9px; text-transform: uppercase; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        /* UI COMPONENTS */
-        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 25px 0 15px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 8px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 6px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
-        
-        .photo-gate { width: 120px; height: 120px; border: 2px dashed #ccc; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: #888; background: #fafafa; }
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 20px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
-
-        /* SMART LOGIC TABLE */
-        .item-entry { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; }
-        .auth-workflow { background: #fffcf0; border: 1px solid var(--gold); padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 10px; color: var(--navy); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand">
-            <h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.12</h2>
-            <p style="font-size:8px; opacity:0.5; margin-top:5px;">REGISTRY NEXUS</p>
-        </div>
-        <div class="nav-item active">01. Registry Nexus</div>
-        <div class="nav-item">02. Academic Command</div>
-        <div class="nav-item">03. Impact & Field Ops</div>
-        <div class="nav-item">04. Attendance Gateway</div>
-        <div class="nav-item">05. Unified Finance</div>
-        <div class="nav-item">06. Health & Wellness</div>
-        <div class="nav-item">07. Supply & Logistics</div>
-        <div class="nav-item">08. Parent Portal</div>
-        <div class="nav-item">09. HR & Payroll</div>
-        <div class="nav-item">10. CEO Command</div>
+        <div class="brand"><h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.13</h2></div>
+        <div class="nav-item active" onclick="Launch(1)">01. Registry Nexus</div>
+        <div class="nav-item" onclick="Launch(2)">02. Academic Command</div>
+        <div class="nav-item" onclick="Launch(3)">03. Impact & Field Ops</div>
+        <div class="nav-item" onclick="Launch(4)">04. Attendance Gateway</div>
+        <div class="nav-item" onclick="Launch(5)">05. Unified Finance</div>
+        <div class="nav-item" onclick="Launch(6)">06. Health & Wellness</div>
+        <div class="nav-item" onclick="Launch(7)">07. Supply & Logistics</div>
+        <div class="nav-item" onclick="Launch(8)">08. Parent/Donor Portal</div>
+        <div class="nav-item" onclick="Launch(9)">09. HR & Payroll</div>
+        <div class="nav-item" onclick="Launch(10)">10. CEO Master Command</div>
     </aside>
 
     <main id="main-viewport">
-        <div id="desk-1" class="module-desk">
-            <div class="registry-tabs">
-                <button class="reg-btn active" onclick="SetReg('st')">Student</button>
-                <button class="reg-btn" onclick="SetReg('staff')">Staff/Vol</button>
-                <button class="reg-btn" onclick="SetReg('din')">Donations (In)</button>
-                <button class="reg-btn" onclick="SetReg('dout')">Donations (Out)</button>
-                <button class="reg-btn" onclick="SetReg('club')">NGO Club</button>
-                <button class="reg-btn" onclick="SetReg('grant')">Business Grant</button>
+        <div id="desk-1" class="module-desk active">
+            <div class="section-h">Module 1: Registry Nexus (All Assets)</div>
+            <div class="grid-2">
+                <div class="item-box" style="border:1px solid #eee; padding:15px; border-radius:8px;">
+                    <label>Registration Type</label>
+                    <select id="reg-type">
+                        <option>Student (Full Biodata/Medicals)</option>
+                        <option>Staff/Volunteer (Ghana Card/ID Scan)</option>
+                        <option>NGO Member (Grant Vetting Ready)</option>
+                    </select>
+                </div>
+                <div class="item-box" style="border:1px solid #eee; padding:15px; border-radius:8px;">
+                    <label>Donation Portal</label>
+                    <select><option>Incoming (Rice/Milk/Cash)</option><option>Outgoing (Outreach/Audit Gate)</option></select>
+                </div>
             </div>
-
-            <div id="reg-st" class="sub-form active">
-                <div class="section-h">Student Primary Biodata</div>
-                <div style="display:flex; gap:30px;">
-                    <div class="photo-gate">MANDATORY<br>PASSPORT PHOTO</div>
-                    <div style="flex:1;">
-                        <div class="grid-3">
-                            <div><label>First Name</label><input type="text"></div>
-                            <div><label>Middle Name</label><input type="text"></div>
-                            <div><label>Surname</label><input type="text"></div>
-                        </div>
-                        <div class="grid-3">
-                            <div><label>Class Selector</label>
-                                <select>
-                                    <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
-                                    <option>K.G. 1</option><option>K.G. 2</option><option>Primary 1 - 6</option>
-                                </select>
-                            </div>
-                            <div><label>D.O.B</label><input type="date"></div>
-                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="section-h">International Medical History</div>
-                <div class="grid-3">
-                    <input type="text" placeholder="Blood Group">
-                    <input type="text" placeholder="Allergies">
-                    <input type="text" placeholder="Chronic Conditions">
-                </div>
-                <div class="section-h">Comprehensive Guardian & Emergency Biodata</div>
-                <div class="grid-2">
-                    <fieldset><legend style="font-size:9px;">Guardian</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Relationship"></fieldset>
-                    <fieldset><legend style="font-size:9px;">Emergency Person</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone Number"></fieldset>
-                </div>
-                <label style="margin-top:10px;">Optional Document Upload</label><input type="file">
-                <button class="btn-seal">Seal Permanent Student Record</button>
+            <div class="section-h">Registry Input Desk</div>
+            <div style="display:flex; gap:20px;">
+                <div class="photo-gate">MANDATORY<br>PASSPORT</div>
+                <div style="flex:1;"><label>ID / Birth Cert Scan</label><input type="file"></div>
             </div>
-
-            <div id="reg-staff" class="sub-form">
-                <div class="section-h">Staff / Volunteer Professional Registry</div>
-                <div style="display:flex; gap:30px;">
-                    <div class="photo-gate">PHOTO (MANDATORY)</div>
-                    <div style="flex:1;">
-                        <div class="grid-2">
-                            <div><label>Ghana Card / ID Biodata</label><input type="text"></div>
-                            <div><label>ID Card Scan Area</label><input type="file"></div>
-                        </div>
-                        <div class="grid-3">
-                            <div><label>Role</label><input type="text"></div>
-                            <div><label>Type</label><select><option>Permanent</option><option>Volunteer</option></select></div>
-                            <div><label>Assignment</label><select><option>NGO</option><option>School</option></select></div>
-                        </div>
-                    </div>
-                </div>
-                <label>Salary / Allowance (GHS)</label><input type="number">
-                <button class="btn-seal">Seal Personnel Record</button>
+            <div class="grid-3">
+                <input type="text" placeholder="Full Name">
+                <input type="text" placeholder="Ghana Card No.">
+                <select><option>Class / Wing Selection</option></select>
             </div>
+            <button class="btn-seal">Seal & Lock Record</button>
+        </div>
 
-            <div id="reg-din" class="sub-form">
-                <div class="section-h">Incoming Donation Resource Log</div>
-                <div class="grid-3">
-                    <div><label>Donor Source</label><input type="text"></div>
-                    <div><label>Type</label><select id="din-t" onchange="TglDon('in')"><option value="item">Items</option><option value="cash">Cash</option></select></div>
-                    <div><label>Program</label><select><option>General</option><option>Special Program</option></select></div>
-                </div>
-                <div id="din-item">
-                    <div class="item-entry">
-                        <div class="grid-3">
-                            <input type="text" placeholder="Item Name (e.g Rice)">
-                            <input type="number" placeholder="Quantity (e.g 4)">
-                            <input type="text" placeholder="Unit (e.g Bags)">
-                        </div>
-                        <div class="grid-2">
-                            <input type="text" placeholder="Package Type (e.g 50kg Sacks)">
-                            <input type="number" placeholder="Market Value (GHS)">
-                        </div>
-                    </div>
-                </div>
-                <div id="din-cash" style="display:none;" class="grid-2">
-                    <input type="text" placeholder="Currency (USD/EUR)">
-                    <input type="number" placeholder="GHS Equivalent">
-                </div>
-                <button class="btn-seal">Seal Incoming Donation</button>
+        <div id="desk-2" class="module-desk">
+            <div class="section-h">Module 2: SBA Appraisal & Exam Master</div>
+            <div class="grid-2">
+                <select><option>Select Class</option></select>
+                <select><option>Academic Term</option></select>
             </div>
+            <table>
+                <thead><tr><th>Student</th><th>SBA (50%)</th><th>Exam (50%)</th><th>Appraisal (1-5)</th><th>Status</th></tr></thead>
+                <tbody><tr><td>Sample Name</td><td><input type="number"></td><td><input type="number"></td><td><select><option>5-Exceeds</option></select></td><td><span style="color:green;">PASS</span></td></tr></tbody>
+            </table>
+            <button class="btn-seal">Archive Termly Results</button>
+        </div>
 
-            <div id="reg-dout" class="sub-form">
-                <div class="section-h">Outgoing Resource Disbursement & Outreach</div>
-                <div class="grid-2">
-                    <input type="text" placeholder="Outreach Program Name">
-                    <select id="dout-t" onchange="TglDon('out')"><option value="item">Items</option><option value="cash">Cash</option></select>
-                </div>
-                <div id="dout-item">
-                    <div class="item-entry">
-                        <div class="grid-2"><input type="text" placeholder="Item (e.g Milk)"><input type="number" placeholder="Qty (e.g 3)"></div>
-                        <div class="grid-3"><input type="text" placeholder="Unit"><input type="text" placeholder="Pkg Type"><input type="number" placeholder="Mkt Value"></div>
-                    </div>
-                </div>
-                <div id="dout-cash" style="display:none;"><label>Total Amount (GHS)</label><input type="number"></div>
-                
-                <div class="auth-workflow">
-                    <strong>WORKFLOW AUTHORIZATION (AUDIT GATE)</strong><br>
-                    <div class="grid-2">
-                        <div><label>Initiated By</label><input type="text" placeholder="Officer Name"></div>
-                        <div><label>Authorized By (CEO PIN)</label><input type="password" placeholder="••••"></div>
-                    </div>
-                </div>
-                <button class="btn-seal" style="background:var(--admin); color:white;">Seal Authorized Disbursement</button>
+        <div id="desk-4" class="module-desk">
+            <div class="section-h">Module 4: Attendance Gateway (10:00 AM LOCK)</div>
+            <div style="background:#fff4e5; padding:20px; border:1px solid #ffcc00; margin-bottom:20px; border-radius:8px;">
+                <h4 style="margin:0; font-size:12px; color:var(--navy);">SYSTEM STATUS: HARD-LOCK ACTIVE</h4>
+                <p style="font-size:10px; margin:5px 0;">Late entries after 10:00 AM require CEO Digital PIN.</p>
             </div>
-
-            <div id="reg-club" class="sub-form">
-                <div class="section-h">NGO Membership Club Registry</div>
-                <div style="display:flex; gap:30px;">
-                    <div class="photo-gate">PHOTO</div>
-                    <div style="flex:1;">
-                        <div class="grid-2"><input type="text" placeholder="Full Name"><input type="text" placeholder="Group to Join"></div>
-                        <textarea placeholder="Comprehensive Community Address & Biodata"></textarea>
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div><label>ID Biodata</label><input type="text"></div>
-                    <div><label>ID Scan</label><input type="file"></div>
-                </div>
-                <button class="btn-seal">Seal Member Profile</button>
+            <div class="grid-2">
+                <button class="btn-seal" style="background:var(--school)">Student Roll Call</button>
+                <button class="btn-seal" style="background:var(--admin); color:white;">Staff Biometric Sync</button>
             </div>
+        </div>
 
-            <div id="reg-grant" class="sub-form">
-                <div class="section-h">Business Grant & Soft Loan Calculator</div>
-                <div class="grid-2">
-                    <div><label>Principal Amount (GHS)</label><input type="number"></div>
-                    <div><label>Interest on Loan (%)</label><input type="number"></div>
+        <div id="desk-5" class="module-desk">
+            <div class="section-h">Module 5: Payment Vouchers & Fee Management</div>
+            <div class="grid-3">
+                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
+                    <label>Cash In Hand</label><h2 style="margin:0;">GHS 42,000</h2>
                 </div>
-                <div class="grid-2">
-                    <div><label>Repayment Plan</label><select><option>Weekly</option><option>Monthly</option></select></div>
-                    <div><label>Total To Pay (GHS)</label><input type="number" readonly style="background:#eee;"></div>
+                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
+                    <label>Cash at Bank</label><h2 style="margin:0;">GHS 108,500</h2>
                 </div>
-                <button class="btn-seal" style="background:var(--ngo); color:white;">Seal Grant Agreement</button>
+                <div style="padding:15px; border:1px solid #eee; border-radius:10px; text-align:center;">
+                    <label>NGO Reserve</label><h2 style="margin:0;">GHS 15,200</h2>
+                </div>
+            </div>
+            <div class="section-h">Recent Transactions</div>
+            <table>
+                <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Auth</th></tr></thead>
+                <tbody><tr><td>30 Dec 2025</td><td>School Supplies</td><td>Debit</td><td>2,400</td><td>VERIFIED</td></tr></tbody>
+            </table>
+            <button class="btn-seal">New Payment Voucher (PV)</button>
+        </div>
+
+        <div id="desk-9" class="module-desk">
+            <div class="section-h">Module 9: HR Command & Payroll Engine</div>
+            <div class="grid-3">
+                <div><label>Total Staff</label><input type="number" value="24" readonly></div>
+                <div><label>Total Payroll (GHS)</label><input type="number" value="38500" readonly></div>
+                <div><label>Tax/SSNIT Total</label><input type="number" value="4200" readonly></div>
+            </div>
+            <button class="btn-seal">Run Monthly Payroll</button>
+        </div>
+
+        <div id="desk-10" class="module-desk">
+            <div class="section-h">Module 10: CEO Strategic Master Command</div>
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
+                <div style="background:var(--navy); color:white; padding:30px; border-radius:12px;">
+                    <h3>Global Liquidity: GHS 165,700</h3>
+                    <p style="font-size:10px; color:var(--gold);">Impact Score: 98.4% Exceptional</p>
+                    <button style="background:var(--gold); border:none; padding:10px 20px; font-weight:900; cursor:pointer;">DOWNLOAD ANNUAL AUDIT</button>
+                </div>
+                <div style="background:var(--admin); color:white; padding:30px; border-radius:12px;">
+                    <label style="color:white;">CEO Override PIN</label>
+                    <input type="password" style="background:rgba(255,255,255,0.1); border:1px solid white; color:white;">
+                    <button style="width:100%; padding:10px; background:white; color:var(--admin); border:none; font-weight:900;">AUTHORIZE LOCK RELEASE</button>
+                </div>
             </div>
         </div>
     </main>
 </div>
 
 <script>
-    function SetReg(id) {
-        document.querySelectorAll('.sub-form').forEach(f => f.classList.remove('active'));
-        document.querySelectorAll('.reg-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('reg-' + id).classList.add('active');
+    function Launch(n) {
+        document.querySelectorAll('.module-desk').forEach(d => d.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('desk-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
-    }
-    function TglDon(dir) {
-        const val = document.getElementById('d' + dir + '-t').value;
-        document.getElementById('d' + dir + '-item').style.display = (val === 'item') ? 'block' : 'none';
-        document.getElementById('d' + dir + '-cash').style.display = (val === 'cash') ? 'block' : 'none';
     }
 </script>
 </body>
