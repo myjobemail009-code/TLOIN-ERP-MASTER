@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.4 - SECURE ATTENDANCE</title>
+    <title>TLOIN ERP v24.4 - SECURED ATTENDANCE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
@@ -18,86 +18,96 @@
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--attendance); padding-bottom: 15px; margin-bottom: 25px; }
         
-        /* SEARCH BAR */
-        .search-nexus { background: var(--white); border: 1px solid var(--border); padding: 10px; border-radius: 4px; display: flex; align-items: center; margin-bottom: 20px; }
-        #student-search { flex: 1; border: none; outline: none; font-size: 12px; padding-left: 10px; }
-
         .grid-attendance { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; position: relative; }
-        
-        /* LOCK OVERLAY */
-        #lock-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-radius: 8px; }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
         select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
         
+        /* SEARCH BAR STYLING */
+        #student_search { background: #fff; border: 2px solid var(--gold); font-weight: 600; }
+
         .data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
         .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
+        .medical-alert { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 5px; border-radius: 4px; font-size: 9px; font-weight: bold; }
         .btn-log { background: var(--attendance); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
-        .btn-unlock { background: var(--navy); margin-top: 10px; }
+        
+        /* LOCK STATE STYLING */
+        .locked-overlay { background: #fdf2f2; border: 1px solid var(--health); padding: 15px; border-radius: 4px; margin-top: 10px; display: none; }
+        .lock-indicator { color: var(--health); font-weight: 800; font-size: 10px; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
             <div class="brand"><h2>TLOIN ERP v24.4</h2></div>
-            <div class="nav-header">Security Status</div>
-            <div id="lock-indicator" style="padding: 15px; font-size: 10px; font-weight: 800; color: var(--gold);">SYSTEM UNLOCKED</div>
+            <div class="nav-header">Daily Ops</div>
+            <div class="desk-link active" onclick="location.reload()">Attendance & Health</div>
+            <div class="nav-header">System Status</div>
+            <div id="system_lock_status" style="padding: 15px; font-size: 10px; font-weight: 700;">Checking Time...</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Daily Attendance & Welfare</h2>
-                <div style="font-size: 14px; font-weight: 800; color: var(--navy);" id="current-clock">00:00:00</div>
-            </div>
-
-            <div class="search-nexus">
-                <span style="font-size: 12px;">🔍</span>
-                <input type="text" id="student-search" placeholder="Quick Search Student Name or ID..." onkeyup="Logic.filterTable()">
+                <h2>Daily Attendance & Student Welfare</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div class="lock-indicator" id="header_lock_msg"></div>
+                    <input type="date" id="log_date" style="width:auto; margin:0;">
+                </div>
             </div>
 
             <div class="grid-attendance">
-                <div class="card" id="attendance-card">
-                    <div id="lock-overlay">
-                        <div style="font-size: 30px; margin-bottom: 10px;">🔒</div>
-                        <h3 style="color: var(--navy); margin: 0;">Attendance Locked (After 10:00 AM)</h3>
-                        <p style="font-size: 11px; color: #666; padding: 0 20px;">To edit, provide an explanation for the Principal.</p>
-                        <textarea id="unlock-reason" style="width: 80%; margin-top: 15px;" placeholder="Reason for late attendance log..."></textarea>
-                        <button class="btn-log btn-unlock" onclick="Logic.requestUnlock()">Send Unlock Request</button>
+                <div class="card">
+                    <div style="margin-bottom:15px;">
+                        <label>Quick Student Search</label>
+                        <input type="text" id="student_search" placeholder="Type name to filter..." onkeyup="Logic.filterStudents()">
                     </div>
 
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                         <label>Class: Primary 1</label>
-                        <button class="btn-log" id="save-btn" onclick="alert('Attendance Synced')">Save Roll Call</button>
+                        <button class="btn-log" id="save_btn" onclick="alert('Attendance Synced Successfully')">Save Roll Call</button>
                     </div>
-                    <table class="data-table" id="student-table">
+
+                    <table class="data-table">
                         <thead>
-                            <tr><th>Name</th><th>Status</th><th>Medical Flag</th></tr>
-                        </thead>
-                        <tbody>
                             <tr>
-                                <td class="s-name"><b>Kofi Mensah</b></td>
-                                <td><select><option>Present</option><option>Absent</option></select></td>
-                                <td><span style="color:red; font-size:9px;">ALLERGY: PEANUTS</span></td>
+                                <th>Student Name</th>
+                                <th>Status</th>
+                                <th>Health Flag</th>
                             </tr>
-                            <tr>
+                        </thead>
+                        <tbody id="attendance_list">
+                            <tr class="student-row">
+                                <td class="s-name"><b>Kofi Mensah</b></td>
+                                <td><select class="att-dropdown"><option>Present</option><option>Absent</option><option>Late</option></select></td>
+                                <td><span class="medical-alert">ALLERGY: PEANUTS</span></td>
+                            </tr>
+                            <tr class="student-row">
                                 <td class="s-name"><b>Amma Asante</b></td>
-                                <td><select><option>Present</option><option>Absent</option></select></td>
-                                <td><span style="color:green; font-size:9px;">✔ No History</span></td>
+                                <td><select class="att-dropdown"><option>Present</option><option>Absent</option><option>Late</option></select></td>
+                                <td><span style="color:green; font-size:9px;">✔ No Critical History</span></td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <div id="unlock_section" class="locked-overlay">
+                        <label style="color:var(--health)">Attendance Locked (Post 10:00 AM)</label>
+                        <textarea id="unlock_reason" placeholder="Provide explanation for late attendance entry..." rows="2"></textarea>
+                        <button class="btn-log" style="background:var(--navy)" onclick="Logic.sendUnlockRequest()">Request Unlock Authorization</button>
+                    </div>
                 </div>
 
                 <div class="card" style="border-top: 5px solid var(--health);">
                     <h3 style="font-size:12px; color:var(--health); margin-top:0;">Log Health Incident</h3>
                     <label>Select Student</label>
-                    <select><option>Kofi Mensah</option><option>Amma Asante</option></select>
-                    <label>Incident Details</label>
-                    <textarea rows="3"></textarea>
-                    <button class="btn-log" style="background:var(--health)">Submit Incident Report</button>
+                    <select id="h_student"><option>Kofi Mensah</option><option>Amma Asante</option></select>
+                    <label>Incident Description</label>
+                    <textarea id="h_desc" rows="3" placeholder="Symptoms, injury details..."></textarea>
+                    <label>Action Taken</label>
+                    <input type="text" id="h_action" placeholder="First aid, Parent called...">
+                    <button class="btn-log" style="background:var(--health)" onclick="alert('Health Incident Logged')">Submit Report</button>
                 </div>
             </div>
         </main>
@@ -105,37 +115,52 @@
 
     <script>
         const Logic = {
-            checkTime: () => {
+            init: () => {
+                document.getElementById('log_date').valueAsDate = new Date();
+                Logic.checkTimeLock();
+            },
+
+            checkTimeLock: () => {
                 const now = new Date();
                 const hours = now.getHours();
-                const clock = document.getElementById('current-clock');
-                clock.innerText = now.toLocaleTimeString();
+                const minutes = now.getMinutes();
+                const statusEl = document.getElementById('system_lock_status');
+                const lockMsg = document.getElementById('header_lock_msg');
+                const dropdowns = document.querySelectorAll('.att-dropdown');
+                const saveBtn = document.getElementById('save_btn');
+                const unlockSec = document.getElementById('unlock_section');
 
-                // LOCK LOGIC: If hour >= 10 (10 AM)
+                // Rule: Lock after 10:00 AM
                 if (hours >= 10) {
-                    document.getElementById('lock-overlay').style.display = 'flex';
-                    document.getElementById('lock-indicator').innerText = 'SYSTEM LOCKED (TIME)';
-                    document.getElementById('lock-indicator').style.color = '#e74c3c';
+                    statusEl.innerHTML = '<span style="color:var(--health)">LOCKED (10 AM EXCEEDED)</span>';
+                    lockMsg.innerHTML = '🔒 LOCKED';
+                    saveBtn.disabled = true;
+                    saveBtn.style.background = 'var(--lock)';
+                    unlockSec.style.display = 'block';
+                    dropdowns.forEach(d => d.disabled = true);
+                } else {
+                    statusEl.innerHTML = '<span style="color:var(--attendance)">OPEN (UNRESTRICTED)</span>';
+                    lockMsg.innerHTML = '🔓 OPEN';
                 }
             },
-            filterTable: () => {
-                const query = document.getElementById('student-search').value.toLowerCase();
-                const rows = document.querySelectorAll('#student-table tbody tr');
+
+            filterStudents: () => {
+                const query = document.getElementById('student_search').value.toLowerCase();
+                const rows = document.querySelectorAll('.student-row');
                 rows.forEach(row => {
                     const name = row.querySelector('.s-name').innerText.toLowerCase();
                     row.style.display = name.includes(query) ? '' : 'none';
                 });
             },
-            requestUnlock: () => {
-                const reason = document.getElementById('unlock-reason').value;
-                if (!reason) return alert("Explanation is mandatory for unlock request.");
-                alert("Request Sent to Principal. Standing by for authorization.");
+
+            sendUnlockRequest: () => {
+                const reason = document.getElementById('unlock_reason').value;
+                if (!reason) return alert("System Integrity Rule: Explanation is required to request unlock.");
+                alert("Unlock Request with explanation has been sent to the Principal for authorization.");
             }
         };
 
-        // Run clock and lock check every second
-        setInterval(Logic.checkTime, 1000);
-        Logic.checkTime();
+        Logic.init();
     </script>
 </body>
 </html>
