@@ -2,137 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.1 - EXECUTIVE COMMAND</title>
+    <title>TLOIN ERP v26.2 - MISSION INTELLIGENCE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
-            --school: #2980b9; --ngo: #16a085; --audit: #d35400;
+            --impact: #8e44ad; --fuel: #27ae60; --energy: #e67e22; --eco: #2980b9;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         
-        /* LOGIN CONSOLE */
-        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--navy); z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: var(--white); padding: 40px; border-radius: 12px; width: 350px; text-align: center; border-bottom: 8px solid var(--gold); }
+        #nexus-core { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
         
-        /* NEXUS INTERFACE */
-        #nexus-core { display: none; grid-template-columns: 280px 1fr; height: 100vh; }
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; }
-        .nav-header { padding: 15px 25px; font-size: 10px; color: var(--gold); background: rgba(0,0,0,0.2); text-transform: uppercase; font-weight: 800; }
-        .nav-item { padding: 12px 25px; font-size: 11px; cursor: pointer; color: #cbd5e0; transition: 0.2s; border-left: 4px solid transparent; }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
-        .active-nav { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: white; }
-
-        #main-stage { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        #main-stage { padding: 30px; overflow-y: auto; }
+        .grid-strategic { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
         
-        /* AUDIT TABLE */
-        .audit-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        .audit-table th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
-        .audit-table td { padding: 12px; border-bottom: 1px solid #eee; }
-        .trace-tag { font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+        /* STRATEGIC PILLAR CARDS */
+        .pillar-card { background: var(--white); padding: 20px; border-radius: 8px; border-bottom: 4px solid #ddd; transition: 0.3s; }
+        .pillar-card:hover { transform: translateY(-5px); border-bottom-color: var(--gold); }
+        .pillar-title { font-size: 9px; font-weight: 900; text-transform: uppercase; color: #777; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .pillar-val { font-size: 18px; font-weight: 800; color: var(--navy); }
+        .pillar-sub { font-size: 10px; color: #555; margin-top: 5px; }
 
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-prime { background: var(--navy); color: white; padding: 15px; border: none; border-radius: 4px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        /* THE STORY IN THE DATA */
+        .story-section { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
+        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; }
+        
+        .metric-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+        .metric-fill { height: 100%; transition: 0.5s; }
+
+        .btn-dual { background: var(--navy); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <h1 style="font-size:14px; color:var(--navy);">SYSTEM ACCESS REQUIRED</h1>
-            <p style="font-size: 10px; color: #666; margin-bottom: 20px;">Use ID: <b>CM-EXE-001</b> to Log In</p>
-            <input type="text" id="staff_id" placeholder="Enter Unique ID">
-            <input type="password" id="staff_pin" placeholder="Access PIN (1234)">
-            <button class="btn-prime" onclick="System.login()">Enter Nexus</button>
-            <div id="login-error" style="color:red; font-size:10px; margin-top:10px; display:none;">Unauthorized ID. Access Denied.</div>
-        </div>
-    </div>
-
     <div id="nexus-core">
         <aside id="sidebar">
             <div style="padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <div id="user_display" style="font-size: 13px; font-weight: 800; color: var(--gold);"></div>
-                <div id="role_display" style="font-size: 9px; opacity: 0.7;"></div>
+                <div style="font-size: 13px; font-weight: 800; color: var(--gold);">EXECUTIVE COMMAND</div>
+                <div style="font-size: 9px; opacity: 0.7;">MISSION INTELLIGENCE UNIT</div>
             </div>
-            <nav id="nav-container"></nav>
+            <div style="padding: 20px;">
+                <div style="font-size: 10px; color: var(--gold); margin-bottom: 15px;">STRATEGIC LENS</div>
+                <button class="btn-dual" style="width:100%; margin-bottom:10px;">Internal: Delivery</button>
+                <button class="btn-dual" style="width:100%; background:var(--impact);">External: Sentiment</button>
+            </div>
         </aside>
 
         <main id="main-stage">
             <header style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--navy); padding-bottom: 15px; margin-bottom: 25px;">
-                <h2 id="view_title">Executive Command</h2>
+                <h2>Audit Master Console: True North</h2>
                 <div style="text-align: right;">
-                    <div style="font-size: 10px; font-weight: 900;">SESSION ID: <span id="trace_id" style="color:var(--audit)"></span></div>
-                    <div style="font-size: 10px; color: #777;">DECEMBER 30, 2025</div>
+                    <div style="font-size: 10px; font-weight: 900; color: var(--impact);">MISSION RUNWAY: 18 MONTHS</div>
                 </div>
             </header>
 
-            <div id="content-area"></div>
+            <div class="grid-strategic">
+                <div class="pillar-card" style="border-bottom-color: var(--impact);">
+                    <div class="pillar-title">1. Impact (True North) <span>Live</span></div>
+                    <div class="pillar-val">88%</div>
+                    <div class="pillar-sub">Academic Growth & System Influence</div>
+                </div>
+                <div class="pillar-card" style="border-bottom-color: var(--fuel);">
+                    <div class="pillar-title">2. Financial Fuel <span>Audit</span></div>
+                    <div class="pillar-val">GHS 1.2M</div>
+                    <div class="pillar-sub">Unit Cost: GHS 450 / Student</div>
+                </div>
+                <div class="pillar-card" style="border-bottom-color: var(--energy);">
+                    <div class="pillar-title">3. Human Energy <span>HR</span></div>
+                    <div class="pillar-val">94%</div>
+                    <div class="pillar-sub">Staff Retention & Well-being</div>
+                </div>
+                <div class="pillar-card" style="border-bottom-color: var(--eco);">
+                    <div class="pillar-title">8. Partnership Health <span>New</span></div>
+                    <div class="pillar-val">7 Active</div>
+                    <div class="pillar-sub">Cross-Sector Amplification</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="card">
+                    <h4 style="margin-top:0; font-size:12px;">5. The Story in the Data (KPI vs Narrative)</h4>
+                    <div class="grid-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div>
+                            <label>Quantitative (SBA Avg)</label>
+                            <div class="metric-bar"><div class="metric-fill" style="width:78%; background:var(--school);"></div></div>
+                            <label>Qualitative (Parent NPS)</label>
+                            <div class="metric-bar"><div class="metric-fill" style="width:92%; background:var(--ngo);"></div></div>
+                        </div>
+                        <div style="font-style: italic; font-size: 11px; color: #555; border-left: 2px solid var(--gold); padding-left: 10px;">
+                            "The scholarship didn't just pay fees; it restored my daughter's confidence. She now leads the STEM club." <br>
+                            <strong>- Parent Testimonial (Verified)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="margin-top:0; font-size:12px;">4. Operational Foundation</h4>
+                    <div style="font-size: 10px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <span>Grant Compliance</span> <span style="color:green; font-weight:bold;">RELIABLE</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <span>School Safety Audit</span> <span style="color:green; font-weight:bold;">SECURE</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>Infrastructure Utility</span> <span style="color:orange; font-weight:bold;">MONITOR</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <script>
-        const System = {
-            // BACKEND SIMULATION
-            db: {
-                "CM-EXE-001": { name: "System Admin/CEO", role: "General Manager", wing: "CORE ADM", access: ["Registry", "Academic", "Impact", "Finance", "HR", "Audit"] },
-                "CM-NGO-101": { name: "John Mensah", role: "Volunteer", wing: "NGO", access: ["Impact", "Finance"] },
-                "CM-SCH-202": { name: "Sarah Boateng", role: "Teacher", wing: "SCHOOL", access: ["Academic", "Registry", "Finance"] }
-            },
-
-            login: () => {
-                const id = document.getElementById('staff_id').value;
-                const user = System.db[id];
-                if (user) {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    document.getElementById('nexus-core').style.display = 'flex';
-                    System.initUI(user, id);
-                } else {
-                    document.getElementById('login-error').style.display = 'block';
-                }
-            },
-
-            initUI: (user, id) => {
-                document.getElementById('user_display').innerText = user.name;
-                document.getElementById('role_display').innerText = user.wing + " | " + user.role;
-                document.getElementById('trace_id').innerText = id;
-                
-                const nav = document.getElementById('nav-container');
-                nav.innerHTML = '<div class="nav-header">Master Modules</div>';
-                user.access.forEach(mod => {
-                    nav.innerHTML += `<div class="nav-item" onclick="System.load('${mod}')">${mod} Desk</div>`;
-                });
-                System.load('Audit'); // Default Executive View
-            },
-
-            load: (mod) => {
-                const area = document.getElementById('content-area');
-                document.getElementById('view_title').innerText = `${mod} Master Console`;
-                
-                if(mod === 'Audit') {
-                    area.innerHTML = `
-                        <div class="card" style="border-top: 5px solid var(--audit);">
-                            <h3 style="font-size:12px; margin-top:0;">Unified Financial Audit Trail</h3>
-                            <table class="audit-table">
-                                <thead>
-                                    <tr><th>Time</th><th>User ID</th><th>Action</th><th>Wing</th><th>Amount</th><th>Status</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>08:30 AM</td><td>CM-SCH-202</td><td>Fee Receipt #002</td><td><span class="trace-tag" style="background:var(--school); color:white;">SCHOOL</span></td><td>GHS 1,200</td><td>VERIFIED</td></tr>
-                                    <tr><td>09:15 AM</td><td>CM-NGO-101</td><td>Grant Disburse</td><td><span class="trace-tag" style="background:var(--ngo); color:white;">NGO</span></td><td>GHS 5,000</td><td>VERIFIED</td></tr>
-                                    <tr><td>10:05 AM</td><td>CM-SCH-202</td><td>Stationery Purchase</td><td><span class="trace-tag" style="background:var(--school); color:white;">SCHOOL</span></td><td>GHS 450</td><td>PENDING</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                            <div class="card"><h4>School Liquidity</h4><p style="font-size:24px; font-weight:bold; color:var(--school);">GHS 48,500.00</p></div>
-                            <div class="card"><h4>NGO Grant Balance</h4><p style="font-size:24px; font-weight:bold; color:var(--ngo);">USD 12,200.00</p></div>
-                        </div>
-                    `;
-                } else {
-                    area.innerHTML = `<div class="card"><h3>${mod} Data Interface</h3><p>Live operational data for ${mod} desk is synced.</p></div>`;
-                }
-            }
-        };
-    </script>
 </body>
 </html>
