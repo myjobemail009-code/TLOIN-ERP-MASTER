@@ -2,103 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.3 - ACCESS CONTROL</title>
+    <title>TLOIN ERP v26.4 - LOCKED CORE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --admin: #c0392b; --school: #2980b9; --ngo: #16a085;
+            --locked: #7f8c8d; --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        
+        /* STATIC ARCHITECTURE */
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; pointer-events: auto; }
+        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         
-        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--admin); padding-bottom: 15px; margin-bottom: 25px; }
+        .nav-item { padding: 15px 25px; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #aab; border-left: 4px solid transparent; cursor: not-allowed; opacity: 0.6; }
+        .nav-item.unlocked { cursor: pointer; opacity: 1; color: white; }
+        .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
+
+        #main-stage { padding: 30px; overflow-y: auto; position: relative; }
+        .lock-indicator { position: absolute; top: 10px; right: 30px; font-size: 9px; font-weight: 800; color: var(--admin); background: #fff5f5; padding: 5px 10px; border: 1px solid var(--admin); border-radius: 4px; }
+
+        /* STATIC CARD DESIGN */
+        .card { background: var(--white); border: 1px solid #ddd; padding: 25px; border-radius: 8px; margin-bottom: 25px; position: relative; }
+        .card.locked-data { background: #fafafa; pointer-events: none; }
         
-        .grid-config { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
+        .btn-static { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 800; text-transform: uppercase; cursor: pointer; }
         
-        label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
-        select, input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
-        
-        .perm-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 11px; }
-        .perm-toggle { width: auto !important; margin-bottom: 0 !important; }
-        
-        .btn-save { background: var(--admin); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 700; width: 100%; text-transform: uppercase; font-size: 10px; }
-        .wing-tag { font-size: 8px; font-weight: bold; padding: 2px 5px; border-radius: 3px; color: white; }
+        input[readonly], select[disabled] { background: #f1f1f1 !important; cursor: not-allowed; }
     </style>
 </head>
 <body>
+
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2 style="font-size:11px; color:var(--gold);">SYSTEM ADMINISTRATION</h2></div>
-            <div class="nav-header">Staff Privileges</div>
-            <div class="desk-link active">Role Assignments</div>
-            <div class="desk-link" onclick="alert('Opening System Audit Logs...')">Security Logs</div>
-            <div class="nav-header">Global Settings</div>
-            <div class="desk-link" onclick="alert('Configuring Currency & Tax...')">Regional Config</div>
+            <div class="brand">
+                <h2 style="font-size:12px; color:var(--gold);">CLEVER MINDS STAFF CENTRE</h2>
+                <p style="font-size:9px;">SYSTEM STATE: LOCKED & STATIC</p>
+            </div>
+            
+            <nav id="locked-nav">
+                <div class="nav-item unlocked active" id="m1">1. Registry Nexus</div>
+                <div class="nav-item" id="m2">2. Academic Command</div>
+                <div class="nav-item" id="m3">3. Impact & Field Ops</div>
+                <div class="nav-item" id="m4">4. Attendance (10AM LOCK)</div>
+                <div class="nav-item unlocked" id="m5">5. Unified Finance</div>
+                <div class="nav-item" id="m6">6. Human Capital</div>
+                <div class="nav-item" id="m7">7. Supply Chain</div>
+                <div class="nav-item" id="m8">8. Fleet & Logistics</div>
+                <div class="nav-item" id="m9">9. Compliance</div>
+                <div class="nav-item unlocked" id="m10">10. Executive Command</div>
+            </nav>
         </aside>
 
-        <main id="main-dashboard">
-            <div class="desk-header">
-                <h2>Access Control & Permission Management</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--admin);">SUPER ADMIN MODE</div>
+        <main id="main-stage">
+            <div class="lock-indicator">🔒 PROTOCOL v26.4: ALL MODULES AUTONOMOUS & STATIC</div>
+            
+            <div class="desk-header" style="border-bottom: 2px solid var(--navy); padding-bottom:15px; margin-bottom:25px;">
+                <h2 id="view-title">Unified Finance Desk (Audit-Ready)</h2>
+                <p style="font-size:10px; color:#666;">TRACING ID: CM-EXE-001 | LOCATION: ACCRA, GH</p>
             </div>
 
-            <div class="grid-config">
+            <div id="module-container">
                 <div class="card">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Select Staff Profile</h3>
-                    <label>Search Staff Name/ID</label>
-                    <input type="text" placeholder="e.g. CM-NGO-101">
+                    <h3 style="font-size:12px; margin-top:0;">Secure Transaction Entry</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div>
+                            <label style="font-size:9px; font-weight:800;">Entity Wing</label>
+                            <input type="text" value="CORE MANAGEMENT" readonly>
+                        </div>
+                        <div>
+                            <label style="font-size:9px; font-weight:800;">Transaction Timestamp</label>
+                            <input type="text" value="2025-12-30 09:30:00" readonly>
+                        </div>
+                    </div>
                     
-                    <label>Assigned Wing</label>
-                    <select onchange="this.nextElementSibling.className = 'wing-tag ' + (this.value == 'NGO' ? 'bg-ngo' : 'bg-school')">
-                        <option value="SCHOOL">School Wing</option>
-                        <option value="NGO">NGO Wing</option>
-                        <option value="CORE">General Management (CORE)</option>
+                    <label style="font-size:9px; font-weight:800; margin-top:15px; display:block;">Select Ledger Purpose</label>
+                    <select>
+                        <option>Student Fee Reconciliation</option>
+                        <option>NGO Grant Allocation</option>
+                        <option>Staff Statutory Payment (SSNIT/PAYE)</option>
                     </select>
 
-                    <label>Current Role/Position</label>
-                    <input type="text" value="Senior Field Coordinator">
-
-                    <div style="background:#fff5f5; padding:15px; border-radius:4px; border:1px solid #feb2b2;">
-                        <label style="color:var(--admin)">Account Status</label>
-                        <select style="margin-bottom:0;"><option>ACTIVE</option><option>SUSPENDED</option><option>DEACTIVATED</option></select>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Module Access Level (Consolidated 10)</h3>
-                    <p style="font-size:9px; color:#666; margin-bottom:15px;">Tick the boxes to grant access to specific master consoles.</p>
+                    <label style="font-size:9px; font-weight:800; margin-top:15px; display:block;">Amount (GHS)</label>
+                    <input type="number" placeholder="0.00" style="font-size:18px; font-weight:bold;">
                     
-                    <div id="permission-list">
-                        <div class="perm-item"><span>1. Registry & Admissions</span> <input type="checkbox" class="perm-toggle" checked></div>
-                        <div class="perm-item"><span>2. Academic Command</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>3. Impact & Field Ops</span> <input type="checkbox" class="perm-toggle" checked></div>
-                        <div class="perm-item"><span>4. Attendance & Health</span> <input type="checkbox" class="perm-toggle" checked></div>
-                        <div class="perm-item"><span>5. Unified Finance & Audit</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>6. Human Capital & Payroll</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>7. Supply Chain & Assets</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>8. Fleet & Logistics</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>9. Governance & Compliance</span> <input type="checkbox" class="perm-toggle"></div>
-                        <div class="perm-item"><span>10. Executive Command (CEO)</span> <input type="checkbox" class="perm-toggle"></div>
-                    </div>
-
-                    <div style="margin-top:20px;">
-                        <label>Action Authorization Limit (GHS)</label>
-                        <input type="number" value="500" title="Amount this user can approve without higher clearance">
-                    </div>
-
-                    <button class="btn-save" onclick="alert('Permissions Updated and Logged. Staff user must re-login to see changes.')">Update Permissions</button>
+                    <button class="btn-static">Authorize & Seal Transaction</button>
+                    <p style="font-size:8px; color:var(--admin); margin-top:10px;">* Once authorized, this entry is locked and becomes a permanent part of the Audit 360 trail.</p>
                 </div>
             </div>
         </main>
     </div>
+
 </body>
-<style>
-    .bg-school { background: var(--school); }
-    .bg-ngo { background: var(--ngo); }
-</style>
 </html>
