@@ -2,115 +2,124 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v27.7 - MASTER REGISTRY (LOCKED)</title>
+    <title>TLOIN ERP v26.9 - DONATION OUT MASTER</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
             --school: #2980b9; --ngo: #16a085; --admin: #c0392b; --locked: #7f8c8d;
         }
-        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        
-        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
-        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: default; }
-        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); cursor: pointer; }
-
-        #main-stage { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .registry-tabs { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-        .tab-btn { padding: 12px 18px; font-size: 9px; font-weight: 900; border: 1px solid #ccc; background: #eee; cursor: pointer; text-transform: uppercase; border-radius: 4px; color: #555; }
-        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
-
-        .registry-card { background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .registry-card.active { display: block; animation: fadeIn 0.3s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); }
+        .registry-card { background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd; margin: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 25px 0 15px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
         
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
         label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 4px; font-size: 12px; margin-bottom: 12px; box-sizing: border-box; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 4px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
         
-        .upload-zone { border: 2px dashed #aaa; padding: 20px; text-align: center; font-size: 10px; font-weight: 700; color: #666; background: #f9f9f9; border-radius: 6px; }
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 11px; margin-top: 20px; box-shadow: 0 4px 0 #000; }
+        /* ITEMIZATION TABLE */
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .item-table th { background: var(--navy); color: white; font-size: 9px; padding: 10px; text-align: left; }
+        .item-table td { border: 1px solid #eee; padding: 8px; }
+
+        /* AUTHORIZATION SHIELD */
+        .auth-workflow { background: #fff5f5; border: 2px solid var(--admin); padding: 20px; border-radius: 6px; margin-top: 25px; }
+        .auth-step { display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 800; color: var(--locked); margin-bottom: 10px; }
+        .auth-step.active { color: var(--admin); }
+        .auth-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #ccc; }
+        .auth-step.active .auth-dot { background: var(--admin); border-color: var(--admin); box-shadow: 0 0 5px var(--admin); }
+
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 11px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div id="tloin-nexus">
-    <aside id="sidebar">
-        <div class="brand">
-            <h2 style="font-size:13px; color:var(--gold); margin:0;">TLOIN ERP v27.7</h2>
-            <p style="font-size:8px; color:white; opacity:0.6; margin-top:5px;">STATUS: MASTER REGISTRY LOCKED</p>
-        </div>
-        <div class="nav-item active-mod">1. Registry Nexus</div>
-        <div class="nav-item">2. Academic Command</div>
-        <div class="nav-item">3. Impact & Field Ops</div>
-        <div class="nav-item">4. Attendance Gateway</div>
-        <div class="nav-item">5. Unified Finance</div>
-    </aside>
-
-    <main id="main-stage">
-        <div class="registry-tabs">
-            <button class="tab-btn active" onclick="Mod1.show('student')">Student Master</button>
-            <button class="tab-btn" onclick="Mod1.show('staff')">Staff/Volunteer</button>
-            <button class="tab-btn" onclick="Mod1.show('don_in')">Donations (In)</button>
-            <button class="tab-btn" onclick="Mod1.show('don_out')">Donations (Out)</button>
+    <div class="registry-card">
+        <div style="display: flex; justify-content: space-between;">
+            <h2 style="font-size:14px; color:var(--navy); margin:0;">NGO OUTGOING RESOURCE DISBURSEMENT (OUTREACH)</h2>
+            <span style="font-size:9px; font-weight:800; color:var(--admin);">REF: OUT-2025-DEC-098</span>
         </div>
 
-        <div id="reg-student" class="registry-card active">
-            <div class="grid-2">
-                <div class="upload-zone">📷 MANDATORY STUDENT PHOTO</div>
-                <div class="upload-zone">📄 BIRTH CERT / GHANA CARD SCAN</div>
-            </div>
-            <div class="section-h">Student Primary Biodata</div>
-            <div class="grid-3">
-                <div><label>First Name</label><input type="text"></div>
-                <div><label>Middle Name</label><input type="text"></div>
-                <div><label>Surname</label><input type="text"></div>
-            </div>
-            <div class="grid-3">
-                <div><label>Date of Birth</label><input type="date"></div>
-                <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
-                <div><label>Class</label><select><option>Nursery 1</option><option>Primary 4</option></select></div>
-            </div>
-            <button class="btn-seal">Seal & Lock Student Profile</button>
+        <div class="section-h">1. Outreach Program Details</div>
+        <div class="grid-2">
+            <div><label>Outreach Program Name</label><input type="text" placeholder="e.g. Adenta Community Relief"></div>
+            <div><label>Target Location / Community</label><input type="text" placeholder="Accra Central"></div>
         </div>
 
-        <div id="reg-staff" class="registry-card">
-            <div class="section-h">Personnel Records</div>
-            <div class="grid-2">
-                <div><label>Full Legal Name</label><input type="text"></div>
-                <div><label>Staff ID</label><input type="text" placeholder="CM-STF-XXX"></div>
+        <div class="section-h">2. Resource Distribution Type</div>
+        <div class="grid-3">
+            <div><label>Disbursement Type</label>
+                <select id="dout_type" onchange="toggleOut()">
+                    <option value="item">Items / Supplies</option>
+                    <option value="cash">Cash Grant / Aid</option>
+                </select>
             </div>
-            <div class="grid-3">
-                <div><label>Role</label><select><option>Teacher</option><option>Administrator</option><option>Volunteer</option></select></div>
-                <div><label>Wing</label><select><option>School Wing</option><option>NGO Wing</option></select></div>
-                <div><label>Ghana Card No.</label><input type="text"></div>
-            </div>
-            <button class="btn-seal">Seal Staff Record</button>
+            <div><label>Distribution Date</label><input type="date"></div>
+            <div><label>In-Charge Official</label><input type="text" placeholder="Staff Name"></div>
         </div>
 
-        <div id="reg-don_in" class="registry-card">
-            <div class="section-h">Incoming Resource Log</div>
-            <div class="grid-2">
-                <div><label>Donor Source</label><input type="text"></div>
-                <div><label>Type</label><select id="din_type" onchange="Mod1.toggleIn()"><option value="cash">Cash</option><option value="item">Items/Supplies</option></select></div>
-            </div>
-            <div id="din_cash_area"><label>Amount (GHS)</label><input type="number"></div>
-            <div id="din_item_area" style="display:none;">
-                <label>Item Description</label><input type="text" placeholder="e.g. Bags of Rice">
-                <div class="grid-2">
-                    <div><label>Quantity</label><input type="number"></div>
-                    <div><label>Unit Measure</label><input type="text" placeholder="Bags/Cartons"></div>
-                </div>
-            </div>
-            <button class="btn-seal" style="background:var(--ngo); color:white;">Seal Donation In</button>
+        <div id="dout_cash_area" style="display:none;">
+            <label>Total Cash Disbursement (GHS)</label>
+            <input type="number" step="0.01" placeholder="0.00" style="font-size:16px; font-weight:bold; color:var(--admin);">
         </div>
 
-        <div id="reg-don_out" class="registry-card">
-            <div class="section-h">Outgoing Resource Disbursement</div>
-            <div class="grid-2">
-                <div><label>Program Name</
+        <div id="dout_item_area">
+            <label>Itemized Supply Register</label>
+            <table class="item-table">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Unit Measure</th>
+                        <th>Quantity</th>
+                        <th>Package Type</th>
+                        <th>Mkt Value (GHS)</th>
+                    </tr>
+                </thead>
+                <tbody id="item-rows">
+                    <tr>
+                        <td><input type="text" placeholder="e.g. Rice"></td>
+                        <td><input type="text" placeholder="Bags"></td>
+                        <td><input type="number" placeholder="4"></td>
+                        <td><input type="text" placeholder="50kg Sack"></td>
+                        <td><input type="number" placeholder="2400.00"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button onclick="addRow()" style="font-size:9px; font-weight:800; cursor:pointer;">+ ADD SEPARATE ITEM LINE</button>
+        </div>
+
+        <div class="auth-workflow">
+            <h3 style="font-size:11px; color:var(--admin); margin-top:0;">INTERNAL CONTROL: SMART AUTHORIZATION</h3>
+            <div class="auth-step active"><div class="auth-dot"></div> STEP 1: INITIATED BY FIELD OPERATOR (CM-NGO-101)</div>
+            <div class="auth-step"><div class="auth-dot"></div> STEP 2: VERIFIED BY NGO COORDINATOR (PENDING)</div>
+            <div class="auth-step"><div class="auth-dot"></div> STEP 3: FINAL CEO/GENERAL MANAGER SEAL (LOCKED)</div>
+            
+            <p style="font-size:8px; color:#666; font-style:italic; margin-top:10px;">
+                * System Logic: Assets remain "On-Books" until Step 3 is cleared. Once CEO seals, items are automatically deducted from Module 7 (Supply Chain) and recorded in Module 5 (Finance).
+            </p>
+        </div>
+
+        <button class="btn-seal">Submit for Verification</button>
+    </div>
+
+    <script>
+        function toggleOut() {
+            const val = document.getElementById('dout_type').value;
+            document.getElementById('dout_cash_area').style.display = (val === 'cash') ? 'block' : 'none';
+            document.getElementById('dout_item_area').style.display = (val === 'item') ? 'block' : 'none';
+        }
+        function addRow() {
+            const table = document.getElementById('item-rows');
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="number"></td>
+                <td><input type="text"></td>
+                <td><input type="number"></td>
+            `;
+        }
+    </script>
+</body>
+</html>
