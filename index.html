@@ -2,138 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v22.3 - SCHOOL OPERATIONS</title>
+    <title>TLOIN ERP v24.0 - ADVANCED ADMISSIONS</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --school: #2980b9; --edu: #9b59b6;
+            --border: #ced4da; --medical: #e74c3c; --billing: #27ae60;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* SIDEBAR */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
         .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
 
-        .nav-header { padding: 15px 25px 5px; font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 800; }
-        .desk-link { padding: 10px 25px; cursor: pointer; color: #aab0b6; font-size: 11px; border-left: 4px solid transparent; }
-        .desk-link:hover, .active { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--gold); }
+        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .tab-container { display: flex; gap: 2px; margin-bottom: 20px; }
+        .tab { padding: 12px 20px; background: #ddd; cursor: pointer; font-size: 11px; font-weight: 800; border-radius: 4px 4px 0 0; }
+        .tab.active { background: var(--navy); color: white; }
 
-        /* MAIN AREA */
-        #main-dashboard { padding: 35px; overflow-y: auto; box-sizing: border-box; }
-        .form-card { background: var(--white); padding: 25px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 25px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        
-        label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
-        input, select { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
-        
-        .btn-school { background: var(--school); color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; margin-top: 15px; }
+        .form-section { background: var(--white); border: 1px solid var(--border); padding: 25px; border-radius: 0 0 8px 8px; display: none; }
+        .form-section.active { display: block; }
 
-        .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
-        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid var(--navy); text-transform: uppercase; }
-        .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+        label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; }
         
-        .grade-pill { padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; }
-        .pass { background: #d4edda; color: #155724; }
+        .section-head { border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 15px 0; font-size: 12px; color: var(--navy); font-weight: 800; }
+        .btn-finalize { background: var(--navy); color: white; padding: 15px; width: 100%; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+        
+        .class-config { background: #f0f4f8; padding: 15px; border-radius: 4px; border-left: 4px solid var(--billing); }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v22.3</h2></div>
-            
-            <div class="nav-header">School Desks</div>
-            <div class="desk-link" onclick="Nexus.load('Enrollment')">Student Registry</div>
-            <div class="desk-link" onclick="Nexus.load('Academic')">Curriculum & Grading</div>
-            <div class="desk-link" onclick="Nexus.load('Teachers')">Facilitator Logs</div>
-            
-            <div class="nav-header">Core ERP</div>
-            <div class="desk-link" onclick="Nexus.load('Finance')">Financial Ledger</div>
-            <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hubs</div>
-            <div class="desk-link" onclick="Nexus.load('CEO')">CEO Dashboard</div>
+            <div class="brand"><h2>TLOIN ERP v24.0</h2></div>
+            <div style="padding: 20px;"><button class="btn-finalize" onclick="Logic.openGlobalConfig()" style="background:var(--billing)">Manage Class Bills/Items</button></div>
+            <div class="desk-link" onclick="location.reload()" style="padding:15px; color:white; cursor:pointer;">Dashboard Home</div>
         </aside>
 
         <main id="main-dashboard">
-            <div id="mount-point"></div>
+            <div class="tab-container">
+                <div class="tab active" onclick="UI.switchTab(0)">1. Student Bio</div>
+                <div class="tab" onclick="UI.switchTab(1)">2. Medical Profile</div>
+                <div class="tab" onclick="UI.switchTab(2)">3. Guardians & Emergency</div>
+                <div class="tab" onclick="UI.switchTab(3)">4. Class & Logistics</div>
+            </div>
+
+            <form id="admission-form">
+                <div class="form-section active" id="sec-0">
+                    <div class="section-head">Personal Information</div>
+                    <div class="grid-3">
+                        <div><label>Auto Student ID</label><input type="text" id="s_id" readonly></div>
+                        <div><label>First Name</label><input type="text" id="s_fn"></div>
+                        <div><label>Surname</label><input type="text" id="s_sn"></div>
+                    </div>
+                    <div class="grid-3">
+                        <div><label>Date of Birth</label><input type="date" id="s_dob"></div>
+                        <div><label>Gender</label><select id="s_gen"><option>Male</option><option>Female</option></select></div>
+                        <div><label>Passport Picture</label><input type="file" id="s_pic"></div>
+                    </div>
+                </div>
+
+                <div class="form-section" id="sec-1">
+                    <div class="section-head">Medical History (International Standards)</div>
+                    <div class="grid-3">
+                        <div><label>Blood Group</label><select id="m_bg"><option>A+</option><option>B+</option><option>O+</option><option>O-</option></select></div>
+                        <div><label>Genotype</label><input type="text" id="m_gt" placeholder="AA, AS, etc."></div>
+                        <div><label>Allergies</label><input type="text" id="m_al" placeholder="Food, Meds, Environmental"></div>
+                    </div>
+                    <div><label>Critical Conditions / Permanent Medications</label><textarea id="m_crit"></textarea></div>
+                </div>
+
+                <div class="form-section" id="sec-2">
+                    <div class="section-head">Primary Parent / Guardian</div>
+                    <div class="grid-3">
+                        <div><label>Full Name</label><input type="text" id="p1_name"></div>
+                        <div><label>Phone Number</label><input type="text" id="p1_tel"></div>
+                        <div><label>Email Address</label><input type="text" id="p1_mail"></div>
+                    </div>
+                    <div class="section-head">Emergency Contact (Person 3)</div>
+                    <div class="grid-3">
+                        <div><label>Name</label><input type="text" id="p2_name"></div>
+                        <div><label>Relation</label><input type="text" id="p2_rel"></div>
+                        <div><label>Urgent Tel</label><input type="text" id="p2_tel"></div>
+                    </div>
+                </div>
+
+                <div class="form-section" id="sec-3">
+                    <div class="section-head">Class Selection & Authorization</div>
+                    <div class="grid-3">
+                        <div><label>Admission Level</label>
+                            <select id="l_class" onchange="Logic.updateLogistics()">
+                                <option value="">Select Class...</option>
+                                <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
+                                <option>K.G. 1</option><option>K.G. 2</option>
+                                <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
+                                <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+                            </select>
+                        </div>
+                        <div><label>Hub Location</label><select id="l_hub"><option>Accra</option><option>Tamale</option></select></div>
+                        <div><label>Authorization Status</label><select id="l_auth"><option>Pending Principal Approval</option><option>Authorized</option></select></div>
+                    </div>
+                    
+                    <div class="class-config" id="logistics-preview">
+                        <p style="font-size:11px; color:#666;">Select a class to view required Bills & Toiletries.</p>
+                    </div>
+                    <button type="button" class="btn-finalize" onclick="Logic.submitAdmission()">Finalize Admission & Generate Files</button>
+                </div>
+            </form>
         </main>
     </div>
 
     <script>
-        const VAULT = {
-            get: (key) => JSON.parse(localStorage.getItem('cm_' + key)) || [],
-            save: (key, data) => localStorage.setItem('cm_' + key, JSON.stringify(data))
+        // MASTER CLASS CONFIGURATION (Bills & Toiletries)
+        const CLASS_REQS = {
+            "Creche": { bill: "GHS 1,200", items: "Diapers, Wipes, 2 Sets of Clothes, Feeding Bottle" },
+            "Nursery 1": { bill: "GHS 1,400", items: "Crayons, Tissues, Liquid Soap, Coloring Book" },
+            "Primary 1": { bill: "GHS 1,800", items: "Textbooks, Dettol, 12 Exercise Books, Broom" }
         };
 
-        const Nexus = {
-            load: (d) => {
-                document.getElementById('mount-point').innerHTML = DeskContent[d] ? DeskContent[d]() : `<h2>Module Locked</h2>`;
+        const UI = {
+            switchTab: (idx) => {
+                document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+                document.querySelectorAll('.form-section').forEach((s, i) => s.classList.toggle('active', i === idx));
             }
-        };
-
-        const DeskContent = {
-            Enrollment: () => {
-                const data = VAULT.get('students');
-                const rows = data.map(s => `<tr><td><b>${s.id}</b></td><td>${s.name}</td><td>${s.hub}</td><td>${s.class}</td></tr>`).join('');
-                return `
-                <div class="form-card">
-                    <h2 style="color:var(--school)">Student Enrollment</h2>
-                    <div class="grid-3">
-                        <div><label>Student ID</label><input type="text" id="s_id" placeholder="CM-2025-001"></div>
-                        <div><label>Full Name</label><input type="text" id="s_name"></div>
-                        <div><label>Hub Location</label><select id="s_hub"><option>Tamale</option><option>Accra</option><option>Kumasi</option></select></div>
-                    </div>
-                    <div class="grid-3" style="margin-top:15px;">
-                        <div><label>Class/Level</label><input type="text" id="s_class" placeholder="Grade 4 / ICT Basic"></div>
-                        <div><label>Guardian Contact</label><input type="text" id="s_guardian"></div>
-                        <button class="btn-school" onclick="Logic.saveStudent()">Enroll Student</button>
-                    </div>
-                </div>
-                <table class="data-table">
-                    <thead><tr><th>ID</th><th>Name</th><th>Hub</th><th>Class</th></tr></thead>
-                    <tbody>${rows || '<tr><td colspan="4">No records.</td></tr>'}</tbody>
-                </table>`;
-            },
-
-            Academic: () => `
-                <div class="form-card">
-                    <h2 style="color:var(--edu)">Curriculum & Assessment</h2>
-                    <div class="grid-3">
-                        <div><label>Module</label><select><option>Python for Beginners</option><option>Digital Literacy</option><option>Web Dev 101</option></select></div>
-                        <div><label>Test Score (%)</label><input type="number"></div>
-                        <div><label>Instructor Remarks</label><input type="text"></div>
-                    </div>
-                    <button class="btn-school" style="background:var(--edu)">Post Grade to Record</button>
-                </div>
-                <table class="data-table">
-                    <thead><tr><th>Student</th><th>Module</th><th>Score</th><th>Status</th></tr></thead>
-                    <tbody>
-                        <tr><td>Kofi Mensah</td><td>Python</td><td>85%</td><td><span class="grade-pill pass">DISTINCTION</span></td></tr>
-                        <tr><td>Amma Asante</td><td>Digital Lit.</td><td>72%</td><td><span class="grade-pill pass">PASS</span></td></tr>
-                    </tbody>
-                </table>`,
-
-            Teachers: () => `<h3>Facilitator Logs</h3><p>Tracking teaching hours and session delivery across hubs.</p>`,
-            Finance: () => `<h3>Financial Ledger</h3><p>Locked & Static.</p>`,
-            ICT: () => `<h3>ICT Hub Performance</h3><p>Locked & Static.</p>`,
-            CEO: () => `<h3>Executive Dashboard</h3><p>Locked & Static.</p>`
         };
 
         const Logic = {
-            saveStudent: () => {
-                const s = {
-                    id: document.getElementById('s_id').value,
-                    name: document.getElementById('s_name').value,
-                    hub: document.getElementById('s_hub').value,
-                    class: document.getElementById('s_class').value
-                };
-                if(!s.id || !s.name) return alert("Integrity Check: ID and Name Required.");
-                let data = VAULT.get('students'); data.push(s); VAULT.save('students', data);
-                Nexus.load('Enrollment');
+            init: () => {
+                document.getElementById('s_id').value = "CM-" + Math.floor(1000 + Math.random() * 9000) + "-" + new Date().getFullYear();
+            },
+            updateLogistics: () => {
+                const cls = document.getElementById('l_class').value;
+                const view = document.getElementById('logistics-preview');
+                const data = CLASS_REQS[cls] || { bill: "Contact Admin", items: "General Stationeries" };
+                view.innerHTML = `<strong>Class Requirements for ${cls}:</strong><br>
+                                 <span style="color:var(--billing)">Financial Bill: ${data.bill}</span><br>
+                                 <span>Toiletries/Items: ${data.items}</span>`;
+            },
+            submitAdmission: () => {
+                const studentName = document.getElementById('s_fn').value;
+                if(!studentName) return alert("System Integrity Error: Name is required.");
+                alert("Workflow Authorization Sent to Principal. Student Data Locked.");
             }
         };
 
-        Nexus.load('Enrollment');
+        Logic.init();
     </script>
 </body>
 </html>
