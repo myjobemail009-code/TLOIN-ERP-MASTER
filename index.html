@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.3 - ATTENDANCE & HEALTH</title>
+    <title>TLOIN ERP v24.4 - SECURE ATTENDANCE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --health: #c0392b; --attendance: #27ae60;
+            --border: #ced4da; --health: #c0392b; --attendance: #27ae60; --lock: #7f8c8d;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -18,8 +18,15 @@
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--attendance); padding-bottom: 15px; margin-bottom: 25px; }
         
+        /* SEARCH BAR */
+        .search-nexus { background: var(--white); border: 1px solid var(--border); padding: 10px; border-radius: 4px; display: flex; align-items: center; margin-bottom: 20px; }
+        #student-search { flex: 1; border: none; outline: none; font-size: 12px; padding-left: 10px; }
+
         .grid-attendance { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; position: relative; }
+        
+        /* LOCK OVERLAY */
+        #lock-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-radius: 8px; }
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
         select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
@@ -28,51 +35,57 @@
         .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        .medical-alert { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 5px; border-radius: 4px; font-size: 9px; font-weight: bold; }
         .btn-log { background: var(--attendance); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
-        .btn-health { background: var(--health); }
+        .btn-unlock { background: var(--navy); margin-top: 10px; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v24.3</h2></div>
-            <div class="nav-header">Daily Ops</div>
-            <div class="desk-link active" onclick="location.reload()">Attendance & Health</div>
-            <div class="nav-header">Registry Link</div>
-            <div class="desk-link" style="font-size:10px; color:var(--gold)">● Main Campus Verified</div>
+            <div class="brand"><h2>TLOIN ERP v24.4</h2></div>
+            <div class="nav-header">Security Status</div>
+            <div id="lock-indicator" style="padding: 15px; font-size: 10px; font-weight: 800; color: var(--gold);">SYSTEM UNLOCKED</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Daily Attendance & Student Welfare</h2>
-                <div><input type="date" id="log_date" style="width:auto; margin:0;"></div>
+                <h2>Daily Attendance & Welfare</h2>
+                <div style="font-size: 14px; font-weight: 800; color: var(--navy);" id="current-clock">00:00:00</div>
+            </div>
+
+            <div class="search-nexus">
+                <span style="font-size: 12px;">🔍</span>
+                <input type="text" id="student-search" placeholder="Quick Search Student Name or ID..." onkeyup="Logic.filterTable()">
             </div>
 
             <div class="grid-attendance">
-                <div class="card">
+                <div class="card" id="attendance-card">
+                    <div id="lock-overlay">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🔒</div>
+                        <h3 style="color: var(--navy); margin: 0;">Attendance Locked (After 10:00 AM)</h3>
+                        <p style="font-size: 11px; color: #666; padding: 0 20px;">To edit, provide an explanation for the Principal.</p>
+                        <textarea id="unlock-reason" style="width: 80%; margin-top: 15px;" placeholder="Reason for late attendance log..."></textarea>
+                        <button class="btn-log btn-unlock" onclick="Logic.requestUnlock()">Send Unlock Request</button>
+                    </div>
+
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                         <label>Class: Primary 1</label>
-                        <button class="btn-log" onclick="alert('Attendance Saved and Synced to CEO Dashboard')">Save Roll Call</button>
+                        <button class="btn-log" id="save-btn" onclick="alert('Attendance Synced')">Save Roll Call</button>
                     </div>
-                    <table class="data-table">
+                    <table class="data-table" id="student-table">
                         <thead>
-                            <tr>
-                                <th>Student Name</th>
-                                <th>Status</th>
-                                <th>Health Flag</th>
-                            </tr>
+                            <tr><th>Name</th><th>Status</th><th>Medical Flag</th></tr>
                         </thead>
-                        <tbody id="attendance_list">
+                        <tbody>
                             <tr>
-                                <td><b>Kofi Mensah</b></td>
-                                <td><select style="margin:0;"><option>Present</option><option>Absent</option><option>Late</option></select></td>
-                                <td><span class="medical-alert">ALLERGY: PEANUTS</span></td>
+                                <td class="s-name"><b>Kofi Mensah</b></td>
+                                <td><select><option>Present</option><option>Absent</option></select></td>
+                                <td><span style="color:red; font-size:9px;">ALLERGY: PEANUTS</span></td>
                             </tr>
                             <tr>
-                                <td><b>Amma Asante</b></td>
-                                <td><select style="margin:0;"><option>Present</option><option>Absent</option><option>Late</option></select></td>
-                                <td><span style="color:green; font-size:9px;">✔ No Critical History</span></td>
+                                <td class="s-name"><b>Amma Asante</b></td>
+                                <td><select><option>Present</option><option>Absent</option></select></td>
+                                <td><span style="color:green; font-size:9px;">✔ No History</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -81,26 +94,48 @@
                 <div class="card" style="border-top: 5px solid var(--health);">
                     <h3 style="font-size:12px; color:var(--health); margin-top:0;">Log Health Incident</h3>
                     <label>Select Student</label>
-                    <select id="h_student"><option>Kofi Mensah</option><option>Amma Asante</option></select>
-                    
-                    <label>Incident Description</label>
-                    <textarea id="h_desc" rows="3" placeholder="Symptoms, injury details, or illness..."></textarea>
-                    
-                    <label>Action Taken</label>
-                    <input type="text" id="h_action" placeholder="First aid administered, Parent called, etc.">
-                    
-                    <label>Emergency Authorization</label>
-                    <select id="h_auth"><option>Managed In-House</option><option>Requires Hospital Transfer</option></select>
-                    
-                    <button class="btn-log btn-health" onclick="alert('Health Incident Logged & Emergency Contacts Notified')">Submit Incident Report</button>
+                    <select><option>Kofi Mensah</option><option>Amma Asante</option></select>
+                    <label>Incident Details</label>
+                    <textarea rows="3"></textarea>
+                    <button class="btn-log" style="background:var(--health)">Submit Incident Report</button>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // Set today's date automatically
-        document.getElementById('log_date').valueAsDate = new Date();
+        const Logic = {
+            checkTime: () => {
+                const now = new Date();
+                const hours = now.getHours();
+                const clock = document.getElementById('current-clock');
+                clock.innerText = now.toLocaleTimeString();
+
+                // LOCK LOGIC: If hour >= 10 (10 AM)
+                if (hours >= 10) {
+                    document.getElementById('lock-overlay').style.display = 'flex';
+                    document.getElementById('lock-indicator').innerText = 'SYSTEM LOCKED (TIME)';
+                    document.getElementById('lock-indicator').style.color = '#e74c3c';
+                }
+            },
+            filterTable: () => {
+                const query = document.getElementById('student-search').value.toLowerCase();
+                const rows = document.querySelectorAll('#student-table tbody tr');
+                rows.forEach(row => {
+                    const name = row.querySelector('.s-name').innerText.toLowerCase();
+                    row.style.display = name.includes(query) ? '' : 'none';
+                });
+            },
+            requestUnlock: () => {
+                const reason = document.getElementById('unlock-reason').value;
+                if (!reason) return alert("Explanation is mandatory for unlock request.");
+                alert("Request Sent to Principal. Standing by for authorization.");
+            }
+        };
+
+        // Run clock and lock check every second
+        setInterval(Logic.checkTime, 1000);
+        Logic.checkTime();
     </script>
 </body>
 </html>
