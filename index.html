@@ -2,156 +2,178 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v27.1 - ACADEMIC HIERARCHY</title>
+    <title>TLOIN ERP v27.2 - ACADEMIC COCKPIT</title>
     <style>
         :root { 
-            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --school: #2980b9; --admin: #c0392b; --staff: #8e44ad; --locked: #7f8c8d;
+            --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
+            --teacher: #2ecc71; --asst: #3498db; --head: #e74c3c; --border: #dcdde1;
         }
-        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
         
-        #sidebar { background: var(--navy); border-right: 5px solid var(--gold); }
-        .nav-item { padding: 12px 20px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; }
+        /* SIDEBAR STATIC */
+        #sidebar { background: var(--navy); color: white; border-right: 4px solid var(--gold); }
+        .nav-item { padding: 15px 20px; font-size: 11px; font-weight: 700; color: #aab; border-left: 4px solid transparent; cursor: pointer; text-transform: uppercase; }
         .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
 
-        #main-stage { padding: 30px; overflow-y: auto; }
-        .role-tabs { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-        .role-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid #ccc; background: #eee; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
-        .role-btn.active { background: var(--navy); color: var(--gold); }
+        #viewport { padding: 25px; overflow-y: auto; box-sizing: border-box; }
+        
+        /* ROLE SELECTOR */
+        .role-switcher { display: flex; gap: 10px; margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .role-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 10px; transition: 0.3s; color: white; }
+        
+        /* DYNAMIC CONSOLE CARDS */
+        .console { display: none; }
+        .console.active { display: block; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .console-card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; display: none; margin-bottom: 30px; }
-        .console-card.active { display: block; }
+        .widget { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .widget-h { font-size: 12px; font-weight: 900; color: var(--navy); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; }
         
-        .section-h { font-size: 10px; font-weight: 900; color: white; background: var(--navy); padding: 10px; margin: 20px 0 10px 0; text-transform: uppercase; border-radius: 4px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* TABLE STYLES */
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 10px; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
         
-        /* TABLE STYLING */
-        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
-        th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid var(--navy); }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 12px; margin-top: 5px; }
+        .btn-action { background: var(--navy); color: var(--gold); border: none; padding: 10px 20px; border-radius: 4px; font-weight: 700; cursor: pointer; }
         
-        .btn-lock { background: var(--navy); color: var(--gold); border: none; padding: 12px; border-radius: 4px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 10px; margin-top: 10px; }
-        .status-tag { padding: 2px 6px; border-radius: 3px; font-size: 8px; font-weight: 800; color: white; }
+        /* STATUS TAGS */
+        .tag { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; color: white; text-transform: uppercase; }
+        .lock-status { background: #ff7675; }
+        .open-status { background: #55efc4; }
     </style>
 </head>
 <body>
 
 <div id="tloin-nexus">
     <aside id="sidebar">
-        <div style="padding: 25px;"><h2 style="font-size:12px; color:var(--gold);">CLEVER MINDS CORE</h2></div>
+        <div style="padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h2 style="font-size:14px; color:var(--gold); margin:0;">CLEVER MINDS</h2>
+            <p style="font-size:9px; color: #fff; opacity:0.6;">v27.2 ACADEMIC COMMAND</p>
+        </div>
         <div class="nav-item">1. Registry Nexus</div>
         <div class="nav-item active-mod">2. Academic Command</div>
-        </aside>
+        <div class="nav-item">3. Impact & Field Ops</div>
+    </aside>
 
-    <main id="main-stage">
-        <div class="role-tabs">
-            <button class="role-btn active" onclick="Aca.setRole('teacher')">Class Teacher</button>
-            <button class="role-btn" onclick="Aca.setRole('asst_head')">Asst. Headteacher</button>
-            <button class="role-btn" onclick="Aca.setRole('head')">Headteacher</button>
-            <button class="role-btn" onclick="Aca.setRole('billing')">Class Billing/Bills</button>
+    <main id="viewport">
+        <div class="role-switcher">
+            <button class="role-btn" style="background:var(--teacher)" onclick="SwitchRole('teacher')">Class Teacher</button>
+            <button class="role-btn" style="background:var(--asst)" onclick="SwitchRole('asst')">Asst. Head</button>
+            <button class="role-btn" style="background:var(--head)" onclick="SwitchRole('head')">Headteacher</button>
         </div>
 
-        <div id="role-teacher" class="console-card active">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="margin:0; font-size:14px;">CLASS 2 TEACHER TERMINAL</h3>
-                <span class="status-tag" style="background:var(--school)">ASSIGNED: CLASS 2-A</span>
+        <div id="con-teacher" class="console active">
+            <div class="widget">
+                <div class="widget-h">
+                    <span>DAILY CLASSROOM ATTENDANCE & APPRAISAL</span>
+                    <span id="lock-timer" class="tag lock-status">LOCKED AT 10:00 AM</span>
+                </div>
+                <table>
+                    <thead><tr><th>Student Name</th><th>Attendance</th><th>Behavior/Appraisal</th><th>Notes</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Ama Serwaa</td>
+                            <td><select disabled><option>Present</option><option>Late</option><option>Absent</option></select></td>
+                            <td><select><option>Excellent</option><option>Cooperative</option><option>Distracted</option></select></td>
+                            <td><input type="text" placeholder="Daily remark..."></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="section-h">10:00 AM ATTENDANCE GATEWAY</div>
-            <div id="att-lock-msg" style="padding:10px; background:#fff5f5; border:1px solid var(--admin); color:var(--admin); font-size:9px; font-weight:800; margin-bottom:10px;">
-                ⚠️ SYSTEM TIME: 11:40 AM - REGISTER LOCKED. CONTACT ASST. HEAD FOR OVERRIDE.
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div class="widget">
+                    <div class="widget-h">TODAY'S TIMETABLE (CLASS 2A)</div>
+                    <div style="font-size:11px; color:#666;">
+                        <p>08:30 - 09:30: <b>Mathematics</b> (Ongoing)</p>
+                        <p>09:30 - 10:30: <b>English Lang.</b> (Upcoming)</p>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-h">SBA ACADEMIC ENTRY</div>
+                    <label>Subject</label><select><option>Mathematics</option></select>
+                    <label>Score (Out of 15)</label><input type="number">
+                    <button class="btn-action" style="margin-top:10px;">Seal Daily Marks</button>
+                </div>
             </div>
-            <table>
-                <thead><tr><th>Student Name</th><th>Attendance Status</th><th>Daily Appraisal</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td>Kofi Mensah</td>
-                        <td><select disabled><option>Present</option><option>Absent</option><option>Late</option></select></td>
-                        <td><select><option>Excellent</option><option>Improving</option><option>Needs Focus</option></select></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="section-h">CLASS 2 TIMETABLE (APPROVED)</div>
-            <div style="font-size:10px; padding:10px; background:#f0f8ff;">CURRENT SESSION: <b>11:30 - 12:30 | Mathematics</b></div>
-
-            <div class="section-h">ACADEMIC WORK RECORD (SBA)</div>
-            <div class="grid-2">
-                <div><label>Subject</label><select><option>Mathematics</option><option>English</option></select></div>
-                <div><label>Assessment Type</label><select><option>Class Work</option><option>Project</option></select></div>
-            </div>
-            <button class="btn-lock">Seal Academic Marks</button>
         </div>
 
-        <div id="role-asst_head" class="console-card">
-            <h3 style="margin:0; font-size:14px; color:var(--staff);">ASSISTANT HEAD OPERATIONAL HUB</h3>
-            
-            <div class="section-h">ATTENDANCE OVERRIDE REQUESTS</div>
-            <table>
-                <thead><tr><th>Teacher</th><th>Class</th><th>Explanation</th><th>Action</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td>Ms. Araba</td>
-                        <td>Nursery 1</td>
-                        <td>Network delay at 09:55 AM</td>
-                        <td><button style="font-size:8px; background:green; color:white; border:none; padding:5px;">ACTIVATE 10MIN WINDOW</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="section-h">DAILY OPS: INCIDENTAL EXPENSES</div>
-            <div class="grid-2">
-                <div><label>Item/Service</label><input type="text" placeholder="Repairs/Markers"></div>
-                <div><label>Amount (GHS)</label><input type="number"></div>
+        <div id="con-asst" class="console">
+            <div class="widget">
+                <div class="widget-h">ATTENDANCE GATEWAY & OVERRIDES</div>
+                <table>
+                    <thead><tr><th>Teacher</th><th>Class</th><th>Reason for Delay</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mr. Boateng</td><td>Primary 5</td><td>Clinic Emergency</td><td><button class="btn-action" style="background:var(--asst)">Open 15m Window</button></td></tr>
+                    </tbody>
+                </table>
             </div>
-            <button class="btn-lock" style="background:var(--staff)">Forward to Finance</button>
+
+            <div class="widget">
+                <div class="widget-h">CLASS-LINKED BILLING BUILDER</div>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <select style="width:200px;"><option>Nursery 1</option><option>Primary 4</option></select>
+                    <button class="btn-action" style="background:var(--asst)">+ Add New Bill Item</button>
+                </div>
+                <table>
+                    <thead><tr><th>Item Name</th><th>Category</th><th>Amount (GHS)</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td><input type="text" value="Developmental Levy"></td><td>Academic</td><td><input type="number" value="50"></td><td>Once/Term</td></tr>
+                        <tr><td><input type="text" value="Soap (2 Packs)"></td><td>Toiletries</td><td><input type="number" value="15"></td><td>Termly</td></tr>
+                        <tr><td><input type="text" value="Feeding Fee"></td><td>Service</td><td><input type="number" value="10"></td><td>Daily</td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:15px; background:#fff9e6; padding:10px; border-radius:5px; font-size:10px; font-weight:800; color:#856404;">
+                    ⚠️ STATUS: PENDING FINANCE APPROVAL (MODULE 5)
+                </div>
+            </div>
         </div>
 
-        <div id="role-head" class="console-card">
-            <h3 style="margin:0; font-size:14px; color:var(--admin);">HEADTEACHER STRATEGIC COMMAND</h3>
-            
-            <div class="section-h">WEEKLY TEACHER APPRAISAL (INTL. STANDARDS)</div>
-            <div class="grid-2">
-                <div><label>Teacher</label><input type="text" value="Search Staff ID..." readonly></div>
-                <div><label>Class Observation Grade</label><select><option>Distinction</option><option>Proficient</option><option>Developing</option></select></div>
-            </div>
-            <textarea placeholder="Lesson Plan delivery, Classroom Management, and Student Engagement observations..."></textarea>
-            
-            <div class="section-h">TERM/MONTHLY SUMMARY (AUTO-LINKED)</div>
-            <p style="font-size:9px;">Summary of Staff Attendance, Appraisal Averages, and Academic ROI.</p>
-            <button class="btn-lock" style="background:var(--admin)">Generate Termly Governance Report</button>
-        </div>
-
-        <div id="role-billing" class="console-card">
-            <h3 style="margin:0; font-size:14px; color:var(--gold); background:var(--navy); padding:5px; border-radius:4px;">CLASS BILLING & TOILETRIES CONFIG</h3>
-            
-            <div class="grid-2">
-                <div><label>Apply To Class</label><select><option>Nursery 1</option><option>Primary 4</option></select></div>
-                <div><label>Term</label><select><option>Term 1, 2026</option></select></div>
+        <div id="con-head" class="console">
+            <div class="widget">
+                <div class="widget-h">WEEKLY TEACHER PERFORMANCE APPRAISAL</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                    <div>
+                        <label>Select Staff Member</label>
+                        <select><option>Ms. Janet (Class 2)</option><option>Mr. Boateng (Class 5)</option></select>
+                        <label>Lesson Delivery (1-10)</label><input type="range" min="1" max="10">
+                    </div>
+                    <div>
+                        <label>Classroom Management</label><select><option>Outstanding</option><option>Average</option></select>
+                        <label>Teacher Attendance %</label><input type="text" value="98%" readonly>
+                    </div>
+                </div>
+                <textarea style="margin-top:15px;" placeholder="Strategic comments for monthly governance report..."></textarea>
+                <button class="btn-action" style="background:var(--head); margin-top:10px;">Seal Appraisal Record</button>
             </div>
 
-            <div class="section-h">BILLS & ITEMS EDIT (SUBJECT TO FINANCE APPROVAL)</div>
-            <table>
-                <thead><tr><th>Item Description</th><th>Category</th><th>GHS Amount</th><th>Action</th></tr></thead>
-                <tbody>
-                    <tr><td><input type="text" value="Tuition Fee"></td><td>Academic</td><td><input type="number" value="450"></td><td>❌</td></tr>
-                    <tr><td><input type="text" value="Tissue (2 Packs)"></td><td>Toiletries</td><td><input type="number" value="30"></td><td>❌</td></tr>
-                </tbody>
-            </table>
-            <button onclick="alert('Sent to Finance for Final Approval')" class="btn-lock">Submit Bill for Finance Approval</button>
+            <div class="widget">
+                <div class="widget-h">SCHOOL 360° SUMMARY</div>
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px;">
+                    <div style="background:var(--navy); color:white; padding:15px; border-radius:8px;">
+                        <span style="font-size:9px;">TOTAL ENROLLMENT</span>
+                        <div style="font-size:20px; font-weight:900;">452</div>
+                    </div>
+                    <div style="background:var(--teacher); color:white; padding:15px; border-radius:8px;">
+                        <span style="font-size:9px;">DAILY AVG ATTENDANCE</span>
+                        <div style="font-size:20px; font-weight:900;">94%</div>
+                    </div>
+                    <div style="background:var(--gold); color:var(--navy); padding:15px; border-radius:8px;">
+                        <span style="font-size:9px;">REVENUE PROJECTION</span>
+                        <div style="font-size:20px; font-weight:900;">GHS 12k</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>
 
 <script>
-    const Aca = {
-        setRole: (role) => {
-            document.querySelectorAll('.console-card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('role-' + role).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+    function SwitchRole(role) {
+        document.querySelectorAll('.console').forEach(c => c.classList.remove('active'));
+        document.getElementById('con-' + role).classList.add('active');
     }
 </script>
 </body>
