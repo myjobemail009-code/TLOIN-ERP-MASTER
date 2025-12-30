@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.36 - MODULE 1 TOTAL CONSOLIDATION</title>
+    <title>TLOIN ERP v28.39 - MODULE 1 TOTAL CONSOLIDATION</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
@@ -51,10 +51,10 @@
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2>TLOIN v28.36</h2></div>
+        <div class="brand"><h2>TLOIN v28.39</h2></div>
         <div class="nav-item active">01. Registry Nexus</div>
         <div class="nav-item">02. Academic Command</div>
-        </aside>
+    </aside>
 
     <main id="main-viewport">
         <div class="module-desk">
@@ -63,14 +63,15 @@
                 <button class="tab-btn" onclick="Switch(2)">Staff & Volunteers</button>
                 <button class="tab-btn" onclick="Switch(3)">NGO Inflow</button>
                 <button class="tab-btn" onclick="Switch(4)">NGO Outflow</button>
-                <button class="tab-btn" onclick="Switch(5)">Clubs & Grants</button>
+                <button class="tab-btn" onclick="Switch(5)">Clubs & Societies</button>
+                <button class="tab-btn" onclick="Switch(6)">Grants Engine</button>
             </div>
 
             <div id="con-1" class="standalone-console active">
                 <div class="section-tag">Student Personal & Medical Profile</div>
                 <div class="grid-2">
-                    <div class="upload-box"><span id="p-lbl">STUDENT PHOTO</span><img id="p-view"><input type="file" onchange="HandleFile(this, 'p-view', 'p-lbl')"></div>
-                    <div class="upload-box"><span id="d-lbl">IDENTITY SCAN</span><div id="d-name"></div><input type="file" onchange="HandleDoc(this, 'd-name', 'd-lbl')"></div>
+                    <div class="upload-box"><span id="p-lbl">PHOTO</span><img id="p-view"><input type="file" onchange="HandleFile(this, 'p-view', 'p-lbl')"></div>
+                    <div class="upload-box"><span id="d-lbl">ID SCAN</span><div id="d-name"></div><input type="file" onchange="HandleDoc(this, 'd-name', 'd-lbl')"></div>
                 </div>
                 <div class="grid-3" style="margin-top:15px;">
                     <div><label>First Name</label><input type="text"></div>
@@ -84,7 +85,7 @@
                 </div>
                 <div class="section-tag">Medical History</div>
                 <div class="grid-3">
-                    <div><label>Blood Group</label><select><option>Select...</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>AA</option><option>AS</option><option>SS</option></select></div>
+                    <div><label>Blood Group</label><select><option>Select...</option><option>O+</option><option>A+</option><option>B+</option><option>AB+</option><option>AS</option><option>SS</option></select></div>
                     <div><label>Chronic Conditions</label><input type="text"></div>
                     <div><label>Medication</label><input type="text"></div>
                 </div>
@@ -103,7 +104,7 @@
             </div>
 
             <div id="con-3" class="standalone-console">
-                <div class="section-tag">Donation & Resource Intake</div>
+                <div class="section-tag">NGO Item Intake</div>
                 <table class="item-table" id="table-in">
                     <thead><tr><th>Item</th><th>Qty</th><th>Value</th></tr></thead>
                     <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td></tr></tbody>
@@ -113,7 +114,6 @@
 
             <div id="con-4" class="standalone-console">
                 <div class="section-tag">Community Disbursement</div>
-                <div class="grid-2"><input type="text" placeholder="Location"><input type="date"></div>
                 <table class="item-table" id="table-out" style="margin-top:10px;">
                     <thead><tr><th>Disbursed Item</th><th>Qty</th><th>Target Group</th></tr></thead>
                     <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td></tr></tbody>
@@ -122,13 +122,31 @@
             </div>
 
             <div id="con-5" class="standalone-console">
-                <div class="section-tag">Grant Engine</div>
-                <div class="grid-3">
-                    <input type="number" id="gp" placeholder="Principal" oninput="CalcGrant()">
-                    <input type="number" id="gi" placeholder="Interest %" oninput="CalcGrant()">
-                    <input type="text" id="gt" placeholder="Total Repayment" readonly>
+                <div class="section-tag">Clubs & Societies Registry</div>
+                <div class="grid-2">
+                    <div><label>Club Name</label><input type="text"></div>
+                    <div><label>Patron Name</label><input type="text"></div>
                 </div>
-                <button class="btn-execute">Issue Grant</button>
+                <div class="grid-3" style="margin-top:10px;">
+                    <div><label>Meeting Schedule</label><input type="text"></div>
+                    <div><label>Annual Fees</label><input type="number"></div>
+                    <div><label>Current Status</label><select><option>Active</option><option>Inactive</option></select></div>
+                </div>
+                <button class="btn-execute">Register Club</button>
+            </div>
+
+            <div id="con-6" class="standalone-console">
+                <div class="section-tag">Grants & Micro-Loans Engine</div>
+                <div class="grid-2">
+                    <div><label>Beneficiary Name</label><input type="text"></div>
+                    <div><label>Purpose of Grant</label><input type="text"></div>
+                </div>
+                <div class="grid-3" style="margin-top:10px;">
+                    <div><label>Principal (GHS)</label><input type="number" id="gp" oninput="CalcGrant()"></div>
+                    <div><label>Interest %</label><input type="number" id="gi" oninput="CalcGrant()"></div>
+                    <div><label>Total Repayable</label><input type="text" id="gt" readonly></div>
+                </div>
+                <button class="btn-execute" style="background:var(--success); color:white;">Authorize Disbursement</button>
             </div>
 
         </div>
