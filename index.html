@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.35 - MODULE 1 LOCKED DESIGN</title>
+    <title>TLOIN ERP v28.36 - MODULE 1 TOTAL CONSOLIDATION</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
@@ -11,13 +11,11 @@
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* SIDEBAR - STATIC */
         #sidebar { background: var(--navy); color: white; border-right: 6px solid var(--gold); overflow-y: auto; }
         .brand { padding: 35px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .nav-item { padding: 18px 25px; font-size: 10px; font-weight: 800; color: #a0aec0; text-transform: uppercase; cursor: pointer; border-left: 5px solid transparent; }
         .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
 
-        /* VIEWPORT */
         #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .module-desk { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
         
@@ -28,19 +26,22 @@
         .standalone-console { display: none; padding: 35px; animation: lockedFade 0.3s ease; }
         .standalone-console.active { display: block; }
         
-        /* THE HEAVY GRID SYSTEM */
         .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin: 25px 0 15px 0; text-transform: uppercase; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 15px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
         label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 8px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; background: white; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; }
 
         .upload-box { position: relative; border: 2px dashed #cbd5e0; border-radius: 10px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f9fafb; cursor: pointer; overflow: hidden; }
         .upload-box img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
         .upload-box span { font-size: 8px; font-weight: 900; color: #718096; text-align: center; z-index: 1; }
         .upload-box input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
 
+        .item-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .item-table th { background: #f1f5f9; padding: 12px; font-size: 8px; text-align: left; }
+        .item-table td { padding: 8px; border-bottom: 1px solid #eee; }
+        
         .btn-execute { width: 100%; padding: 20px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 30px; }
 
         @keyframes lockedFade { from { opacity: 0; } to { opacity: 1; } }
@@ -50,8 +51,9 @@
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2>TLOIN v28.35</h2></div>
+        <div class="brand"><h2>TLOIN v28.36</h2></div>
         <div class="nav-item active">01. Registry Nexus</div>
+        <div class="nav-item">02. Academic Command</div>
         </aside>
 
     <main id="main-viewport">
@@ -59,77 +61,74 @@
             <div class="console-header">
                 <button class="tab-btn active" onclick="Switch(1)">Student Desk</button>
                 <button class="tab-btn" onclick="Switch(2)">Staff & Volunteers</button>
-                <button class="tab-btn" onclick="Switch(3)">NGO Inventory In</button>
-                <button class="tab-btn" onclick="Switch(4)">NGO Outreach Out</button>
+                <button class="tab-btn" onclick="Switch(3)">NGO Inflow</button>
+                <button class="tab-btn" onclick="Switch(4)">NGO Outflow</button>
+                <button class="tab-btn" onclick="Switch(5)">Clubs & Grants</button>
             </div>
 
             <div id="con-1" class="standalone-console active">
-                <div class="section-tag">Student Identification</div>
+                <div class="section-tag">Student Personal & Medical Profile</div>
                 <div class="grid-2">
-                    <div class="upload-box">
-                        <span id="p1-lbl">STUDENT PHOTO</span>
-                        <img id="p1-view"><input type="file" accept="image/*" onchange="HandleFile(this, 'p1-view', 'p1-lbl')">
-                    </div>
-                    <div class="upload-box">
-                        <span id="d1-lbl">IDENTITY SCAN (PDF/IMG)</span>
-                        <div id="d1-name" style="font-size:9px; color:var(--success); font-weight:900;"></div>
-                        <input type="file" onchange="HandleDoc(this, 'd1-name', 'd1-lbl')">
-                    </div>
+                    <div class="upload-box"><span id="p-lbl">STUDENT PHOTO</span><img id="p-view"><input type="file" onchange="HandleFile(this, 'p-view', 'p-lbl')"></div>
+                    <div class="upload-box"><span id="d-lbl">IDENTITY SCAN</span><div id="d-name"></div><input type="file" onchange="HandleDoc(this, 'd-name', 'd-lbl')"></div>
                 </div>
-
-                <div class="grid-3">
+                <div class="grid-3" style="margin-top:15px;">
                     <div><label>First Name</label><input type="text"></div>
                     <div><label>Middle Name</label><input type="text"></div>
                     <div><label>Surname</label><input type="text"></div>
                 </div>
-
-                <div class="section-tag">Guardian & Emergency Details</div>
+                <div class="section-tag">Parent & Emergency</div>
                 <div class="grid-2">
-                    <div><label>Primary Guardian Name</label><input type="text"></div>
-                    <div><label>Relationship</label><select><option>Father</option><option>Mother</option><option>Guardian</option></select></div>
+                    <div><label>Guardian Name</label><input type="text"></div>
+                    <div><label>Contact</label><input type="tel"></div>
                 </div>
-                <div class="grid-2">
-                    <div><label>Contact Number</label><input type="tel"></div>
-                    <div><label>Emergency Contact Phone</label><input type="tel"></div>
-                </div>
-
-                <div class="section-tag">Student Medical History & Clinical Data</div>
+                <div class="section-tag">Medical History</div>
                 <div class="grid-3">
-                    <div>
-                        <label>Blood Group / Genotype</label>
-                        <select>
-                            <option>Select...</option>
-                            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                            <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                            <option>AA</option><option>AS</option><option>SS</option>
-                        </select>
-                    </div>
-                    <div><label>Chronic Conditions</label><input type="text" placeholder="e.g. Asthma"></div>
-                    <div><label>Current Medication</label><input type="text"></div>
+                    <div><label>Blood Group</label><select><option>Select...</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>AA</option><option>AS</option><option>SS</option></select></div>
+                    <div><label>Chronic Conditions</label><input type="text"></div>
+                    <div><label>Medication</label><input type="text"></div>
                 </div>
-
-                <div class="grid-2">
-                    <div><label>Known Allergies</label><textarea rows="2"></textarea></div>
-                    <div><label>Physical Special Needs</label><textarea rows="2"></textarea></div>
-                </div>
-
-                <div class="grid-3">
-                    <div><label>Immunization</label><select><option>Up to Date</option><option>Partial</option><option>None</option></select></div>
-                    <div><label>Last Medical Check-up</label><input type="date"></div>
-                    <div><label>Family Doctor Phone</label><input type="tel"></div>
-                </div>
-
-                <button class="btn-execute">Save Entire Student Record</button>
+                <button class="btn-execute">Archive Student</button>
             </div>
 
             <div id="con-2" class="standalone-console">
-                <div class="section-tag">Staff Profile & Payroll</div>
-                <div class="grid-3">
-                    <div><label>Gross Salary</label><input type="number" id="gs" oninput="CalculateGH()"></div>
+                <div class="section-tag">Personnel & Statutory Registry</div>
+                <div class="grid-2"><input type="text" placeholder="Staff Name"><input type="text" placeholder="Designation"></div>
+                <div class="grid-3" style="margin-top:20px;">
+                    <div><label>Basic Salary</label><input type="number" id="gs" oninput="CalcPay()"></div>
                     <div><label>SSNIT (5.5%)</label><input type="text" id="ss" readonly></div>
-                    <div><label>PAYE Tax</label><input type="text" id="tx" readonly></div>
+                    <div><label>Tax</label><input type="text" id="tx" readonly></div>
                 </div>
-                <button class="btn-execute">Archive Staff</button>
+                <button class="btn-execute">Seal Staff File</button>
+            </div>
+
+            <div id="con-3" class="standalone-console">
+                <div class="section-tag">Donation & Resource Intake</div>
+                <table class="item-table" id="table-in">
+                    <thead><tr><th>Item</th><th>Qty</th><th>Value</th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td></tr></tbody>
+                </table>
+                <button class="btn-execute" onclick="AddRow('table-in')">+ Add Item</button>
+            </div>
+
+            <div id="con-4" class="standalone-console">
+                <div class="section-tag">Community Disbursement</div>
+                <div class="grid-2"><input type="text" placeholder="Location"><input type="date"></div>
+                <table class="item-table" id="table-out" style="margin-top:10px;">
+                    <thead><tr><th>Disbursed Item</th><th>Qty</th><th>Target Group</th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td></tr></tbody>
+                </table>
+                <button class="btn-execute" onclick="AddRow('table-out')">+ Add Row</button>
+            </div>
+
+            <div id="con-5" class="standalone-console">
+                <div class="section-tag">Grant Engine</div>
+                <div class="grid-3">
+                    <input type="number" id="gp" placeholder="Principal" oninput="CalcGrant()">
+                    <input type="number" id="gi" placeholder="Interest %" oninput="CalcGrant()">
+                    <input type="text" id="gt" placeholder="Total Repayment" readonly>
+                </div>
+                <button class="btn-execute">Issue Grant</button>
             </div>
 
         </div>
@@ -156,16 +155,24 @@
     }
     function HandleDoc(input, divId, lblId) {
         if (input.files && input.files[0]) {
-            document.getElementById(lblId).innerHTML = "FILE READY:";
+            document.getElementById(lblId).innerHTML = "READY:";
             document.getElementById(divId).innerHTML = "📄 " + input.files[0].name;
         }
     }
-    function CalculateGH() {
+    function CalcPay() {
         let g = parseFloat(document.getElementById('gs').value) || 0;
-        let s = g * 0.055;
-        let t = ((g - s) > 402) ? ((g - s) - 402) * 0.05 : 0;
-        document.getElementById('ss').value = s.toFixed(2);
-        document.getElementById('tx').value = t.toFixed(2);
+        document.getElementById('ss').value = (g * 0.055).toFixed(2);
+        document.getElementById('tx').value = (g > 402) ? ((g - (g * 0.055) - 402) * 0.05).toFixed(2) : 0;
+    }
+    function CalcGrant() {
+        let p = parseFloat(document.getElementById('gp').value) || 0;
+        let i = parseFloat(document.getElementById('gi').value) || 0;
+        document.getElementById('gt').value = (p + (p * (i/100))).toFixed(2);
+    }
+    function AddRow(id) {
+        let t = document.getElementById(id).getElementsByTagName('tbody')[0];
+        let r = t.insertRow();
+        r.innerHTML = '<td><input type="text"></td><td><input type="number"></td><td><input type="text"></td>';
     }
 </script>
 </body>
