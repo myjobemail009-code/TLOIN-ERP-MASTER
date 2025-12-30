@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.9 - MASTER CONSOLE</title>
+    <title>TLOIN ERP v28.11 - MASTER CONSOLE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
@@ -13,70 +13,76 @@
         
         /* SIDEBAR NAVIGATION */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 12px 20px; font-size: 9px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
+        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-item { padding: 15px 20px; font-size: 9px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
 
         /* VIEWPORT */
-        #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .module-desk { display: none; background: white; padding: 35px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 10px 30px rgba(0,0,0,0.05); min-height: 85vh; }
-        .module-desk.active { display: block; animation: slideUp 0.4s ease; }
+        #main-viewport { padding: 40px; overflow-y: auto; box-sizing: border-box; }
+        .module-desk { display: none; background: white; padding: 40px; border-radius: 15px; border: 1px solid #ddd; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 85vh; }
+        .module-desk.active { display: block; animation: deskEntry 0.4s ease-out; }
         
-        /* MOD 1 INTERNAL TABS */
-        .desk-tab { display: flex; gap: 5px; margin-bottom: 25px; background: #eee; padding: 5px; border-radius: 6px; }
-        .tab-btn { flex: 1; padding: 10px; font-size: 8px; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        .tab-btn.active { background: var(--navy); color: var(--gold); }
+        /* MODULE 1 INTERNAL REGISTRIES */
+        .registry-tabs { display: flex; gap: 5px; margin-bottom: 30px; background: #f0f0f0; padding: 6px; border-radius: 8px; }
+        .reg-btn { flex: 1; padding: 12px; font-size: 9px; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; border-radius: 4px; transition: 0.2s; }
+        .reg-btn.active { background: var(--navy); color: var(--gold); }
 
-        /* UNIFIED UI COMPONENTS */
-        .form-h { font-size: 12px; font-weight: 900; color: var(--navy); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
-        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 10px; margin: 25px 0 10px 0; border-left: 4px solid var(--gold); text-transform: uppercase; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 6px; font-size: 11px; margin-bottom: 12px; box-sizing: border-box; }
-        .photo-gate { width: 110px; height: 110px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: #888; background: #fafafa; border-radius: 8px; }
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        .sub-form { display: none; }
+        .sub-form.active { display: block; }
+
+        /* COMPONENTS */
+        .section-h { font-size: 11px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 25px 0 15px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 8px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 6px; font-size: 12px; margin-bottom: 15px; box-sizing: border-box; }
         
-        /* TABLE STYLES */
-        .item-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .item-head { font-size: 8px; font-weight: 900; color: var(--locked); display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 5px; }
+        .photo-gate { width: 120px; height: 120px; border: 2px dashed #ccc; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 9px; text-align: center; color: #888; background: #fafafa; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 20px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 20px; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* ITEMIZATION TABLE */
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .item-table th { font-size: 9px; text-align: left; padding: 10px; color: var(--locked); text-transform: uppercase; border-bottom: 2px solid #eee; }
+        .item-table td { padding: 5px; }
+
+        @keyframes deskEntry { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:12px; color:var(--gold); margin:0;">TLOIN MASTER ERP</h2></div>
-        <div class="nav-item active" onclick="Launch(1)">01. Registry Nexus</div>
-        <div class="nav-item" onclick="Launch(2)">02. Academic Command</div>
-        <div class="nav-item" onclick="Launch(3)">03. Impact & Field Ops</div>
-        <div class="nav-item" onclick="Launch(4)">04. Attendance Gateway</div>
-        <div class="nav-item" onclick="Launch(5)">05. Unified Finance</div>
-        <div class="nav-item" onclick="Launch(6)">06. Health & Wellness</div>
-        <div class="nav-item" onclick="Launch(7)">07. Supply & Logistics</div>
-        <div class="nav-item" onclick="Launch(8)">08. Parent/Donor Portal</div>
-        <div class="nav-item" onclick="Launch(9)">09. HR & Payroll</div>
-        <div class="nav-item" onclick="Launch(10)">10. CEO Master Command</div>
+        <div class="brand">
+            <h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.11</h2>
+            <p style="font-size:8px; opacity:0.5; margin-top:5px;">ENTERPRISE COMMAND</p>
+        </div>
+        <div class="nav-item active" onclick="LaunchMod(1)">01. Registry Nexus</div>
+        <div class="nav-item" onclick="LaunchMod(2)">02. Academic Command</div>
+        <div class="nav-item" onclick="LaunchMod(3)">03. Impact & Field Ops</div>
+        <div class="nav-item" onclick="LaunchMod(4)">04. Attendance Gateway</div>
+        <div class="nav-item" onclick="LaunchMod(5)">05. Unified Finance</div>
+        <div class="nav-item" onclick="LaunchMod(6)">06. Health & Wellness</div>
+        <div class="nav-item" onclick="LaunchMod(7)">07. Supply & Logistics</div>
+        <div class="nav-item" onclick="LaunchMod(8)">08. Parent/Donor Portal</div>
+        <div class="nav-item" onclick="LaunchMod(9)">09. HR & Payroll</div>
+        <div class="nav-item" onclick="LaunchMod(10)">10. CEO Master Command</div>
     </aside>
 
     <main id="main-viewport">
-        
         <div id="desk-1" class="module-desk active">
-            <div class="desk-tab">
-                <button class="tab-btn active" onclick="SwitchReg('st')">Student</button>
-                <button class="tab-btn" onclick="SwitchReg('staff')">Staff/Vol</button>
-                <button class="tab-btn" onclick="SwitchReg('din')">Donation In</button>
-                <button class="tab-btn" onclick="SwitchReg('dout')">Donation Out</button>
-                <button class="tab-btn" onclick="SwitchReg('club')">NGO Club</button>
-                <button class="tab-btn" onclick="SwitchReg('grant')">Grant Registry</button>
+            <div class="registry-tabs">
+                <button class="reg-btn active" onclick="ShowReg('student')">Student Registry</button>
+                <button class="reg-btn" onclick="ShowReg('staff')">Staff & Volunteers</button>
+                <button class="reg-btn" onclick="ShowReg('donin')">Donations (In)</button>
+                <button class="reg-btn" onclick="ShowReg('donout')">Donations (Out)</button>
+                <button class="reg-btn" onclick="ShowReg('club')">NGO Club</button>
+                <button class="reg-btn" onclick="ShowReg('grant')">Business Grants</button>
             </div>
 
-            <div id="reg-st" class="subform">
-                <div class="form-h">Student Biodata & International Medicals</div>
-                <div style="display:flex; gap:25px;">
-                    <div class="photo-gate">PASSPORT<br>REQUIRED</div>
+            <div id="reg-student" class="sub-form active">
+                <div class="section-h">Student Master Biodata & Medical Intelligence</div>
+                <div style="display:flex; gap:30px;">
+                    <div class="photo-gate">MANDATORY<br>PASSPORT UPLOAD</div>
                     <div style="flex:1;">
                         <div class="grid-3">
                             <div><label>First Name</label><input type="text"></div>
@@ -84,106 +90,83 @@
                             <div><label>Surname</label><input type="text"></div>
                         </div>
                         <div class="grid-3">
-                            <div><label>Class</label><select><option>Creche</option><option>Nursery 1&2</option><option>K.G. 1&2</option><option>Primary 1-6</option></select></div>
-                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+                            <div><label>Class Selector</label>
+                                <select>
+                                    <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
+                                    <option>K.G. 1</option><option>K.G. 2</option><option>Primary 1</option>
+                                    <option>Primary 2</option><option>Primary 3</option><option>Primary 4</option>
+                                    <option>Primary 5</option><option>Primary 6</option>
+                                </select>
+                            </div>
                             <div><label>D.O.B</label><input type="date"></div>
+                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
                         </div>
                     </div>
                 </div>
-                <div class="section-h">Medical History (International Compliance)</div>
+                <div class="section-h">International Medical Practice History</div>
                 <div class="grid-3">
-                    <input type="text" placeholder="Blood Group">
-                    <input type="text" placeholder="Allergies (Food/Med)">
-                    <input type="text" placeholder="Chronic Conditions">
+                    <div><label>Blood Group</label><input type="text" placeholder="e.g. O+"></div>
+                    <div><label>Known Allergies</label><input type="text" placeholder="Peanuts, Drugs, etc."></div>
+                    <div><label>Chronic History</label><input type="text" placeholder="Asthma, Heart, etc."></div>
                 </div>
-                <div class="section-h">Guardians & Emergency</div>
+                <div class="section-h">Guardians & Emergency Contacts</div>
                 <div class="grid-2">
-                    <fieldset><legend style="font-size:9px;">Guardian</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Address"></fieldset>
-                    <fieldset><legend style="font-size:9px;">Emergency Person</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone"></fieldset>
+                    <fieldset><legend style="font-size:9px;">Primary Guardian</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Address"></fieldset>
+                    <fieldset><legend style="font-size:9px;">Emergency Person</legend><input type="text" placeholder="Full Name"><input type="text" placeholder="Phone Number"></fieldset>
                 </div>
-                <label>Optional Document Upload</label><input type="file">
+                <label style="margin-top:15px;">Optional Document (Birth Cert/ID)</label><input type="file">
                 <button class="btn-seal">Seal Permanent Student Record</button>
             </div>
 
-            <div id="reg-din" class="subform" style="display:none;">
-                <div class="form-h">NGO Incoming Resource Registry</div>
+            <div id="reg-donin" class="sub-form">
+                <div class="section-h">NGO Incoming Donation Registry</div>
                 <div class="grid-3">
                     <div><label>Donor Source</label><input type="text"></div>
-                    <div><label>Type</label><select id="din-type" onchange="ToggleDon('in')"><option value="item">Items</option><option value="cash">Cash</option></select></div>
-                    <div><label>Program</label><select><option>General</option><option>Special Project</option></select></div>
+                    <div><label>Donation Type</label><select id="din-type" onchange="ToggleDon()"><option value="item">Items/Supplies</option><option value="cash">Cash</option></select></div>
+                    <div><label>Program Allocation</label><select><option>General Fund</option><option>Special Program</option></select></div>
                 </div>
-                <div id="din-item-box">
-                    <div class="item-head"><span>ITEM</span><span>QTY</span><span>UNIT</span><span>VALUE(GHS)</span><span>PKG</span></div>
-                    <div class="item-row"><input type="text" value="Rice"><input type="number" value="4"><input type="text" value="Bags"><input type="number" value="2400"><input type="text" value="50kg Sacks"></div>
-                    <div class="item-row"><input type="text" value="Milk"><input type="number" value="3"><input type="text" value="Cartons"><input type="number" value="900"><input type="text" value="24 Tins/Ctn"></div>
+                <div id="din-items">
+                    <table class="item-table">
+                        <thead><tr><th>Item Name</th><th>Qty</th><th>Unit</th><th>Market Value</th><th>Package Type</th></tr></thead>
+                        <tbody>
+                            <tr><td><input type="text" value="Rice"></td><td><input type="number" value="4"></td><td><input type="text" value="Bags"></td><td><input type="number" value="2400"></td><td><input type="text" value="50kg Sacks"></td></tr>
+                            <tr><td><input type="text" value="Milk"></td><td><input type="number" value="3"></td><td><input type="text" value="Cartons"></td><td><input type="number" value="900"></td><td><input type="text" value="24 Tins/Ctn"></td></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div id="din-cash-box" style="display:none;" class="grid-3">
+                <div id="din-cash" style="display:none;" class="grid-3">
                     <div><label>Currency</label><select><option>GHS</option><option>USD</option></select></div>
                     <div><label>Amount</label><input type="number"></div>
-                    <div><label>GHS Equiv.</label><input type="number"></div>
+                    <div><label>GHS Equivalent</label><input type="number"></div>
                 </div>
                 <button class="btn-seal">Seal Incoming Record</button>
             </div>
-
-            </div>
+        </div>
 
         <div id="desk-2" class="module-desk">
-            <div class="form-h">SBA Academic Performance & 5-Basis Appraisal</div>
-            <div class="grid-3">
-                <select><option>Select Class...</option></select>
-                <select><option>Select Subject...</option></select>
-                <input type="date">
+            <div class="section-h">SBA Assessment & 5-Basis Appraisal</div>
             </div>
-            <table style="width:100%; font-size:11px; margin-top:20px; border-collapse:collapse;">
-                <tr style="background:var(--navy); color:white;">
-                    <th style="padding:10px;">Student Name</th><th>Attendance</th><th>SBA Score</th><th>Exams</th><th>5-Basis Appraisal</th>
-                </tr>
-                <tr>
-                    <td style="padding:10px; border-bottom:1px solid #eee;">Sample Student</td>
-                    <td><input type="checkbox" checked></td>
-                    <td><input type="number" style="width:60px; margin:0;"></td>
-                    <td><input type="number" style="width:60px; margin:0;"></td>
-                    <td><select><option>5 - Exceptional</option><option>4 - Good</option><option>3 - Average</option><option>2 - Poor</option><option>1 - Fail</option></select></td>
-                </tr>
-            </table>
-            <button class="btn-seal" style="margin-top:30px;">Lock Termly Records</button>
-        </div>
-
-        <div id="desk-10" class="module-desk">
-            <div class="form-h">CEO Master Command Override</div>
-            <div class="grid-3">
-                <div style="background:var(--navy); color:var(--gold); padding:20px; border-radius:10px; text-align:center;">
-                    <span style="font-size:9px;">GLOBAL RESERVE</span><h3>GHS 142,000</h3>
-                </div>
-                <div style="background:var(--gold); color:var(--navy); padding:20px; border-radius:10px; text-align:center;">
-                    <span style="font-size:9px;">STAFF PUNCTUALITY</span><h3>98%</h3>
-                </div>
-                <div style="background:var(--admin); color:white; padding:20px; border-radius:10px; text-align:center;">
-                    <span style="font-size:9px;">PENDING PVs</span><h3>03</h3>
-                </div>
-            </div>
-        </div>
 
     </main>
 </div>
 
 <script>
-    function Launch(n) {
+    function LaunchMod(n) {
         document.querySelectorAll('.module-desk').forEach(d => d.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById('desk-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
     }
-    function SwitchReg(id) {
-        document.querySelectorAll('.subform').forEach(s => s.style.display = 'none');
-        document.getElementById('reg-' + id).style.display = 'block';
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    function ShowReg(id) {
+        document.querySelectorAll('.sub-form').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.reg-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('reg-' + id).classList.add('active');
         event.currentTarget.classList.add('active');
     }
-    function ToggleDon(type) {
-        const val = document.getElementById('d'+type+'-type').value;
-        document.getElementById('d'+type+'-item-box').style.display = (val === 'item' ? 'block' : 'none');
-        document.getElementById('d'+type+'-cash-box').style.display = (val === 'cash' ? 'block' : 'none');
+    function ToggleDon() {
+        const val = document.getElementById('din-type').value;
+        document.getElementById('din-items').style.display = (val === 'item') ? 'block' : 'none';
+        document.getElementById('din-cash').style.display = (val === 'cash') ? 'block' : 'none';
     }
 </script>
 </body>
