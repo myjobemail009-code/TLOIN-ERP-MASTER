@@ -2,59 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - ERP v20.2</title>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    
+    <title>TLOIN & CLEVER MINDS - ERP v21.4 (UNLOCKED PREVIEW)</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --supply: #e67e22; --finance: #27ae60; --task: #8e44ad; --ict: #3498db; --gov: #2c3e50;
+            --border: #ced4da; --accent: #16a085; --danger: #e74c3c;
         }
-        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
+        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 300px 1fr; height: 100vh; }
         
+        /* SIDEBAR */
         #sidebar { background: var(--navy); color: white; display: flex; flex-direction: column; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: var(--navy); z-index: 100; }
-        .brand h2 { margin: 0; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
-        
+        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top:0; background: var(--navy); z-index: 10; }
+        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+        .backup-status { font-size: 8px; color: #2ecc71; margin-top: 5px; text-transform: uppercase; }
+
         .nav-header { padding: 15px 25px 5px; font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 800; }
         .desk-link { padding: 10px 25px; cursor: pointer; color: #aab0b6; font-size: 11px; transition: 0.2s; border-left: 4px solid transparent; }
         .desk-link:hover { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--gold); }
 
-        #main-dashboard { padding: 35px; overflow-y: auto; height: 100vh; box-sizing: border-box; }
-        .form-card { background: var(--white); padding: 30px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 25px; }
+        /* MAIN DASHBOARD */
+        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--navy); padding-bottom: 15px; margin-bottom: 25px; }
+        .desk-header h2 { margin: 0; font-size: 18px; color: var(--navy); text-transform: uppercase; }
+        
+        .form-card { background: var(--white); padding: 25px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         
-        label { display: block; font-size: 10px; font-weight: 700; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
-        .btn-erp { background: var(--navy); color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; margin-top: 15px; }
-
-        .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
-        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid var(--navy); color: var(--navy); text-transform: uppercase; }
+        label { display: block; font-size: 9px; font-weight: 800; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
+        .data-table { width: 100%; border-collapse: collapse; background: white; font-size: 11px; }
+        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid var(--navy); text-transform: uppercase; font-size: 9px; }
         .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
         
-        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: bold; }
-        .under { background: #d4edda; color: #155724; }
-        .over { background: #f8d7da; color: #721c24; }
-        .preview-tag { float: right; color: var(--gold); font-size: 9px; border: 1px solid var(--gold); padding: 2px 5px; border-radius: 3px; }
+        .pill { padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
+        .bg-gold { background: var(--gold); color: var(--navy); }
+        .bg-navy { background: var(--navy); color: white; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v20.2</h2></div>
+            <div class="brand">
+                <h2>TLOIN ERP v21.4</h2>
+                <div class="backup-status">● PRE-LOAD BACKUP SUCCESSFUL</div>
+            </div>
             
-            <div class="nav-header">Active Previews</div>
-            <div class="desk-link" onclick="Nexus.load('Finance')">Budget & Finance</div>
+            <div class="nav-header">Finance & Governance</div>
+            <div class="desk-link" onclick="Nexus.load('Finance')">Financial Ledger</div>
+            <div class="desk-link" onclick="Nexus.load('Board')">Board Resolutions</div>
+            <div class="desk-link" onclick="Nexus.load('Policy')">Policy Vault</div>
+
+            <div class="nav-header">Impact Operations</div>
+            <div class="desk-link" onclick="Nexus.load('Projects')">Project Lifecycle</div>
+            <div class="desk-link" onclick="Nexus.load('ME')">M&E Impact Tracking</div>
+            <div class="desk-link" onclick="Nexus.load('Stakeholders')">Stakeholder Engagement</div>
+
+            <div class="nav-header">Technical & Assets</div>
             <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hub Performance</div>
-            <div class="desk-link" onclick="Nexus.load('Tasks')">Internal Task Manager</div>
-            <div class="desk-link" onclick="Nexus.load('Board')">Board Governance</div>
-            <div class="desk-link" onclick="Nexus.load('Supply')">Vendor Registry</div>
-            
-            <div class="nav-header">System Operations</div>
-            <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry</div>
-            <div class="desk-link" onclick="Nexus.load('Volunteer')">Volunteers & Interns</div>
-            <div class="desk-link" onclick="Nexus.load('Policy')">Legal Vault</div>
+            <div class="desk-link" onclick="Nexus.load('Assets')">Asset Registry</div>
+            <div class="desk-link" onclick="Nexus.load('Vendors')">Supply Chain</div>
         </aside>
 
         <main id="main-dashboard">
@@ -63,51 +69,108 @@
     </div>
 
     <script>
-        const VAULT = {
-            get: (key) => JSON.parse(localStorage.getItem(key)) || [],
-            save: (key, data) => localStorage.setItem(key, JSON.stringify(data))
-        };
-
-        // GLOBAL MOCK DATA FOR THE PREVIEW FEEL
-        const seed = () => {
-            if(!localStorage.getItem('cm_finance_erp')) VAULT.save('cm_finance_erp', [{dept:'ICT Training', budget:20000, actual:18500, status:'under'}, {dept:'Mobile Outreach', budget:5000, actual:6200, status:'over'}]);
-            if(!localStorage.getItem('cm_ict_erp')) VAULT.save('cm_ict_erp', [{date:'2025-12-30', hub:'Tamale Hub', students:42, data:'15GB'}, {date:'2025-12-30', hub:'Accra Hub', students:38, data:'80GB'}]);
-            if(!localStorage.getItem('cm_task_erp')) VAULT.save('cm_task_erp', [{deadline:'2026-01-10', title:'Q1 Strategic Review', assignee:'Director', status:'Pending'}, {deadline:'2025-12-31', title:'Submit Tax Returns', assignee:'Accountant', status:'Ongoing'}]);
-            if(!localStorage.getItem('cm_board_erp')) VAULT.save('cm_board_erp', [{date:'2025-11-20', ref:'BR-09', subject:'New Hub Acquisition', outcome:'Passed'}, {date:'2025-12-15', ref:'BR-10', subject:'Volunteer Stipend Review', outcome:'Deferred'}]);
-            if(!localStorage.getItem('cm_vendor_erp')) VAULT.save('cm_vendor_erp', [{name:'Starlink Ghana', service:'High-Speed Data', contact:'Support', rating:'★★★★★'}, {name:'OfficeTop', service:'Stationery', contact:'0244...', rating:'★★★☆☆'}]);
-        };
-        seed();
-
-        const Desks = {
-            Finance: () => {
-                const rows = VAULT.get('cm_finance_erp').map(l => `<tr><td><b>${l.dept}</b></td><td>GHS ${l.budget}</td><td>GHS ${l.actual}</td><td><span class="status-pill ${l.status}">${l.status.toUpperCase()}</span></td></tr>`).join('');
-                return `<h3><span class="preview-tag">LIVE DATA</span>Budgetary Control</h3><table class="data-table"><thead><tr><th>Dept</th><th>Budget</th><th>Actual</th><th>Variance</th></tr></thead><tbody>${rows}</tbody></table>`;
-            },
-            ICT: () => {
-                const rows = VAULT.get('cm_ict_erp').map(l => `<tr><td>${l.date}</td><td><b>${l.hub}</b></td><td>${l.students} Students</td><td>${l.data} Left</td></tr>`).join('');
-                return `<h3><span class="preview-tag">LIVE DATA</span>ICT Hub Performance</h3><table class="data-table"><thead><tr><th>Date</th><th>Hub</th><th>Attendance</th><th>Internet</th></tr></thead><tbody>${rows}</tbody></table>`;
-            },
-            Tasks: () => {
-                const rows = VAULT.get('cm_task_erp').map(l => `<tr><td>${l.deadline}</td><td><b>${l.title}</b></td><td>${l.assignee}</td><td>${l.status}</td></tr>`).join('');
-                return `<h3><span class="preview-tag">LIVE DATA</span>Task Tracking</h3><table class="data-table"><thead><tr><th>Deadline</th><th>Task</th><th>Assignee</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
-            },
-            Board: () => {
-                const rows = VAULT.get('cm_board_erp').map(l => `<tr><td>${l.date}</td><td>${l.ref}</td><td><b>${l.subject}</b></td><td>${l.outcome}</td></tr>`).join('');
-                return `<h3><span class="preview-tag">LIVE DATA</span>Board Resolutions</h3><table class="data-table"><thead><tr><th>Date</th><th>Ref</th><th>Subject</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table>`;
-            },
-            Supply: () => {
-                const rows = VAULT.get('cm_vendor_erp').map(l => `<tr><td><b>${l.name}</b></td><td>${l.service}</td><td>${l.contact}</td><td>${l.rating}</td></tr>`).join('');
-                return `<h3><span class="preview-tag">LIVE DATA</span>Vendor Registry</h3><table class="data-table"><thead><tr><th>Vendor</th><th>Service</th><th>Contact</th><th>Rating</th></tr></thead><tbody>${rows}</tbody></table>`;
-            },
-            Asset: () => `<h3>Asset Registry</h3><p>Locked & Static.</p>`,
-            Volunteer: () => `<h3>Volunteers & Interns</h3><p>Locked & Static.</p>`,
-            Policy: () => `<h3>Legal Vault</h3><p>Locked & Static.</p>`
-        };
-
         const Nexus = {
-            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Loading...</h2>`; }
+            load: (d) => {
+                document.getElementById('mount-point').innerHTML = DeskContent[d]();
+            }
         };
 
+        const DeskContent = {
+            Finance: () => `
+                <div class="desk-header"><h2>Financial Ledger</h2><span class="pill bg-gold">Budget GHS 250k</span></div>
+                <div class="form-card"><div class="grid-3">
+                    <div><label>Total Revenue</label>GHS 180,000</div>
+                    <div><label>Operating Expense</label>GHS 142,000</div>
+                    <div><label>Reserve Fund</label>GHS 38,000</div>
+                </div></div>
+                <table class="data-table">
+                    <thead><tr><th>Source/Dept</th><th>Allocation</th><th>Spent</th><th>Variance</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hub Operations</td><td>70,000</td><td>68,500</td><td>+1,500</td></tr>
+                        <tr><td>Staffing</td><td>90,000</td><td>90,000</td><td>0</td></tr>
+                    </tbody>
+                </table>`,
+
+            Board: () => `
+                <div class="desk-header"><h2>Board Resolutions</h2><span class="pill bg-navy">12 Logged</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Ref No.</th><th>Subject</th><th>Date</th><th>Outcome</th></tr></thead>
+                    <tbody>
+                        <tr><td>BR-2025-09</td><td>Tamale Hub Expansion</td><td>10 Dec 2025</td><td>Approved</td></tr>
+                        <tr><td>BR-2025-10</td><td>New Vehicle Acquisition</td><td>28 Dec 2025</td><td>Passed</td></tr>
+                    </tbody>
+                </table>`,
+
+            Projects: () => `
+                <div class="desk-header"><h2>Project Lifecycle</h2><span class="pill bg-gold">4 Active</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Project ID</th><th>Title</th><th>Lead</th><th>Stage</th></tr></thead>
+                    <tbody>
+                        <tr><td>TLOIN-01</td><td>Rural Tech Camp</td><td>A. Mensah</td><td>Implementation</td></tr>
+                        <tr><td>TLOIN-02</td><td>Solar Hub Install</td><td>K. Boateng</td><td>Planning</td></tr>
+                    </tbody>
+                </table>`,
+
+            ME: () => `
+                <div class="desk-header"><h2>M&E Impact Tracking</h2><span class="pill bg-navy">KPI Sync Active</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Indicator</th><th>Baseline</th><th>Target</th><th>Actual</th></tr></thead>
+                    <tbody>
+                        <tr><td>Student Literacy</td><td>15%</td><td>85%</td><td>68%</td></tr>
+                        <tr><td>Hub Connectivity</td><td>60%</td><td>100%</td><td>98%</td></tr>
+                    </tbody>
+                </table>`,
+
+            ICT: () => `
+                <div class="desk-header"><h2>ICT Hub Performance</h2><span class="pill bg-gold">All Hubs Online</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Hub Name</th><th>Students</th><th>Data Used</th><th>Uptime</th></tr></thead>
+                    <tbody>
+                        <tr><td>Accra Main</td><td>145</td><td>220 GB</td><td>99.9%</td></tr>
+                        <tr><td>Tamale North</td><td>88</td><td>115 GB</td><td>94.2%</td></tr>
+                    </tbody>
+                </table>`,
+
+            Assets: () => `
+                <div class="desk-header"><h2>Asset Registry</h2><span class="pill bg-navy">Serialized Records</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Asset ID</th><th>Item Description</th><th>Location</th><th>Condition</th></tr></thead>
+                    <tbody>
+                        <tr><td>T-LP-001</td><td>HP ProBook G8</td><td>Accra</td><td>Excellent</td></tr>
+                        <tr><td>T-SV-002</td><td>Starlink Dish A1</td><td>Tamale</td><td>Good</td></tr>
+                    </tbody>
+                </table>`,
+
+            Stakeholders: () => `
+                <div class="desk-header"><h2>Stakeholder Engagement</h2><span class="pill bg-gold">Social License</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Stakeholder</th><th>Role</th><th>Hub</th><th>Sentiment</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nana Osei II</td><td>Paramount Chief</td><td>Kumasi</td><td>Very Supportive</td></tr>
+                    </tbody>
+                </table>`,
+
+            Vendors: () => `
+                <div class="desk-header"><h2>Supply Chain</h2><span class="pill bg-navy">Retainer Managed</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Company</th><th>Service</th><th>Rating</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Telecel Business</td><td>Fiber Optic</td><td>★★★★★</td><td>Active</td></tr>
+                    </tbody>
+                </table>`,
+
+            Policy: () => `
+                <div class="desk-header"><h2>Policy Vault</h2><span class="pill bg-gold">Legal Ready</span></div>
+                <table class="data-table">
+                    <thead><tr><th>Document</th><th>Last Review</th><th>Owner</th></tr></thead>
+                    <tbody>
+                        <tr><td>Child Protection Policy</td><td>Nov 2025</td><td>Board</td></tr>
+                        <tr><td>Data Privacy Policy</td><td>Dec 2025</td><td>IT Dept</td></tr>
+                    </tbody>
+                </table>`
+        };
+
+        // Initialize first view
         Nexus.load('Finance');
     </script>
 </body>
