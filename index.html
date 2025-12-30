@@ -1,76 +1,35 @@
 <div id="desk-1" class="desk active">
+    <div class="section-tag">Class Setup & Enrollment</div>
+    <div class="rigid-grid-3">
+        <div class="field-box">
+            <label>Select Class</label>
+            <select>
+                <option>Nursery 1</option>
+                <option>Primary 1</option>
+                <option>JHS 1</option>
+            </select>
+        </div>
+        <div class="field-box"><label>Academic Year</label><input type="text" value="2025/2026"></div>
+        <div class="field-box"><label>Class Teacher</label><input type="text" placeholder="Assign Teacher"></div>
+    </div>
     
-    <div class="section-tag">Key Performance Indicators</div>
-    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 25px;">
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Total Active Classes</label><div style="font-size:18px; font-weight:900;">24</div>
-        </div>
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Total Enrolled</label><div style="font-size:18px; font-weight:900;">1,102</div>
-        </div>
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Avg Attendance</label><div style="font-size:18px; font-weight:900; color:var(--success);">94.2%</div>
-        </div>
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Completed (Mo)</label><div style="font-size:18px; font-weight:900;">185</div>
-        </div>
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Scheduled Today</label><div style="font-size:18px; font-weight:900;">42</div>
-        </div>
-        <div style="background:#f1f5f9; padding:15px; border-radius:8px; border-bottom:3px solid var(--navy);">
-            <label>Teacher Attendance</label><div style="font-size:18px; font-weight:900;">98%</div>
-        </div>
-    </div>
-
-    <div class="section-tag" style="color:#e74c3c; border-bottom-color:#e74c3c;">Urgent Alerts</div>
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;">
-        <div style="background:#fff5f5; border:1px solid #feb2b2; padding:10px; border-radius:6px; font-size:10px; font-weight:700;">⚠️ 3 Classes below 60% Attendance</div>
-        <div style="background:#fff5f5; border:1px solid #feb2b2; padding:10px; border-radius:6px; font-size:10px; font-weight:700;">⚠️ 2 Teachers Absent Today</div>
-        <div style="background:#fffaf0; border:1px solid #fbd38d; padding:10px; border-radius:6px; font-size:10px; font-weight:700;">🔔 Supplies Running Low (Stationery)</div>
-        <div style="background:#ebf8ff; border:1px solid #90cdf4; padding:10px; border-radius:6px; font-size:10px; font-weight:700;">ℹ️ 5 Assessments Due This Week</div>
-    </div>
-
-    <div class="section-tag">Class Monitoring Panel</div>
-    <table class="grade-table" style="font-size:11px; margin-bottom:25px;">
+    <table class="grade-table">
         <thead>
             <tr>
-                <th>Class ID & Name</th>
-                <th>Assigned Teacher</th>
-                <th>Subject/Skill</th>
-                <th>Slot & Duration</th>
+                <th>Student Name</th>
+                <th>Student ID</th>
                 <th>Status</th>
-                <th>Virtual Link</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><b>P1-M-2025</b> - Primary 1A</td>
-                <td>Kofi Mensah</td>
-                <td>Mathematics</td>
-                <td>08:00 - 09:30 (90m)</td>
-                <td><span style="background:#c6f6d5; padding:3px 8px; border-radius:10px;">Ongoing</span></td>
-                <td><a href="#" style="color:var(--navy);">Join Room</a></td>
+                <td>Sample Student</td>
+                <td>TLOIN-ST-001</td>
+                <td><span style="color:green; font-weight:bold;">Active</span></td>
+                <td><button style="font-size:9px;">View Profile</button></td>
             </tr>
         </tbody>
     </table>
-
-    <div class="rigid-grid-3">
-        <div class="field-box" style="background:#f8fafc; padding:15px; border-radius:8px;">
-            <label>Attendance Module</label>
-            <div style="font-size:11px; margin-top:5px;">Real-time Class %: <b>88%</b></div>
-            <div style="font-size:11px; margin-top:5px;">Absentee List: <span style="color:red;">Generated</span></div>
-        </div>
-        <div class="field-box" style="background:#f8fafc; padding:15px; border-radius:8px; grid-column: span 2;">
-            <label>Curriculum Tracker</label>
-            <div style="margin-top:5px;">
-                <div style="font-size:10px; margin-bottom:3px;">Syllabus Completion: 65%</div>
-                <div style="width:100%; background:#e2e8f0; height:8px; border-radius:4px;">
-                    <div style="width:65%; background:var(--navy); height:100%; border-radius:4px;"></div>
-                </div>
-                <div style="font-size:10px; margin-top:5px;">Teaching Pace: <span style="color:var(--success);">On Track</span></div>
-            </div>
-        </div>
-    </div>
-
-    <button class="btn-execute">Update Academic Monitoring Logs</button>
+    <button class="btn-execute">Save Class Configuration</button>
 </div>
