@@ -1,44 +1,50 @@
-<div id="con-1" class="standalone-console active">
-    <div class="section-tag">Student Personal Profile</div>
-    <div class="grid-2">
-        <div class="upload-box">
-            <span id="p1-lbl">STUDENT PHOTO</span>
-            <img id="p1-view"><input type="file" accept="image/*" onchange="HandleFile(this, 'p1-view', 'p1-lbl')">
-        </div>
-        <div class="upload-box">
-            <span id="d1-lbl">IDENTITY SCAN</span>
-            <div id="d1-name" style="font-size:9px; color:var(--success); font-weight:900;"></div>
-            <input type="file" onchange="HandleDoc(this, 'd1-name', 'd1-lbl')">
-        </div>
+<div class="section-tag">Student Medical History & Clinical Data</div>
+<div class="grid-3">
+    <div>
+        <label>Blood Group / Genotype</label>
+        <select>
+            <option>Select...</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>AA</option><option>AS</option><option>SS</option>
+        </select>
     </div>
-    <div class="grid-3" style="margin-top:20px;">
-        <div><label>First Name</label><input type="text" placeholder="Required"></div>
-        <div><label>Middle Name</label><input type="text"></div>
-        <div><label>Surname</label><input type="text" placeholder="Required"></div>
+    <div>
+        <label>Chronic Conditions</label>
+        <input type="text" placeholder="e.g. Asthma, Epilepsy, Diabetes">
     </div>
-
-    <div class="section-tag">Parent / Guardian Information</div>
-    <div class="grid-2">
-        <div><label>Primary Guardian Full Name</label><input type="text"></div>
-        <div><label>Relationship to Student</label>
-            <select>
-                <option>Father</option>
-                <option>Mother</option>
-                <option>Uncle/Aunt</option>
-                <option>Legal Guardian</option>
-            </select>
-        </div>
+    <div>
+        <label>Current Medication</label>
+        <input type="text" placeholder="List ongoing meds">
     </div>
-    <div class="grid-3" style="margin-top:10px;">
-        <div><label>Occupation</label><input type="text"></div>
-        <div><label>Contact Number 1</label><input type="tel"></div>
-        <div><label>Contact Number 2</label><input type="tel"></div>
-    </div>
-
-    <div class="section-tag">Emergency Person (Alternative)</div>
-    <div class="grid-2">
-        <div><label>Emergency Contact Name</label><input type="text"></div>
-        <div><label>Emergency Phone</label><input type="tel"></div>
-    </div>
-    <button class="btn-execute">Save Student Profile</button>
 </div>
+
+<div class="grid-2" style="margin-top:15px;">
+    <div>
+        <label>Known Allergies (Food/Drug)</label>
+        <textarea rows="2" placeholder="Detail all allergic triggers..."></textarea>
+    </div>
+    <div>
+        <label>Physical Disability / Special Needs</label>
+        <textarea rows="2" placeholder="Specify if any support is required..."></textarea>
+    </div>
+</div>
+
+<div class="grid-3" style="margin-top:15px;">
+    <div>
+        <label>Immunization Status</label>
+        <select><option>Up to Date</option><option>Partial</option><option>None</option></select>
+    </div>
+    <div>
+        <label>Last Medical Check-up</label>
+        <input type="date">
+    </div>
+    <div>
+        <label>Family Doctor / Clinic Phone</label>
+        <input type="tel">
+    </div>
+</div>
+
+<button class="btn-execute">Save Student Profile</button>
