@@ -2,117 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.2 - MISSION INTELLIGENCE</title>
+    <title>TLOIN ERP v26.2 - 360 AUDIT COMMAND</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
-            --impact: #8e44ad; --fuel: #27ae60; --energy: #e67e22; --eco: #2980b9;
+            --school: #2980b9; --ngo: #16a085; --audit: #d35400; --alert: #e74c3c;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        #nexus-core { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
-        
-        #main-stage { padding: 30px; overflow-y: auto; }
-        .grid-strategic { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
-        
-        /* STRATEGIC PILLAR CARDS */
-        .pillar-card { background: var(--white); padding: 20px; border-radius: 8px; border-bottom: 4px solid #ddd; transition: 0.3s; }
-        .pillar-card:hover { transform: translateY(-5px); border-bottom-color: var(--gold); }
-        .pillar-title { font-size: 9px; font-weight: 900; text-transform: uppercase; color: #777; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        .pillar-val { font-size: 18px; font-weight: 800; color: var(--navy); }
-        .pillar-sub { font-size: 10px; color: #555; margin-top: 5px; }
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
+        .nav-item { padding: 15px 25px; font-size: 11px; cursor: pointer; color: #cbd5e0; border-left: 4px solid transparent; }
+        .active-nav { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: white; }
 
-        /* THE STORY IN THE DATA */
-        .story-section { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
-        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; }
-        
-        .metric-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin: 10px 0; }
-        .metric-fill { height: 100%; transition: 0.5s; }
+        #main-stage { padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--audit); padding-bottom: 15px; margin-bottom: 25px; }
 
-        .btn-dual { background: var(--navy); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        /* 360 DYNAMIC CARDS */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; border-bottom: 4px solid var(--navy); }
+        .stat-val { font-size: 18px; font-weight: 800; color: var(--navy); margin: 5px 0; }
+        .stat-label { font-size: 9px; font-weight: 800; color: #777; text-transform: uppercase; }
+
+        /* 360 REVENUE SPLIT */
+        .grid-split { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
+        .card { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 25px; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th { text-align: left; padding: 10px; background: #f8f9fa; color: var(--navy); text-transform: uppercase; font-size: 8px; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+
+        .tag { padding: 3px 6px; border-radius: 3px; font-size: 8px; font-weight: bold; color: white; }
+        .tag-school { background: var(--school); }
+        .tag-ngo { background: var(--ngo); }
     </style>
 </head>
 <body>
-
-    <div id="nexus-core">
+    <div id="tloin-nexus">
         <aside id="sidebar">
-            <div style="padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <div style="font-size: 13px; font-weight: 800; color: var(--gold);">EXECUTIVE COMMAND</div>
-                <div style="font-size: 9px; opacity: 0.7;">MISSION INTELLIGENCE UNIT</div>
-            </div>
-            <div style="padding: 20px;">
-                <div style="font-size: 10px; color: var(--gold); margin-bottom: 15px;">STRATEGIC LENS</div>
-                <button class="btn-dual" style="width:100%; margin-bottom:10px;">Internal: Delivery</button>
-                <button class="btn-dual" style="width:100%; background:var(--impact);">External: Sentiment</button>
-            </div>
+            <div style="padding:25px; text-align:center;"><h2 style="font-size:12px; color:var(--gold);">MASTER AUDIT COMMAND</h2></div>
+            <div class="nav-item active-nav">360° Org Overview</div>
+            <div class="nav-item">Financial Traceability</div>
+            <div class="nav-item">Staff/Volunteer Audit</div>
+            <div class="nav-item">Impact & Academic ROI</div>
         </aside>
 
         <main id="main-stage">
-            <header style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--navy); padding-bottom: 15px; margin-bottom: 25px;">
-                <h2>Audit Master Console: True North</h2>
-                <div style="text-align: right;">
-                    <div style="font-size: 10px; font-weight: 900; color: var(--impact);">MISSION RUNWAY: 18 MONTHS</div>
-                </div>
-            </header>
-
-            <div class="grid-strategic">
-                <div class="pillar-card" style="border-bottom-color: var(--impact);">
-                    <div class="pillar-title">1. Impact (True North) <span>Live</span></div>
-                    <div class="pillar-val">88%</div>
-                    <div class="pillar-sub">Academic Growth & System Influence</div>
-                </div>
-                <div class="pillar-card" style="border-bottom-color: var(--fuel);">
-                    <div class="pillar-title">2. Financial Fuel <span>Audit</span></div>
-                    <div class="pillar-val">GHS 1.2M</div>
-                    <div class="pillar-sub">Unit Cost: GHS 450 / Student</div>
-                </div>
-                <div class="pillar-card" style="border-bottom-color: var(--energy);">
-                    <div class="pillar-title">3. Human Energy <span>HR</span></div>
-                    <div class="pillar-val">94%</div>
-                    <div class="pillar-sub">Staff Retention & Well-being</div>
-                </div>
-                <div class="pillar-card" style="border-bottom-color: var(--eco);">
-                    <div class="pillar-title">8. Partnership Health <span>New</span></div>
-                    <div class="pillar-val">7 Active</div>
-                    <div class="pillar-sub">Cross-Sector Amplification</div>
+            <div class="desk-header">
+                <h2>360° Organizational Intelligence Console</h2>
+                <div style="text-align:right">
+                    <div style="font-size: 10px; font-weight: 900; color:var(--audit)">GENERAL MANAGER ACCESS: CM-EXE-001</div>
                 </div>
             </div>
 
-            <div class="story-section">
-                <div class="card">
-                    <h4 style="margin-top:0; font-size:12px;">5. The Story in the Data (KPI vs Narrative)</h4>
-                    <div class="grid-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <div>
-                            <label>Quantitative (SBA Avg)</label>
-                            <div class="metric-bar"><div class="metric-fill" style="width:78%; background:var(--school);"></div></div>
-                            <label>Qualitative (Parent NPS)</label>
-                            <div class="metric-bar"><div class="metric-fill" style="width:92%; background:var(--ngo);"></div></div>
-                        </div>
-                        <div style="font-style: italic; font-size: 11px; color: #555; border-left: 2px solid var(--gold); padding-left: 10px;">
-                            "The scholarship didn't just pay fees; it restored my daughter's confidence. She now leads the STEM club." <br>
-                            <strong>- Parent Testimonial (Verified)</strong>
-                        </div>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Cash Position</div>
+                    <div class="stat-val">GHS 142,500.22</div>
+                    <div style="font-size:8px; color:green;">↑ 12% vs Last Month</div>
                 </div>
-
-                <div class="card">
-                    <h4 style="margin-top:0; font-size:12px;">4. Operational Foundation</h4>
-                    <div style="font-size: 10px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span>Grant Compliance</span> <span style="color:green; font-weight:bold;">RELIABLE</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span>School Safety Audit</span> <span style="color:green; font-weight:bold;">SECURE</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between;">
-                            <span>Infrastructure Utility</span> <span style="color:orange; font-weight:bold;">MONITOR</span>
-                        </div>
-                    </div>
+                <div class="stat-card" style="border-bottom-color: var(--school);">
+                    <div class="stat-label">Student Enrollment</div>
+                    <div class="stat-val">482 Students</div>
+                    <div style="font-size:8px; color:var(--school);">98.2% Active Attendance</div>
+                </div>
+                <div class="stat-card" style="border-bottom-color: var(--ngo);">
+                    <div class="stat-label">NGO Beneficiaries</div>
+                    <div class="stat-val">1,240 Reached</div>
+                    <div style="font-size:8px; color:var(--ngo);">Active Projects: 4</div>
+                </div>
+                <div class="stat-card" style="border-bottom-color: var(--alert);">
+                    <div class="stat-label">Staff Count</div>
+                    <div class="stat-val">58 Personnel</div>
+                    <div style="font-size:8px; color:var(--alert);">Payroll Status: Pending Dec</div>
                 </div>
             </div>
-        </main>
-    </div>
 
-</body>
-</html>
+            <div class="grid-split">
+                <div class="card">
+                    <h3 style="font-size:11px; text-transform:uppercase; margin-top:0;">Unified Operations Log (School & NGO)</h3>
+                    <table>
+                        <thead>
+                            <tr><th>Timestamp</th><th>Operator ID</th><th>Wing</th><th>Activity Description</th><th>Audit Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>30-12-2025 07:10</td>
+                                <td>CM-SCH-202</td>
+                                <td><span class="tag tag-school">SCHOOL</span></td>
+                                <td>Class P4 - Attendance Sealed (10 AM Lock)</td>
+                                <td style="color:green;">COMPLIANT</td>
+                            </tr>
+                            <tr>
+                                <td>30-12-2025 07:45</td>
+                                <td>CM-NGO-101</td>
+                                <td><span class="tag tag-ngo">NGO</span></td>
+                                <td>Field Disbursement: Fuel for Project A</td>
+                                <td style="color:orange;">PENDING APPROVAL</td>
+                            </tr>
+                            <tr>
+                                <td>30-12-2025 08:20</td>
+                                <td>CM-EXE-001</td>
+                                <td><span class="tag" style="background:var(--navy)">CORE</span></td>
