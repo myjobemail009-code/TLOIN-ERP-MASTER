@@ -82,3 +82,62 @@
                         <div class="tax-row"><span>SSNIT (5.5% Employee):</span> <span class="val deduct" id="disp_ssnit">GHS 0.00</span></div>
                         <div class="tax-row"><span>PAYE (Income Tax):</span> <span class="val deduct" id="disp_paye">GHS 0.00</span></div>
                         <div class="tax-row"><span>Other Deductions:</span> <span class="val deduct" id="disp_other">GHS 0.00</span></div>
+                        
+                        <div class="tax-row" style="border-top: 2px solid var(--payroll); margin-top:15px; padding-top:10px;">
+                            <span style="font-size:14px; font-weight:800;">NET SALARY:</span>
+                            <span style="font-size:18px; font-weight:800; color:var(--payroll);" id="disp_net">GHS 0.00</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:20px; font-size:9px; color:#777; border:1px dashed #ccc; padding:10px;">
+                        <strong>Employer Liability (Hidden from Payslip):</strong><br>
+                        SSNIT Tier 1 (13% Employer Contribution): <span id="disp_employer_ssnit">GHS 0.00</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const Payroll = {
+            calculate: () => {
+                const basic = parseFloat(document.getElementById('s_list').value) || 0;
+                const allow = parseFloat(document.getElementById('allowance').value) || 0;
+                const others = parseFloat(document.getElementById('other_deduct').value) || 0;
+
+                const gross = basic + allow;
+                
+                // 1. SSNIT Employee Contribution (5.5% of Basic)
+                const ssnit = basic * 0.055;
+                
+                // 2. Taxable Income (Gross - SSNIT)
+                const taxableIncome = gross - ssnit;
+
+                // 3. Simplified Ghana PAYE logic (Approximation of tiers)
+                let paye = 0;
+                if(taxableIncome > 402) {
+                    const over = taxableIncome - 402;
+                    if(over <= 110) paye = over * 0.05;
+                    else paye = (110 * 0.05) + ((over-110) * 0.10); // Simplified for UI demonstration
+                }
+
+                const employerSSNIT = basic * 0.13;
+                const net = gross - (ssnit + paye + others);
+
+                // UI Update
+                document.getElementById('disp_basic').innerText = `GHS ${basic.toFixed(2)}`;
+                document.getElementById('disp_allow').innerText = `GHS ${allow.toFixed(2)}`;
+                document.getElementById('disp_gross').innerText = `GHS ${gross.toFixed(2)}`;
+                document.getElementById('disp_ssnit').innerText = `- GHS ${ssnit.toFixed(2)}`;
+                document.getElementById('disp_paye').innerText = `- GHS ${paye.toFixed(2)}`;
+                document.getElementById('disp_other').innerText = `- GHS ${others.toFixed(2)}`;
+                document.getElementById('disp_net').innerText = `GHS ${net.toFixed(2)}`;
+                document.getElementById('disp_employer_ssnit').innerText = `GHS ${employerSSNIT.toFixed(2)}`;
+            }
+        };
+
+        // Initialize first calculation
+        Payroll.calculate();
+    </script>
+</body>
+</html>
