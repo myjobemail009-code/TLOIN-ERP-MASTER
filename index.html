@@ -2,148 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.5 - COMPLETE UNIFIED SYSTEM</title>
+    <title>TLOIN ERP v26.6 - INTELLIGENT REGISTRY</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
+            --school: #2980b9; --ngo: #16a085; --admin: #c0392b; --text: #333;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* SIDEBAR ARCHITECTURE */
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .nav-item { padding: 12px 20px; font-size: 10px; text-transform: uppercase; font-weight: 800; color: #aab; border-left: 4px solid transparent; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
+        /* SIDEBAR STATIC */
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
+        .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; cursor: pointer; text-transform: uppercase; }
+        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
 
-        /* VIEWPORT */
-        #viewport { padding: 25px; overflow-y: auto; box-sizing: border-box; }
-        .module-view { display: none; }
-        .module-view.active { display: block; }
-        
-        /* STATIC COMPONENTS */
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        h3 { font-size: 12px; margin-top: 0; color: var(--navy); border-bottom: 1px solid #eee; padding-bottom: 10px; text-transform: uppercase; }
-        label { display: block; font-size: 9px; font-weight: 800; margin-bottom: 5px; color: #555; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 11px; margin-bottom: 15px; background: #fff; }
-        .btn-lock { background: var(--navy); color: var(--gold); border: none; padding: 12px; border-radius: 4px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 10px; width: 100%; }
-        
+        /* REGISTRY TABS */
+        #main-stage { padding: 30px; overflow-y: auto; }
+        .registry-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .tab-btn { padding: 10px 15px; font-size: 9px; font-weight: 800; border: 1px solid #ddd; background: white; cursor: pointer; text-transform: uppercase; border-radius: 4px; transition: 0.3s; }
+        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+
+        /* FORM ARCHITECTURE */
+        .registry-card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; display: none; }
+        .registry-card.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        label { display: block; font-size: 9px; font-weight: 800; color: #555; text-transform: uppercase; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; margin-bottom: 15px; box-sizing: border-box; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        table { width: 100%; border-collapse: collapse; font-size: 10px; }
-        th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
+        
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        .status-msg { font-size: 9px; color: var(--admin); margin-top: 10px; font-style: italic; text-align: center; }
     </style>
 </head>
 <body>
 
 <div id="tloin-nexus">
     <aside id="sidebar">
-        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <h1 style="font-size:12px; color:var(--gold); margin:0;">TLOIN STAFF CENTRE</h1>
-            <p style="font-size:8px; margin:5px 0 0 0;">ID: CM-EXE-001 | SYSTEM v26.5</p>
+        <div style="padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h2 style="font-size:12px; color:var(--gold);">CLEVER MINDS CORE</h2>
         </div>
-        <div class="nav-item active" onclick="Core.switch(1)">1. Registry Nexus</div>
-        <div class="nav-item" onclick="Core.switch(2)">2. Academic Command</div>
-        <div class="nav-item" onclick="Core.switch(3)">3. Impact & Field Ops</div>
-        <div class="nav-item" onclick="Core.switch(4)">4. Attendance & Health</div>
-        <div class="nav-item" onclick="Core.switch(5)">5. Unified Finance & Audit</div>
-        <div class="nav-item" onclick="Core.switch(6)">6. Human Capital</div>
-        <div class="nav-item" onclick="Core.switch(7)">7. Supply & Assets</div>
-        <div class="nav-item" onclick="Core.switch(8)">8. Fleet & Logistics</div>
-        <div class="nav-item" onclick="Core.switch(9)">9. Compliance & Legal</div>
-        <div class="nav-item" onclick="Core.switch(10)">10. CEO Master Command</div>
-    </aside>
+        <div class="nav-item active-mod">1. Registry Nexus</div>
+        <div class="nav-item">2. Academic Command</div>
+        <div class="nav-item">3. Impact & Field Ops</div>
+        </aside>
 
-    <main id="viewport">
-        <div id="mod-1" class="module-view active">
-            <div class="card">
-                <h3>1. Registry Nexus (Student & Beneficiary)</h3>
-                <div class="grid-2">
-                    <div><label>Full Name</label><input type="text"></div>
-                    <div><label>Category</label><select><option>School Student</option><option>NGO Beneficiary</option></select></div>
-                </div>
-                <button class="btn-lock">Seal Entry to Database</button>
+    <main id="main-stage">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="font-size: 16px; color: var(--navy);">Module 1: Unified Registry Nexus</h2>
+            <div style="font-size: 9px; font-weight: 800; background: #eee; padding: 5px 10px; border-radius: 4px;">OPERATOR: CM-EXE-001</div>
+        </div>
+
+        <div class="registry-tabs">
+            <button class="tab-btn active" onclick="Reg.show('student')">Students</button>
+            <button class="tab-btn" onclick="Reg.show('staff')">Staff/Volunteers</button>
+            <button class="tab-btn" onclick="Reg.show('donation_in')">Donations (In)</button>
+            <button class="tab-btn" onclick="Reg.show('donation_out')">Donations (Out)</button>
+            <button class="tab-btn" onclick="Reg.show('clubs')">NGO Membership Clubs</button>
+            <button class="tab-btn" onclick="Reg.show('grants')">Business Grants</button>
+        </div>
+
+        <div id="reg-student" class="registry-card active">
+            <h3 style="font-size:11px; margin-top:0; color:var(--school);">Student Enrollment Form</h3>
+            <div class="grid-2">
+                <div><label>Student Full Name</label><input type="text" placeholder="Full Name"></div>
+                <div><label>Admission Class</label><select><option>Primary 1</option><option>JHS 3</option></select></div>
             </div>
+            <button class="btn-seal">Seal Student Record</button>
         </div>
 
-        <div id="mod-2" class="module-view">
-            <div class="card">
-                <h3>2. Academic Command (GES Standards)</h3>
-                <label>Select Class</label>
-                <select><option>Basic 1</option><option>JHS 1</option></select>
-                <table>
-                    <thead><tr><th>Student</th><th>SBA (40)</th><th>Exam (60)</th><th>Grade</th></tr></thead>
-                    <tbody><tr><td>Kofi Mensah</td><td><input type="number"></td><td><input type="number"></td><td>--</td></tr></tbody>
-                </table>
-                <button class="btn-lock" style="background:var(--school)">Lock Terminal Marks</button>
+        <div id="reg-staff" class="registry-card">
+            <h3 style="font-size:11px; margin-top:0; color:var(--navy);">Staff & Volunteer Onboarding</h3>
+            <div class="grid-2">
+                <div><label>Personnel Name</label><input type="text"></div>
+                <div><label>Classification</label><select><option>Permanent Staff</option><option>NGO Volunteer</option></select></div>
             </div>
+            <label>Ghana Card Number (Mandatory)</label>
+            <input type="text" placeholder="GHA-000000000-0">
+            <button class="btn-seal">Register Personnel</button>
         </div>
 
-        <div id="mod-3" class="module-view">
-            <div class="card">
-                <h3>3. Impact & Field Ops (NGO Monitoring)</h3>
-                <label>Project Name</label>
-                <input type="text" value="Safe Water Phase 1" readonly>
-                <label>Beneficiary Reach Count</label>
-                <input type="number" placeholder="Enter headcount">
-                <button class="btn-lock" style="background:var(--ngo)">Sync Field Data</button>
+        <div id="reg-donation_in" class="registry-card">
+            <h3 style="font-size:11px; margin-top:0; color:var(--ngo);">NGO Incoming Resource Log</h3>
+            <div class="grid-2">
+                <div><label>Donor Source</label><input type="text" placeholder="Individual / Corporate"></div>
+                <div><label>Donation Type</label><select><option>Cash</option><option>Items/Supplies</option></select></div>
             </div>
+            <label>Description of Items (if any)</label>
+            <textarea rows="2"></textarea>
+            <button class="btn-seal" style="background:var(--ngo)">Log Incoming Donation</button>
         </div>
 
-        <div id="mod-4" class="module-view">
-            <div class="card">
-                <h3>4. Attendance (10:00 AM Lockdown Active)</h3>
-                <div style="background:#fff5f5; color:red; padding:10px; font-size:9px; font-weight:800; margin-bottom:15px;">
-                    STATUS: SYSTEM TIME 09:36 AM - TERMINAL UNLOCKED
-                </div>
-                <table>
-                    <thead><tr><th>Subject/Staff</th><th>Status</th><th>Time-In</th></tr></thead>
-                    <tbody><tr><td>Senior Staff</td><td><select><option>Present</option><option>Absent</option></select></td><td>08:15 AM</td></tr></tbody>
-                </table>
+        <div id="reg-donation_out" class="registry-card">
+            <h3 style="font-size:11px; margin-top:0; color:var(--admin);">Social Impact / Charity Distribution</h3>
+            <label>Recipient Community/Group</label>
+            <input type="text">
+            <label>Items Distributed</label>
+            <textarea rows="2"></textarea>
+            <button class="btn-seal" style="background:var(--admin)">Lock Distribution Record</button>
+        </div>
+
+        <div id="reg-clubs" class="registry-card">
+            <h3 style="font-size:11px; margin-top:0; color:var(--ngo);">NGO Club & Cooperative Registry</h3>
+            <div class="grid-2">
+                <div><label>Club Name</label><input type="text"></div>
+                <div><label>Sector</label><select><option>Agriculture</option><option>Women in Tech</option><option>Youth Dev</option></select></div>
             </div>
+            <button class="btn-seal" style="background:var(--ngo)">Register Club</button>
         </div>
 
-        <div id="mod-5" class="module-view">
-            <div class="card">
-                <h3>5. Unified Finance & Audit</h3>
-                <label>Billing/Income Source</label>
-                <select><option>School Fees</option><option>NGO Grant</option><option>Donation</option></select>
-                <input type="number" placeholder="GHS 0.00">
-                <button class="btn-lock" style="background:var(--admin)">Generate Traceable Receipt</button>
+        <div id="reg-grants" class="registry-card">
+            <h3 style="font-size:11px; margin-top:0; color:var(--gold); background:var(--navy); padding:10px; border-radius:4px;">Business Grant Registry (Expansion Funds)</h3>
+            <div class="grid-2">
+                <div><label>Member ID (Club Ref)</label><input type="text" placeholder="CM-CLUB-XXXX"></div>
+                <div><label>Business Type</label><input type="text" placeholder="e.g. Poultry, Tailoring"></div>
             </div>
-        </div>
-
-        <div id="mod-10" class="module-view">
-            <div class="card">
-                <h3>10. CEO Master Command (360 Oversight)</h3>
-                <div class="grid-2">
-                    <div style="background:var(--navy); color:white; padding:15px; border-radius:4px;">
-                        <label style="color:var(--gold)">School Liquidity</label>
-                        <div style="font-size:20px; font-weight:800;">GHS 85,200</div>
-                    </div>
-                    <div style="background:var(--ngo); color:white; padding:15px; border-radius:4px;">
-                        <label style="color:white">NGO Grant Balance</label>
-                        <div style="font-size:20px; font-weight:800;">USD 15,000</div>
-                    </div>
-                </div>
+            <div class="grid-2">
+                <div><label>Grant Amount Approved (GHS)</label><input type="number" placeholder="0.00"></div>
+                <div><label>Repayment Terms (if any)</label><select><option>Non-Refundable Grant</option><option>Soft Loan (Interest Free)</option></select></div>
             </div>
+            <button class="btn-seal">Finalize Grant Registration</button>
+            <div class="status-msg">* Registration creates a Trace ID. Payment must be executed via Module 5 (Finance).</div>
         </div>
-
     </main>
 </div>
 
 <script>
-    const Core = {
-        switch: (modId) => {
-            document.querySelectorAll('.module-view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    const Reg = {
+        show: (tabId) => {
+            // Static Switch Logic
+            document.querySelectorAll('.registry-card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
-            const target = document.getElementById('mod-' + modId);
-            if(target) {
-                target.classList.add('active');
-            } else {
-                document.getElementById('viewport').innerHTML += `<div id="mod-${modId}" class="module-view active"><div class="card"><h3>Module ${modId}</h3><p>Static initialization complete for this autonomous desk.</p></div></div>`;
-            }
+            document.getElementById('reg-' + tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
     }
