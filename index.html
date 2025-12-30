@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.28 - MODULE 2: ACADEMIC COMMAND</title>
+    <title>TLOIN ERP v28.29 - MODULE 3: IMPACT & FIELD OPS</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
-            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0;
+            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0; --impact: #8e44ad;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -19,45 +19,42 @@
 
         /* VIEWPORT */
         #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .academic-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+        .ops-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
         
-        /* MODULE NAVIGATION */
-        .academic-tabs { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; }
+        /* NAVIGATION */
+        .ops-tabs { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; }
         .tab-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
         .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
 
         /* STANDALONE DESKS */
-        .desk-pane { display: none; padding: 30px; animation: fadeIn 0.3s ease; }
+        .desk-pane { display: none; padding: 30px; animation: slideUp 0.3s ease; }
         .desk-pane.active { display: block; }
         
-        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
+        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--impact); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        /* ACADEMIC TABLE */
-        .grading-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
-        .grading-table th { background: #f1f5f9; padding: 12px; text-align: left; border: 1px solid var(--border); text-transform: uppercase; font-size: 9px; }
-        .grading-table td { padding: 10px; border: 1px solid #eee; }
-        
-        .score-input { width: 60px; padding: 8px; border: 1px solid var(--border); border-radius: 4px; text-align: center; font-weight: bold; }
-        .grade-pill { padding: 4px 8px; border-radius: 4px; font-weight: 900; font-size: 10px; color: white; text-align: center; display: inline-block; min-width: 30px; }
-        
-        .grade-a { background: var(--success); } /* Excellent */
-        .grade-b { background: #3498db; } /* Very Good */
-        .grade-c { background: #f39c12; } /* Credit */
-        .grade-f { background: var(--danger); }  /* Fail */
+        label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 8px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; }
+
+        /* FIELD METRICS CARD */
+        .metric-card { background: #fdfdfd; border: 1px solid #edf2f7; border-left: 5px solid var(--impact); padding: 20px; border-radius: 8px; }
+        .metric-val { font-size: 22px; font-weight: 900; color: var(--navy); }
+        .metric-label { font-size: 9px; font-weight: 700; color: #718096; text-transform: uppercase; }
 
         .btn-execute { width: 100%; padding: 20px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 30px; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.28</h2></div>
+        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.29</h2></div>
         <div class="nav-item">01. Registry Nexus</div>
-        <div class="nav-item active">02. Academic Command</div>
-        <div class="nav-item">03. Impact & Field Ops</div>
+        <div class="nav-item">02. Academic Command</div>
+        <div class="nav-item active">03. Impact & Field Ops</div>
         <div class="nav-item">04. Attendance Gateway</div>
         <div class="nav-item">05. Unified Finance</div>
         <div class="nav-item">06. Health & Wellness</div>
@@ -68,87 +65,75 @@
     </aside>
 
     <main id="main-viewport">
-        <div class="academic-console">
-            <div class="academic-tabs">
-                <button class="tab-btn active" onclick="SetDesk(1)">SBA Grade Book</button>
-                <button class="tab-btn" onclick="SetDesk(2)">Terminal Reports</button>
-                <button class="tab-btn" onclick="SetDesk(3)">Broadsheet</button>
-                <button class="tab-btn" onclick="SetDesk(4)">Subject Management</button>
+        <div class="ops-console">
+            <div class="ops-tabs">
+                <button class="tab-btn active" onclick="SetDesk(1)">Outreach Logger</button>
+                <button class="tab-btn" onclick="SetDesk(2)">Beneficiary Tracker</button>
+                <button class="tab-btn" onclick="SetDesk(3)">Volunteer Field Logs</button>
+                <button class="tab-btn" onclick="SetDesk(4)">Impact Analytics</button>
             </div>
 
             <div id="desk-1" class="desk-pane active">
-                <div class="section-tag">School Based Assessment (SBA) - 50/50 Weighting</div>
-                <div style="margin-bottom: 20px; display: flex; gap: 15px;">
-                    <select style="padding:10px; border-radius:6px; border:1px solid var(--border);"><option>Class: Primary 4</option></select>
-                    <select style="padding:10px; border-radius:6px; border:1px solid var(--border);"><option>Subject: Mathematics</option></select>
+                <div class="section-tag">Project & Outreach Initialization</div>
+                <div class="grid-3">
+                    <div><label>Project Name</label><input type="text" placeholder="e.g. Rural Literacy Drive"></div>
+                    <div><label>Target Community</label><input type="text" placeholder="e.g. Asutware"></div>
+                    <div><label>Project Phase</label><select><option>Planning</option><option>Active Execution</option><option>Impact Assessment</option></select></div>
                 </div>
-                
-                <table class="grading-table">
-                    <thead>
-                        <tr>
-                            <th>Student Name</th>
-                            <th>Class Score (50)</th>
-                            <th>Exam Score (50)</th>
-                            <th>Total (100)</th>
-                            <th>Grade</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Kofi Mensah</td>
-                            <td><input type="number" class="score-input" value="45" id="c1" oninput="CalcGrade(1)"></td>
-                            <td><input type="number" class="score-input" value="40" id="e1" oninput="CalcGrade(1)"></td>
-                            <td><strong id="t1">85</strong></td>
-                            <td><span class="grade-pill grade-a" id="g1">1</span></td>
-                            <td id="r1">Excellent</td>
-                        </tr>
-                        <tr>
-                            <td>Ama Serwaa</td>
-                            <td><input type="number" class="score-input" value="30" id="c2" oninput="CalcGrade(2)"></td>
-                            <td><input type="number" class="score-input" value="25" id="e2" oninput="CalcGrade(2)"></td>
-                            <td><strong id="t2">55</strong></td>
-                            <td><span class="grade-pill grade-c" id="g2">4</span></td>
-                            <td id="r2">Credit</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class="btn-execute">Synchronize Grades</button>
+                <div class="grid-2" style="margin-top:20px;">
+                    <div><label>Start Date</label><input type="date"></div>
+                    <div><label>Budget Allocated (GHS)</label><input type="number" placeholder="0.00"></div>
+                </div>
+                <label style="margin-top:20px;">Executive Summary of Field Objectives</label>
+                <textarea rows="4" placeholder="Describe the intended social change and intervention strategies..."></textarea>
+                <button class="btn-execute">Lock Field Project</button>
             </div>
 
             <div id="desk-2" class="desk-pane">
-                <div class="section-tag">Terminal Report Generation</div>
-                <div class="grid-2">
-                    <div style="border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: 12px; background: #f9f9f9;">
-                        <span style="font-size: 10px; font-weight: 900;">SELECT STUDENT TO GENERATE PDF REPORT</span>
-                    </div>
-                    <div style="padding: 20px; border: 1px solid var(--border); border-radius: 12px;">
-                        <label>Attendance Records</label><input type="text" placeholder="e.g. 65 of 70 days">
-                        <label style="margin-top:10px;">Teacher's Comment</label><textarea rows="3"></textarea>
+                <div class="section-tag">Direct Beneficiary Documentation</div>
+                <div class="grid-3">
+                    <div class="metric-card"><div class="metric-val" id="b-count">1,240</div><div class="metric-label">Total Beneficiaries</div></div>
+                    <div class="metric-card"><div class="metric-val">45%</div><div class="metric-label">Female Participation</div></div>
+                    <div class="metric-card"><div class="metric-val">55%</div><div class="metric-label">Youth Engagement</div></div>
+                </div>
+                <div style="margin-top:30px;">
+                    <label>Add New Beneficiary Entry</label>
+                    <div class="grid-3">
+                        <input type="text" placeholder="Full Name">
+                        <input type="text" placeholder="Location/House Number">
+                        <select><option>Student</option><option>Farmer</option><option>Artisan</option></select>
                     </div>
                 </div>
-                <button class="btn-execute" style="background:var(--success); color:white;">Print Report Cards</button>
+                <button class="btn-execute" style="background:var(--success); color:white;">Archive Beneficiary Data</button>
             </div>
 
             <div id="desk-3" class="desk-pane">
-                <div class="section-tag">Academic Broadsheet (Master View)</div>
-                <table class="grading-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Student</th>
-                            <th>Math</th>
-                            <th>English</th>
-                            <th>Science</th>
-                            <th>Total</th>
-                            <th>Average</th>
-                            <th>Pos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td>Kofi Mensah</td><td>85</td><td>90</td><td>88</td><td>263</td><td>87.6</td><td>1st</td></tr>
-                    </tbody>
-                </table>
+                <div class="section-tag">Volunteer Man-Hour Deployment</div>
+                <div class="grid-2">
+                    <select><option>Select Volunteer</option></select>
+                    <input type="text" placeholder="Assigned Task">
+                </div>
+                <div class="grid-3" style="margin-top:20px;">
+                    <div><label>Time In</label><input type="time"></div>
+                    <div><label>Time Out</label><input type="time"></div>
+                    <div><label>Travel Allowance (GHS)</label><input type="number"></div>
+                </div>
+                <button class="btn-execute">Seal Field Log</button>
+            </div>
+
+            <div id="desk-4" class="desk-pane">
+                <div class="section-tag">Impact Scoring & Sustainable Development Goals (SDG)</div>
+                <div class="grid-2">
+                    <div class="metric-card" style="border-left-color: var(--navy);">
+                        <div class="metric-label">Primary SDG Target</div>
+                        <select style="margin-top:10px;"><option>SDG 4: Quality Education</option><option>SDG 2: Zero Hunger</option><option>SDG 1: No Poverty</option></select>
+                    </div>
+                    <div class="metric-card" style="border-left-color: var(--success);">
+                        <div class="metric-label">Social Return on Investment (SROI)</div>
+                        <div class="metric-val" style="font-size:18px;">3.4x Impact Multiplier</div>
+                    </div>
+                </div>
+                <button class="btn-execute">Generate CEO Impact Report</button>
             </div>
         </div>
     </main>
@@ -160,22 +145,6 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('desk-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
-    }
-
-    function CalcGrade(id) {
-        let cs = parseFloat(document.getElementById('c' + id).value) || 0;
-        let es = parseFloat(document.getElementById('e' + id).value) || 0;
-        let total = cs + es;
-        document.getElementById('t' + id).innerText = total;
-
-        let g = document.getElementById('g' + id);
-        let r = document.getElementById('r' + id);
-
-        if (total >= 80) { g.innerText = "1"; g.className = "grade-pill grade-a"; r.innerText = "Excellent"; }
-        else if (total >= 70) { g.innerText = "2"; g.className = "grade-pill grade-b"; r.innerText = "Very Good"; }
-        else if (total >= 60) { g.innerText = "3"; g.className = "grade-pill grade-b"; r.innerText = "Good"; }
-        else if (total >= 50) { g.innerText = "4"; g.className = "grade-pill grade-c"; r.innerText = "Credit"; }
-        else { g.innerText = "9"; g.className = "grade-pill grade-f"; r.innerText = "Fail"; }
     }
 </script>
 
