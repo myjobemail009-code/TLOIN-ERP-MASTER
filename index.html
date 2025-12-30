@@ -2,136 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - STAFF CENTRE</title>
+    <title>TLOIN ERP v26.1 - EXECUTIVE COMMAND</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
-            --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
+            --school: #2980b9; --ngo: #16a085; --audit: #d35400;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         
-        /* LOGIN CONSOLE STYLING */
+        /* LOGIN CONSOLE */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--navy); z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: var(--white); padding: 40px; border-radius: 12px; width: 350px; text-align: center; border-bottom: 8px solid var(--gold); }
-        .login-box h1 { font-size: 14px; color: var(--navy); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* SYSTEM INTERFACE */
+        /* NEXUS INTERFACE */
         #nexus-core { display: none; grid-template-columns: 280px 1fr; height: 100vh; }
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; }
         .nav-header { padding: 15px 25px; font-size: 10px; color: var(--gold); background: rgba(0,0,0,0.2); text-transform: uppercase; font-weight: 800; }
-        .nav-item { padding: 15px 25px; font-size: 11px; cursor: pointer; border-left: 4px solid transparent; transition: 0.2s; color: #cbd5e0; }
+        .nav-item { padding: 12px 25px; font-size: 11px; cursor: pointer; color: #cbd5e0; transition: 0.2s; border-left: 4px solid transparent; }
         .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
         .active-nav { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: white; }
 
-        #main-stage { padding: 30px; overflow-y: auto; }
+        #main-stage { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
         
-        /* FINANCE DESK UNIQUE STYLING */
-        .fin-badge { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: 900; color: white; margin-bottom: 10px; display: inline-block; }
-        .badge-school { background: var(--school); }
-        .badge-ngo { background: var(--ngo); }
+        /* AUDIT TABLE */
+        .audit-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .audit-table th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
+        .audit-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .trace-tag { font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
 
         input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-prime { background: var(--navy); color: white; padding: 15px; border: none; border-radius: 4px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 11px; }
+        .btn-prime { background: var(--navy); color: white; padding: 15px; border: none; border-radius: 4px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div id="login-overlay">
         <div class="login-box">
-            <h1>Staff Centre Portal</h1>
-            <p style="font-size: 10px; color: #666; margin-bottom: 20px;">TLOIN & CLEVER MINDS EDUCATIONAL COMPLEX</p>
-            <input type="text" id="staff_id" placeholder="Enter Unique Staff ID (e.g. CM-NGO-101)">
-            <input type="password" placeholder="Access PIN">
-            <button class="btn-prime" onclick="System.login()">Authorize Access</button>
-            <div id="login-error" style="color:red; font-size:10px; margin-top:10px; display:none;">Invalid ID or Access Level.</div>
+            <h1 style="font-size:14px; color:var(--navy);">SYSTEM ACCESS REQUIRED</h1>
+            <p style="font-size: 10px; color: #666; margin-bottom: 20px;">Use ID: <b>CM-EXE-001</b> to Log In</p>
+            <input type="text" id="staff_id" placeholder="Enter Unique ID">
+            <input type="password" id="staff_pin" placeholder="Access PIN (1234)">
+            <button class="btn-prime" onclick="System.login()">Enter Nexus</button>
+            <div id="login-error" style="color:red; font-size:10px; margin-top:10px; display:none;">Unauthorized ID. Access Denied.</div>
         </div>
     </div>
 
     <div id="nexus-core">
         <aside id="sidebar">
             <div style="padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <div id="user_display" style="font-size: 12px; font-weight: 800; color: var(--gold);"></div>
-                <div id="role_display" style="font-size: 9px; text-transform: uppercase; margin-top: 5px;"></div>
+                <div id="user_display" style="font-size: 13px; font-weight: 800; color: var(--gold);"></div>
+                <div id="role_display" style="font-size: 9px; opacity: 0.7;"></div>
             </div>
-            
-            <nav id="nav-container">
-                </nav>
+            <nav id="nav-container"></nav>
         </aside>
 
         <main id="main-stage">
             <header style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--navy); padding-bottom: 15px; margin-bottom: 25px;">
-                <h2 id="view_title">Command Centre</h2>
+                <h2 id="view_title">Executive Command</h2>
                 <div style="text-align: right;">
-                    <div style="font-size: 10px; font-weight: 900;">SYSTEM ID: <span id="trace_id" style="color:var(--admin)"></span></div>
-                    <div style="font-size: 10px; color: #777;">Ghana Standard Time: 2025-12-30</div>
+                    <div style="font-size: 10px; font-weight: 900;">SESSION ID: <span id="trace_id" style="color:var(--audit)"></span></div>
+                    <div style="font-size: 10px; color: #777;">DECEMBER 30, 2025</div>
                 </div>
             </header>
 
-            <div id="content-area">
-                </div>
+            <div id="content-area"></div>
         </main>
     </div>
 
     <script>
         const System = {
-            users: {
-                "CM-NGO-101": { name: "John Mensah", role: "Volunteer", wing: "NGO", access: ["Impact", "Attendance"] },
-                "CM-SCH-202": { name: "Sarah Boateng", role: "Teacher", wing: "SCHOOL", access: ["Academic", "Attendance", "Registry"] },
-                "CM-EXE-001": { name: "General Manager", role: "Management", wing: "ALL", access: ["Registry", "Academic", "Impact", "Attendance", "Finance", "HR", "Supply", "Fleet", "Compliance", "CEO"] }
+            // BACKEND SIMULATION
+            db: {
+                "CM-EXE-001": { name: "System Admin/CEO", role: "General Manager", wing: "CORE ADM", access: ["Registry", "Academic", "Impact", "Finance", "HR", "Audit"] },
+                "CM-NGO-101": { name: "John Mensah", role: "Volunteer", wing: "NGO", access: ["Impact", "Finance"] },
+                "CM-SCH-202": { name: "Sarah Boateng", role: "Teacher", wing: "SCHOOL", access: ["Academic", "Registry", "Finance"] }
             },
 
             login: () => {
                 const id = document.getElementById('staff_id').value;
-                const user = System.users[id];
-                
+                const user = System.db[id];
                 if (user) {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('nexus-core').style.display = 'flex';
-                    System.initDashboard(user, id);
+                    System.initUI(user, id);
                 } else {
                     document.getElementById('login-error').style.display = 'block';
                 }
             },
 
-            initDashboard: (user, id) => {
+            initUI: (user, id) => {
                 document.getElementById('user_display').innerText = user.name;
-                document.getElementById('role_display').innerText = `${user.wing} | ${user.role}`;
+                document.getElementById('role_display').innerText = user.wing + " | " + user.role;
                 document.getElementById('trace_id').innerText = id;
-
-                const nav = document.getElementById('nav-container');
-                nav.innerHTML = `<div class="nav-header">Operations Nexus</div>`;
                 
-                user.access.forEach(module => {
-                    nav.innerHTML += `<div class="nav-item" onclick="System.loadModule('${module}')">${module} Control</div>`;
+                const nav = document.getElementById('nav-container');
+                nav.innerHTML = '<div class="nav-header">Master Modules</div>';
+                user.access.forEach(mod => {
+                    nav.innerHTML += `<div class="nav-item" onclick="System.load('${mod}')">${mod} Desk</div>`;
                 });
-
-                // Default view: Shared Finance Logic
-                System.loadModule('Finance');
+                System.load('Audit'); // Default Executive View
             },
 
-            loadModule: (mod) => {
-                document.getElementById('view_title').innerText = `${mod} Master Control`;
+            load: (mod) => {
                 const area = document.getElementById('content-area');
-                const user = System.users[document.getElementById('staff_id').value];
-
-                if (mod === 'Finance') {
+                document.getElementById('view_title').innerText = `${mod} Master Console`;
+                
+                if(mod === 'Audit') {
                     area.innerHTML = `
-                        <div class="card">
-                            <span class="fin-badge ${user.wing === 'NGO' ? 'badge-ngo' : 'badge-school'}">${user.wing} FINANCIAL VIEW</span>
-                            <p style="font-size:11px;">Activity Tracing: <b>${user.name} (${document.getElementById('staff_id').value})</b></p>
-                            <label>Record Transaction Type</label>
-                            <select>
-                                ${user.wing === 'ALL' || user.wing === 'SCHOOL' ? '<option>Student Fee Payment</option>' : ''}
-                                ${user.wing === 'ALL' || user.wing === 'NGO' ? '<option>NGO Grant Disbursement</option>' : ''}
-                                <option>Internal Expense Request</option>
-                            </select>
-                            <input type="number" placeholder="Enter Amount (GHS)">
-                            <button class="btn-prime">Submit for Audit</button>
+                        <div class="card" style="border-top: 5px solid var(--audit);">
+                            <h3 style="font-size:12px; margin-top:0;">Unified Financial Audit Trail</h3>
+                            <table class="audit-table">
+                                <thead>
+                                    <tr><th>Time</th><th>User ID</th><th>Action</th><th>Wing</th><th>Amount</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>08:30 AM</td><td>CM-SCH-202</td><td>Fee Receipt #002</td><td><span class="trace-tag" style="background:var(--school); color:white;">SCHOOL</span></td><td>GHS 1,200</td><td>VERIFIED</td></tr>
+                                    <tr><td>09:15 AM</td><td>CM-NGO-101</td><td>Grant Disburse</td><td><span class="trace-tag" style="background:var(--ngo); color:white;">NGO</span></td><td>GHS 5,000</td><td>VERIFIED</td></tr>
+                                    <tr><td>10:05 AM</td><td>CM-SCH-202</td><td>Stationery Purchase</td><td><span class="trace-tag" style="background:var(--school); color:white;">SCHOOL</span></td><td>GHS 450</td><td>PENDING</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                            <div class="card"><h4>School Liquidity</h4><p style="font-size:24px; font-weight:bold; color:var(--school);">GHS 48,500.00</p></div>
+                            <div class="card"><h4>NGO Grant Balance</h4><p style="font-size:24px; font-weight:bold; color:var(--ngo);">USD 12,200.00</p></div>
                         </div>
                     `;
                 } else {
-                    area.innerHTML = `<div class="card"><h3>${mod} Data Interface</h3><p>Authorized access granted to ${user.name}.</p></div>`;
+                    area.innerHTML = `<div class="card"><h3>${mod} Data Interface</h3><p>Live operational data for ${mod} desk is synced.</p></div>`;
                 }
             }
         };
