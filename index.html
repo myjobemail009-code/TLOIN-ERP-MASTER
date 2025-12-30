@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.6 - GES ASSESSMENT</title>
+    <title>TLOIN ERP v24.7 - FINANCIAL OFFICE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --exam: #9b59b6; --report: #2980b9; --ges: #27ae60;
+            --border: #ced4da; --finance: #27ae60; --alert: #e67e22;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -16,9 +16,9 @@
         .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
 
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--exam); padding-bottom: 15px; margin-bottom: 25px; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--finance); padding-bottom: 15px; margin-bottom: 25px; }
         
-        .grid-reporting { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .grid-finance { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
@@ -28,89 +28,134 @@
         .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        .btn-exam { background: var(--exam); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
-        .btn-report { background: var(--report); width: auto; }
-        .grade-pill { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; background: var(--ges); color: white; }
+        .btn-pay { background: var(--finance); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
+        .status-pill { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; }
+        .paid { background: #d4edda; color: #155724; }
+        .pending { background: #fff3cd; color: #856404; }
+        
+        .logistics-box { background: #f0f4f8; border: 1px dashed var(--navy); padding: 15px; border-radius: 4px; font-size: 11px; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v24.6</h2></div>
-            <div class="nav-header">Academic Integrity</div>
-            <div class="desk-link active" onclick="location.reload()">GES Assessment & Appraisal</div>
-            <div class="desk-link" onclick="alert('Printing GES Compliant Reports...')">Batch Print Term Reports</div>
+            <div class="brand"><h2>TLOIN ERP v24.7</h2></div>
+            <div class="nav-header">Finance Control</div>
+            <div class="desk-link active" onclick="location.reload()">Fees & Logistics</div>
+            <div class="desk-link" onclick="alert('Exporting Arrears List...')">Arrears Report</div>
+            <div class="nav-header">Accounting</div>
+            <div class="desk-link" onclick="alert('Opening Daily Ledger...')">Daily Cashbook</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>GES Assessment & Daily Appraisal</h2>
-                <div style="text-align: right;">
-                    <div style="font-size: 10px; font-weight: 800; color: var(--navy);">TERM: 1 | ACADEMIC YEAR: 2025/2026</div>
-                    <div style="font-size: 9px; color: var(--ges);">STATUS: GES CRITERIA ACTIVE</div>
-                </div>
+                <h2>Student Fee Management & Logistics Sync</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--finance);">OFFICE: MAIN CAMPUS BURSARY</div>
             </div>
 
-            <div class="card" style="border-left: 5px solid var(--gold);">
-                <h3 style="font-size:12px; margin-top:0; color:var(--navy);">DAILY STUDENT APPRAISAL (Holistic Monitoring)</h3>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:10px;">
-                    <div><label>Student</label><select><option>Kofi Mensah</option><option>Amma Asante</option></select></div>
-                    <div><label>Punctuality</label><select><option>Excellent</option><option>Good</option><option>Needs Improvement</option></select></div>
-                    <div><label>Behavior</label><select><option>Respectful</option><option>Disruptive</option><option>Quiet</option></select></div>
-                    <div><label>Participation</label><select><option>Very Active</option><option>Passive</option></select></div>
-                </div>
-                <button class="btn-exam" style="background:var(--navy); margin-top:5px;" onclick="alert('Daily Appraisal Locked for today.')">Save Daily Appraisal</button>
-            </div>
-
-            <div class="grid-reporting">
-                <div class="card">
-                    <label>GES Subject Grading (40/60 Split)</label>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>SBA (40)</th>
-                                <th>Exams (60)</th>
-                                <th>Total</th>
-                                <th>GES Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><b>Kofi Mensah</b></td>
-                                <td><input type="number" style="width:50px; margin:0;" value="35"></td>
-                                <td><input type="number" style="width:50px; margin:0;" value="52"></td>
-                                <td><b>87</b></td>
-                                <td><span class="grade-pill">Grade 1</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn-exam" onclick="alert('Grades Sealed under GES Protocol.')">Seal & Lock Grades</button>
+            <div class="grid-finance">
+                <div class="card" style="border-top: 5px solid var(--finance);">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Record Fee Payment</h3>
+                    <label>Student Search</label>
+                    <input type="text" placeholder="Enter Student Name or ID..." id="f_search">
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div><label>Payment Mode</label><select><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option></select></div>
+                        <div><label>Amount Paid (GHS)</label><input type="number" placeholder="0.00"></div>
+                    </div>
+                    
+                    <label>Transaction Reference / Receipt No.</label>
+                    <input type="text" placeholder="e.g. TXN-992033">
+                    
+                    <button class="btn-pay" onclick="alert('Payment Recorded. Digital Receipt Generated & SMS Sent to Guardian.')">Authorize Payment & Issue Receipt</button>
                 </div>
 
-                <div class="card" style="border-top: 5px solid var(--report);">
-                    <h3 style="font-size:12px; color:var(--report); margin-top:0;">Terminal Report Card Generator</h3>
-                    <div style="background:#fff; border:1px solid #eee; padding:15px; font-size:11px; line-height:1.6;">
-                        <center><b style="font-size:13px; color:var(--navy);">CLEVER MINDS EDUCATIONAL COMPLEX</b><br>Official Terminal Report</center>
-                        <hr>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                            <div><b>Term:</b> 1</div>
-                            <div><b>Academic Year:</b> 2025/2026</div>
-                            <div><b>Student Name:</b> Kofi Mensah</div>
-                            <div><b>Class:</b> Primary 1</div>
-                            <div><b>Position:</b> 2nd of 25</div>
-                            <div><b>Attendance:</b> 68 / 70 Days</div>
-                        </div>
-                        <hr>
-                        <label>Appraisal Summary</label>
-                        <p style="background:#f9f9f9; padding:5px; border-radius:3px;">Consistently punctual and demonstrates high interest in ICT and Robotics.</p>
-                        <label>Promoted To / Remarks</label>
-                        <input type="text" placeholder="e.g. Promoted to Primary 2">
-                        <button class="btn-exam btn-report" style="margin-top:10px;" onclick="alert('PDF Generated for Download.')">Download Full Report Card</button>
+                <div class="card" style="border-top: 5px solid var(--alert);">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--alert);">Logistics & Toiletries Audit</h3>
+                    <label>Class Level</label>
+                    <select id="l_class" onchange="Logic.loadLogistics()">
+                        <option value="">Select Class...</option>
+                        <option value="Creche">Creche</option>
+                        <option value="Nursery">Nursery 1 & 2</option>
+                        <option value="Primary">Primary 1 - 6</option>
+                    </select>
+
+                    <div id="logistics_display" class="logistics-box">
+                        <p style="color:#666; text-align:center;">Select class to view required items.</p>
+                    </div>
+
+                    <div style="margin-top:15px;">
+                        <label>Item Submission Status</label>
+                        <table class="data-table">
+                            <thead><tr><th>Item</th><th>Submitted</th></tr></thead>
+                            <tbody id="item_list">
+                                </tbody>
+                        </table>
+                        <button class="btn-pay" style="background:var(--navy)" onclick="alert('Logistics Inventory Updated.')">Update Logistics Status</button>
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <label>Recent Transactions - Primary 1</label>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Bill Amount</th>
+                            <th>Paid</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>30-12-2025</td>
+                            <td><b>Kofi Mensah</b></td>
+                            <td>GHS 1,800</td>
+                            <td>GHS 1,000</td>
+                            <td>GHS 800</td>
+                            <td><span class="status-pill pending">Part-Payment</span></td>
+                        </tr>
+                        <tr>
+                            <td>29-12-2025</td>
+                            <td><b>Amma Asante</b></td>
+                            <td>GHS 1,800</td>
+                            <td>GHS 1,800</td>
+                            <td>GHS 0</td>
+                            <td><span class="status-pill paid">Fully Paid</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
+
+    <script>
+        const Logic = {
+            loadLogistics: () => {
+                const cls = document.getElementById('l_class').value;
+                const display = document.getElementById('logistics_display');
+                const list = document.getElementById('item_list');
+                
+                const data = {
+                    "Creche": { bill: "GHS 1,200", items: ["Diapers (2 Packs)", "Baby Wipes", "Extra Clothes"] },
+                    "Nursery": { bill: "GHS 1,400", items: ["Crayons", "Tissues (12)", "Liquid Soap"] },
+                    "Primary": { bill: "GHS 1,800", items: ["Dettol (Large)", "Broom", "Exercise Books (12)"] }
+                };
+
+                if(data[cls]) {
+                    display.innerHTML = `<strong>Total Term Bill:</strong> ${data[cls].bill}`;
+                    list.innerHTML = data[cls].items.map(item => `
+                        <tr>
+                            <td>${item}</td>
+                            <td><input type="checkbox" style="width:auto; margin:0;"> Received</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+        };
+    </script>
 </body>
 </html>
