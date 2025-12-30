@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - ERP v19.2</title>
+    <title>TLOIN & CLEVER MINDS - ERP v19.4</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --security: #c0392b; --asset: #2980b9; --success: #2ecc71;
+            --border: #ced4da; --crisis: #e74c3c; --partner: #16a085; --success: #2ecc71;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
@@ -38,16 +38,25 @@
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v19.2</h2></div>
+            <div class="brand"><h2>TLOIN ERP v19.4</h2></div>
             
-            <div class="nav-header">System Admin</div>
-            <div class="desk-link" onclick="Nexus.load('Security')">Access Control <span style="color:var(--success)">● LIVE</span></div>
+            <div class="nav-header">Risk & Safety</div>
+            <div class="desk-link" onclick="Nexus.load('Crisis')">Crisis & Incidents <span style="color:var(--crisis)">● ACTIVE</span></div>
             
-            <div class="nav-header">Assets</div>
-            <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry <span style="color:var(--success)">● LIVE</span></div>
+            <div class="nav-header">Governance & Partners</div>
+            <div class="desk-link" onclick="Nexus.load('Partner')">Strategic Partnerships</div>
+            <div class="desk-link" onclick="Nexus.load('Grants')">Grant Pipeline</div>
+            <div class="desk-link" onclick="Nexus.load('Board')">Board Decisions</div>
             
-            <div class="nav-header">System</div>
-            <div class="desk-link" onclick="Nexus.load('Backup')">Master Data Vault <span style="color:var(--success)">● LIVE</span></div>
+            <div class="nav-header">Finance & Assets</div>
+            <div class="desk-link" onclick="Nexus.load('Payroll')">Staff Payroll</div>
+            <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry</div>
+            <div class="desk-link" onclick="Nexus.load('Procure')">Procurement</div>
+            
+            <div class="nav-header">Impact & Legal</div>
+            <div class="desk-link" onclick="Nexus.load('ME')">M&E Impact</div>
+            <div class="desk-link" onclick="Nexus.load('Audit')">Tax Compliance</div>
+            <div class="desk-link" onclick="Nexus.load('Policy')">Policy Vault</div>
         </aside>
 
         <main id="main-dashboard">
@@ -74,61 +83,76 @@
         };
 
         const Desks = {
-            Security: () => {
-                const logs = VAULT.get('cm_security_erp');
-                const rows = logs.map(l => `<tr><td>${l.user}</td><td><b>${l.role}</b></td><td>${l.status}</td></tr>`).join('');
+            Crisis: () => {
+                const logs = VAULT.get('cm_crisis_erp');
+                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.type}</b></td><td>${l.severity}</td><td>${l.status}</td></tr>`).join('');
                 return `
                 <div class="form-card">
-                    <h2 style="color:var(--security); border-bottom: 2px solid var(--security); padding-bottom:10px;">SECURITY & ACCESS CONTROL</h2>
+                    <h2 style="color:var(--crisis); border-bottom: 2px solid var(--crisis); padding-bottom:10px;">CRISIS MANAGEMENT & INCIDENT REPORTING</h2>
                     <div class="grid-3" style="margin-top:20px;">
-                        <div><label>User Full Name</label><input type="text" id="s_user" placeholder="Staff Name"></div>
-                        <div><label>Permission Role</label>
-                            <select id="s_role">
-                                <option>Super Admin</option>
-                                <option>Project Manager</option>
-                                <option>Finance Officer</option>
-                                <option>M&E Specialist</option>
-                                <option>Read Only</option>
+                        <div><label>Incident Type</label>
+                            <select id="cr_type">
+                                <option>Field Emergency</option>
+                                <option>Medical Incident</option>
+                                <option>Security Threat</option>
+                                <option>Equipment Theft/Loss</option>
+                                <option>Community Complaint</option>
                             </select>
                         </div>
-                        <div><label>Account Status</label>
-                            <select id="s_stat"><option>Active</option><option>Suspended</option></select>
+                        <div><label>Date of Incident</label><input type="date" id="cr_date"></div>
+                        <div><label>Severity Level</label>
+                            <select id="cr_sev"><option>Low</option><option>Medium</option><option>High (Critical)</option></select>
                         </div>
                     </div>
                     <div style="margin-top:15px;">
-                        <label>Authorized Email Address</label>
-                        <input type="email" id="s_email" placeholder="staff@cleverminds.org">
+                        <label>Incident Description & Response Actions Taken</label>
+                        <textarea id="cr_desc" rows="3" placeholder="Provide a detailed account of what happened and how the team responded..."></textarea>
                     </div>
-                    <button class="btn-erp" style="background:var(--security);" onclick="Logic.saveSecurity()">Authorize User</button>
+                    <div class="grid-3" style="margin-top:15px;">
+                        <div><label>Resolution Status</label>
+                            <select id="cr_stat"><option>Under Investigation</option><option>Resolved</option><option>Escalated to Board</option></select>
+                        </div>
+                        <div><label>Reporting Staff</label><input type="text" id="cr_staff" placeholder="Name"></div>
+                        <div><label>Location</label><input type="text" id="cr_loc" placeholder="Hub or Field Site"></div>
+                    </div>
+                    <button class="btn-erp" style="background:var(--crisis);" onclick="Logic.saveCrisis()">File Official Incident Report</button>
                 </div>
                 <table class="data-table">
-                    <thead><tr><th>User</th><th>Role</th><th>Status</th></tr></thead>
-                    <tbody>${rows || '<tr><td colspan="3" style="text-align:center;">No users authorized.</td></tr>'}</tbody>
+                    <thead><tr><th>Date</th><th>Type</th><th>Severity</th><th>Status</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No incidents reported.</td></tr>'}</tbody>
                 </table>`;
             },
-            Asset: () => `<h1>Asset Registry</h1><p>Locked & Static.</p>`,
-            Backup: () => `<h1>System Vault</h1><p>Locked & Static.</p>`
+            Partner: () => `<h1>Strategic Partnerships</h1><p>Module Locked & Static.</p>`,
+            Grants: () => `<h1>Grant Pipeline</h1><p>Module Locked & Static.</p>`,
+            Board: () => `<h1>Board Decisions</h1><p>Module Locked & Static.</p>`,
+            Payroll: () => `<h1>Staff Payroll</h1><p>Module Locked & Static.</p>`,
+            Asset: () => `<h1>Asset Registry</h1><p>Module Locked & Static.</p>`,
+            Procure: () => `<h1>Procurement</h1><p>Module Locked & Static.</p>`,
+            ME: () => `<h1>M&E Impact</h1><p>Module Locked & Static.</p>`,
+            Audit: () => `<h1>Tax Compliance</h1><p>Module Locked & Static.</p>`,
+            Policy: () => `<h1>Policy Vault</h1><p>Module Locked & Static.</p>`
         };
 
         const Logic = {
-            saveSecurity: () => {
+            saveCrisis: () => {
                 const data = {
-                    user: document.getElementById('s_user').value,
-                    role: document.getElementById('s_role').value,
-                    status: document.getElementById('s_stat').value
+                    type: document.getElementById('cr_type').value,
+                    date: document.getElementById('cr_date').value,
+                    severity: document.getElementById('cr_sev').value,
+                    status: document.getElementById('cr_stat').value
                 };
-                if(!data.user) return alert("Security Error: User name is required.");
-                db.collection("system_access").add(data);
-                let list = VAULT.get('cm_security_erp'); list.push(data); VAULT.save('cm_security_erp', list);
-                Nexus.load('Security');
+                if(!data.date) return alert("Crisis Error: Date is required.");
+                db.collection("crisis_reports").add(data);
+                let list = VAULT.get('cm_crisis_erp'); list.push(data); VAULT.save('cm_crisis_erp', list);
+                Nexus.load('Crisis');
             }
         };
 
         const Nexus = {
-            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Module Locked</h2>`; }
+            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Module Loading...</h2>`; }
         };
 
-        Nexus.load('Security');
+        Nexus.load('Crisis');
     </script>
 </body>
 </html>
