@@ -19,7 +19,7 @@
         .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--exam); padding-bottom: 15px; margin-bottom: 25px; }
         
         .grid-reporting { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
         select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
@@ -29,28 +29,37 @@
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
         .btn-exam { background: var(--exam); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
-        .btn-report { background: var(--report); width: auto; margin-top: 10px; }
-
-        /* DAILY APPRAISAL STYLING */
-        .appraisal-box { border-left: 4px solid var(--gold); background: #fffcf0; padding: 15px; border-radius: 4px; }
-        .ges-pill { padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px; background: var(--navy); color: white; }
+        .btn-report { background: var(--report); width: auto; }
+        .grade-pill { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; background: var(--ges); color: white; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
             <div class="brand"><h2>TLOIN ERP v24.6</h2></div>
-            <div class="nav-header">GES Academic Standards</div>
-            <div class="desk-link active" onclick="location.reload()">Terminal Assessment</div>
-            <div class="desk-link" onclick="UI.showAppraisal()">Daily Student Appraisal</div>
-            <div class="nav-header">Reporting</div>
-            <div class="desk-link" onclick="alert('Printing Official Report Cards...')">Batch Export PDF</div>
+            <div class="nav-header">Academic Integrity</div>
+            <div class="desk-link active" onclick="location.reload()">GES Assessment & Appraisal</div>
+            <div class="desk-link" onclick="alert('Printing GES Compliant Reports...')">Batch Print Term Reports</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
                 <h2>GES Assessment & Daily Appraisal</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--exam);">CAMPUS: CLEVER MINDS MAIN</div>
+                <div style="text-align: right;">
+                    <div style="font-size: 10px; font-weight: 800; color: var(--navy);">TERM: 1 | ACADEMIC YEAR: 2025/2026</div>
+                    <div style="font-size: 9px; color: var(--ges);">STATUS: GES CRITERIA ACTIVE</div>
+                </div>
+            </div>
+
+            <div class="card" style="border-left: 5px solid var(--gold);">
+                <h3 style="font-size:12px; margin-top:0; color:var(--navy);">DAILY STUDENT APPRAISAL (Holistic Monitoring)</h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:10px;">
+                    <div><label>Student</label><select><option>Kofi Mensah</option><option>Amma Asante</option></select></div>
+                    <div><label>Punctuality</label><select><option>Excellent</option><option>Good</option><option>Needs Improvement</option></select></div>
+                    <div><label>Behavior</label><select><option>Respectful</option><option>Disruptive</option><option>Quiet</option></select></div>
+                    <div><label>Participation</label><select><option>Very Active</option><option>Passive</option></select></div>
+                </div>
+                <button class="btn-exam" style="background:var(--navy); margin-top:5px;" onclick="alert('Daily Appraisal Locked for today.')">Save Daily Appraisal</button>
             </div>
 
             <div class="grid-reporting">
@@ -61,92 +70,47 @@
                             <tr>
                                 <th>Student</th>
                                 <th>SBA (40)</th>
-                                <th>EXAM (60)</th>
-                                <th>GRADE</th>
+                                <th>Exams (60)</th>
+                                <th>Total</th>
+                                <th>GES Grade</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><b>Kofi Mensah</b></td>
-                                <td><input type="number" value="32" style="width:50px; padding:5px;"></td>
-                                <td><input type="number" value="48" style="width:50px; padding:5px;"></td>
-                                <td><span class="ges-pill">B2 (Very Good)</span></td>
-                            </tr>
-                            <tr>
-                                <td><b>Amma Asante</b></td>
-                                <td><input type="number" value="38" style="width:50px; padding:5px;"></td>
-                                <td><input type="number" value="56" style="width:50px; padding:5px;"></td>
-                                <td><span class="ges-pill">A1 (Excellent)</span></td>
+                                <td><input type="number" style="width:50px; margin:0;" value="35"></td>
+                                <td><input type="number" style="width:50px; margin:0;" value="52"></td>
+                                <td><b>87</b></td>
+                                <td><span class="grade-pill">Grade 1</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn-exam" onclick="alert('SBA & Exam Scores Locked as per GES Protocol.')">Seal Terminal Marks</button>
+                    <button class="btn-exam" onclick="alert('Grades Sealed under GES Protocol.')">Seal & Lock Grades</button>
                 </div>
 
-                <div class="card" style="border-top: 5px solid var(--gold);">
-                    <h3 style="font-size:12px; color:var(--navy); margin-top:0;">Daily Student Appraisal</h3>
-                    <div class="appraisal-box">
-                        <label>Select Student to Appraise</label>
-                        <select><option>Kofi Mensah</option><option>Amma Asante</option></select>
+                <div class="card" style="border-top: 5px solid var(--report);">
+                    <h3 style="font-size:12px; color:var(--report); margin-top:0;">Terminal Report Card Generator</h3>
+                    <div style="background:#fff; border:1px solid #eee; padding:15px; font-size:11px; line-height:1.6;">
+                        <center><b style="font-size:13px; color:var(--navy);">CLEVER MINDS EDUCATIONAL COMPLEX</b><br>Official Terminal Report</center>
+                        <hr>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                            <div>
-                                <label>Punctuality</label>
-                                <select><option>Excellent</option><option>Good</option><option>Needs Work</option></select>
-                            </div>
-                            <div>
-                                <label>Neatness</label>
-                                <select><option>Polished</option><option>Clean</option><option>Untidy</option></select>
-                            </div>
+                            <div><b>Term:</b> 1</div>
+                            <div><b>Academic Year:</b> 2025/2026</div>
+                            <div><b>Student Name:</b> Kofi Mensah</div>
+                            <div><b>Class:</b> Primary 1</div>
+                            <div><b>Position:</b> 2nd of 25</div>
+                            <div><b>Attendance:</b> 68 / 70 Days</div>
                         </div>
-                        <label>Daily Skill / Behavioral Remark</label>
-                        <textarea rows="2" placeholder="e.g., Showed great leadership during robotics..."></textarea>
-                        <button class="btn-exam" style="background:var(--navy)" onclick="alert('Daily Appraisal Archived.')">Submit Appraisal</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top:25px; border-top: 5px solid var(--report);">
-                <div style="display:flex; justify-content:space-between;">
-                    <h3 style="font-size:12px; color:var(--report); margin-top:0;">Terminal Report Card - Internal Preview</h3>
-                    <button class="btn-exam btn-report" onclick="window.print()">Print Official Report</button>
-                </div>
-                <div style="border:2px solid var(--navy); padding:30px; background:white; font-size:12px;">
-                    <div style="text-align:center; border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:15px;">
-                        <h1 style="margin:0; font-size:18px;">CLEVER MINDS EDUCATIONAL COMPLEX</h1>
-                        <p style="margin:5px 0; font-size:10px; font-weight:bold;">OFFICIAL TERMINAL PROGRESS REPORT</p>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; margin-bottom:20px;">
-                        <div>Student ID: <b>CM-MAIN-8231-2025</b></div>
-                        <div style="text-align:right;">Class: <b>Primary 1</b></div>
-                    </div>
-                    <table class="data-table" style="border:1px solid #eee;">
-                        <thead>
-                            <tr><th>Subject</th><th>SBA</th><th>Exam</th><th>Total</th><th>Grade</th><th>Remarks</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Mathematics</td><td>35</td><td>52</td><td>87</td><td>A1</td><td>Excellent Performance</td></tr>
-                            <tr><td>English Lang.</td><td>32</td><td>48</td><td>80</td><td>B2</td><td>Very Good</td></tr>
-                        </tbody>
-                    </table>
-                    <div style="margin-top:20px;">
-                        <p><strong>Class Teacher Appraisal:</strong> Pupil is very disciplined and attentive in class.</p>
-                        <p><strong>Attendance:</strong> 42 / 45 Days</p>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin-top:40px; border-top:1px dashed #ccc; padding-top:10px;">
-                        <p>____________________<br>Class Teacher</p>
-                        <p>____________________<br>Head of School</p>
+                        <hr>
+                        <label>Appraisal Summary</label>
+                        <p style="background:#f9f9f9; padding:5px; border-radius:3px;">Consistently punctual and demonstrates high interest in ICT and Robotics.</p>
+                        <label>Promoted To / Remarks</label>
+                        <input type="text" placeholder="e.g. Promoted to Primary 2">
+                        <button class="btn-exam btn-report" style="margin-top:10px;" onclick="alert('PDF Generated for Download.')">Download Full Report Card</button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-
-    <script>
-        const UI = {
-            showAppraisal: () => {
-                alert("Daily Appraisal Desk Activated. Please select students for behavioral logging.");
-            }
-        };
-    </script>
 </body>
 </html>
