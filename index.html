@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.7 - FINANCIAL OFFICE</title>
+    <title>TLOIN ERP v24.8 - FINANCIAL OFFICE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --finance: #27ae60; --alert: #e67e22;
+            --border: #ced4da; --finance: #27ae60; --alert: #e67e22; --debt: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -29,102 +29,97 @@
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
         .btn-pay { background: var(--finance); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
-        .status-pill { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; }
-        .paid { background: #d4edda; color: #155724; }
-        .pending { background: #fff3cd; color: #856404; }
         
-        .logistics-box { background: #f0f4f8; border: 1px dashed var(--navy); padding: 15px; border-radius: 4px; font-size: 11px; }
+        /* CALCULATION DISPLAY */
+        .calc-box { background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
+        .calc-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; }
+        .calc-val { font-weight: 700; color: var(--navy); }
+        .debt-val { color: var(--debt); font-weight: 800; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v24.7</h2></div>
+            <div class="brand"><h2>TLOIN ERP v24.8</h2></div>
             <div class="nav-header">Finance Control</div>
             <div class="desk-link active" onclick="location.reload()">Fees & Logistics</div>
-            <div class="desk-link" onclick="alert('Exporting Arrears List...')">Arrears Report</div>
-            <div class="nav-header">Accounting</div>
-            <div class="desk-link" onclick="alert('Opening Daily Ledger...')">Daily Cashbook</div>
+            <div class="nav-header">Debt Audit</div>
+            <div id="debt_tracker" style="padding: 15px; font-size: 10px; color: var(--gold);">SYST. READY</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Student Fee Management & Logistics Sync</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--finance);">OFFICE: MAIN CAMPUS BURSARY</div>
+                <h2>Student Fee Ledger & Debt Recovery</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--finance);">OFFICE: BURSARY | 2025/2026</div>
             </div>
 
             <div class="grid-finance">
                 <div class="card" style="border-top: 5px solid var(--finance);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Record Fee Payment</h3>
-                    <label>Student Search</label>
-                    <input type="text" placeholder="Enter Student Name or ID..." id="f_search">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Process Payment Transaction</h3>
                     
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div><label>Payment Mode</label><select><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option></select></div>
-                        <div><label>Amount Paid (GHS)</label><input type="number" placeholder="0.00"></div>
+                    <label>Select Enrolled Student</label>
+                    <select id="f_student" onchange="Logic.loadDebtProfile()">
+                        <option value="">Choose Student...</option>
+                        <option value="1800" data-paid="1000">Kofi Mensah (P1)</option>
+                        <option value="1800" data-paid="1800">Amma Asante (P1)</option>
+                        <option value="1400" data-paid="500">Kojo Boateng (N2)</option>
+                    </select>
+
+                    <div class="calc-box">
+                        <div class="calc-row"><span>Total Term Bill:</span> <span class="calc-val" id="val_bill">GHS 0.00</span></div>
+                        <div class="calc-row"><span>Previous Amount Paid:</span> <span class="calc-val" id="val_prev" style="color:var(--finance);">GHS 0.00</span></div>
+                        <div class="calc-row" style="border-top:1px solid #ddd; padding-top:5px; margin-top:5px;">
+                            <span>Current Balance Owed:</span> <span class="debt-val" id="val_bal">GHS 0.00</span>
+                        </div>
+                    </div>
+
+                    <label>New Payment Amount (GHS)</label>
+                    <input type="number" id="pay_amt" placeholder="Enter amount to pay..." onkeyup="Logic.calculateProjection()">
+
+                    <div class="calc-box" style="background:#fff7ed; border:1px solid #ffedd5;">
+                        <div class="calc-row">
+                            <span style="font-weight:800; color:var(--alert);">NEW REMAINING DEBT:</span>
+                            <span class="debt-val" id="val_remain" style="font-size:14px;">GHS 0.00</span>
+                        </div>
                     </div>
                     
-                    <label>Transaction Reference / Receipt No.</label>
-                    <input type="text" placeholder="e.g. TXN-992033">
-                    
-                    <button class="btn-pay" onclick="alert('Payment Recorded. Digital Receipt Generated & SMS Sent to Guardian.')">Authorize Payment & Issue Receipt</button>
+                    <button class="btn-pay" onclick="alert('Transaction Authorized. Ledger Updated.')">Authorize & Print Receipt</button>
                 </div>
 
                 <div class="card" style="border-top: 5px solid var(--alert);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--alert);">Logistics & Toiletries Audit</h3>
-                    <label>Class Level</label>
-                    <select id="l_class" onchange="Logic.loadLogistics()">
-                        <option value="">Select Class...</option>
-                        <option value="Creche">Creche</option>
-                        <option value="Nursery">Nursery 1 & 2</option>
-                        <option value="Primary">Primary 1 - 6</option>
-                    </select>
-
-                    <div id="logistics_display" class="logistics-box">
-                        <p style="color:#666; text-align:center;">Select class to view required items.</p>
-                    </div>
-
-                    <div style="margin-top:15px;">
-                        <label>Item Submission Status</label>
-                        <table class="data-table">
-                            <thead><tr><th>Item</th><th>Submitted</th></tr></thead>
-                            <tbody id="item_list">
-                                </tbody>
-                        </table>
-                        <button class="btn-pay" style="background:var(--navy)" onclick="alert('Logistics Inventory Updated.')">Update Logistics Status</button>
-                    </div>
+                    <h3 style="font-size:12px; margin-top:0; color:var(--alert);">Logistics & Toiletries Tracker</h3>
+                    <label>Assigned Items for Student</label>
+                    <table class="data-table">
+                        <thead><tr><th>Item</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>Dettol (Large)</td><td><input type="checkbox"> Received</td></tr>
+                            <tr><td>Tissues (12 Pack)</td><td><input type="checkbox"> Received</td></tr>
+                            <tr><td>Broom / Dustpan</td><td><input type="checkbox"> Received</td></tr>
+                        </tbody>
+                    </table>
+                    <button class="btn-pay" style="background:var(--navy)">Save Logistics Audit</button>
                 </div>
             </div>
 
             <div class="card">
-                <label>Recent Transactions - Primary 1</label>
+                <label>Recent Financial Entries</label>
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Date</th>
                             <th>Student</th>
-                            <th>Bill Amount</th>
-                            <th>Paid</th>
-                            <th>Balance</th>
+                            <th>Total Bill</th>
+                            <th>Total Paid</th>
+                            <th>Remaining Balance</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>30-12-2025</td>
                             <td><b>Kofi Mensah</b></td>
-                            <td>GHS 1,800</td>
-                            <td>GHS 1,000</td>
-                            <td>GHS 800</td>
-                            <td><span class="status-pill pending">Part-Payment</span></td>
-                        </tr>
-                        <tr>
-                            <td>29-12-2025</td>
-                            <td><b>Amma Asante</b></td>
-                            <td>GHS 1,800</td>
-                            <td>GHS 1,800</td>
-                            <td>GHS 0</td>
-                            <td><span class="status-pill paid">Fully Paid</span></td>
+                            <td>GHS 1,800.00</td>
+                            <td>GHS 1,000.00</td>
+                            <td class="debt-val">GHS 800.00</td>
+                            <td><span style="background:#fff3cd; color:#856404; padding:2px 5px; border-radius:3px; font-weight:800;">PARTIAL</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -134,25 +129,38 @@
 
     <script>
         const Logic = {
-            loadLogistics: () => {
-                const cls = document.getElementById('l_class').value;
-                const display = document.getElementById('logistics_display');
-                const list = document.getElementById('item_list');
+            loadDebtProfile: () => {
+                const selector = document.getElementById('f_student');
+                const selected = selector.options[selector.selectedIndex];
                 
-                const data = {
-                    "Creche": { bill: "GHS 1,200", items: ["Diapers (2 Packs)", "Baby Wipes", "Extra Clothes"] },
-                    "Nursery": { bill: "GHS 1,400", items: ["Crayons", "Tissues (12)", "Liquid Soap"] },
-                    "Primary": { bill: "GHS 1,800", items: ["Dettol (Large)", "Broom", "Exercise Books (12)"] }
-                };
+                if (!selected.value) return;
 
-                if(data[cls]) {
-                    display.innerHTML = `<strong>Total Term Bill:</strong> ${data[cls].bill}`;
-                    list.innerHTML = data[cls].items.map(item => `
-                        <tr>
-                            <td>${item}</td>
-                            <td><input type="checkbox" style="width:auto; margin:0;"> Received</td>
-                        </tr>
-                    `).join('');
+                const bill = parseFloat(selected.value);
+                const prevPaid = parseFloat(selected.getAttribute('data-paid'));
+                const currentBal = bill - prevPaid;
+
+                document.getElementById('val_bill').innerText = `GHS ${bill.toFixed(2)}`;
+                document.getElementById('val_prev').innerText = `GHS ${prevPaid.toFixed(2)}`;
+                document.getElementById('val_bal').innerText = `GHS ${currentBal.toFixed(2)}`;
+                document.getElementById('val_remain').innerText = `GHS ${currentBal.toFixed(2)}`;
+                document.getElementById('pay_amt').value = "";
+            },
+
+            calculateProjection: () => {
+                const currentBalText = document.getElementById('val_bal').innerText.replace('GHS ', '');
+                const currentBal = parseFloat(currentBalText) || 0;
+                const payAmt = parseFloat(document.getElementById('pay_amt').value) || 0;
+                
+                const remain = currentBal - payAmt;
+                const display = document.getElementById('val_remain');
+                
+                display.innerText = `GHS ${remain.toFixed(2)}`;
+                
+                if(remain <= 0) {
+                    display.style.color = "var(--finance)";
+                    display.innerText = "FULLY PAID";
+                } else {
+                    display.style.color = "var(--debt)";
                 }
             }
         };
