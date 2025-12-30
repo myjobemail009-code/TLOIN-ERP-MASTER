@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TLOIN & CLEVER MINDS - ERP v18.4</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        :root { 
+            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
+            --border: #ced4da; --procure: #27ae60; --audit: #7f8c8d; --success: #2ecc71;
+        }
+        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
+        
+        #sidebar { background: var(--navy); color: white; display: flex; flex-direction: column; border-right: 5px solid var(--gold); overflow-y: auto; }
+        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: var(--navy); z-index: 100; }
+        .brand h2 { margin: 0; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+        
+        .nav-header { padding: 15px 25px 5px; font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 800; }
+        .desk-link { padding: 10px 25px; cursor: pointer; color: #aab0b6; font-size: 11px; transition: 0.2s; border-left: 4px solid transparent; }
+        .desk-link:hover { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--gold); }
+
+        #main-dashboard { padding: 35px; overflow-y: auto; height: 100vh; box-sizing: border-box; }
+        .form-card { background: var(--white); padding: 30px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        label { display: block; font-size: 10px; font-weight: 700; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
+        .btn-erp { background: var(--navy); color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; margin-top: 15px; }
+
+        .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
+        .data-table th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid var(--navy); }
+        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div id="tloin-nexus">
+        <aside id="sidebar">
+            <div class="brand"><h2>TLOIN ERP v18.4</h2></div>
+            
+            <div class="nav-header">Finance & Supply</div>
+            <div class="desk-link" onclick="Nexus.load('Procure')">Procurement & Vendors <span style="color:var(--success)">? LIVE</span></div>
+            <div class="desk-link" onclick="Nexus.load('Audit')">Tax & Compliance <span style="color:var(--success)">? LIVE</span></div>
+            
+            <div class="nav-header">System</div>
+            <div class="desk-link" onclick="Nexus.load('Backup')">Master Data Vault <span style="color:var(--success)">? LIVE</span></div>
+        </aside>
+
+        <main id="main-dashboard">
+            <div id="mount-point"></div>
+        </main>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCgIN-yQ4rqy_8eM8Kvm_Dsb-ZPAVxEpwY",
+            authDomain: "tloin-erp.firebaseapp.com",
+            projectId: "tloin-erp",
+            storageBucket: "tloin-erp.firebasestorage.app",
+            messagingSenderId: "253792681992",
+            appId: "1:253792681992:web:377d3b86674f183d8b91bd"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const VAULT = {
+            get: (key) => JSON.parse(localStorage.getItem(key)) || [],
+            save: (key, data) => localStorage.setItem(key, JSON.stringify(data))
+        };
+
+        const Desks = {
+            Procure: () => {
+                const logs = VAULT.get('cm_procure_erp');
+                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.item}</b></td><td>${l.vendor}</td><td>${l.cost}</td></tr>`).join('');
+                return `
+                <div class="form-card">
+                    <h2 style="color:var(--procure); border-bottom: 2px solid var(--procure); padding-bottom:10px;">PROCUREMENT & VENDOR MANAGEMENT</h2>
+                    <div class="grid-3" style="margin-top:20px;">
+                        <div><label>Item/Service Description</label><input type="text" id="pr_item" placeholder="e.g. 10 HP Laptops"></div>
+                        <div><label>Vendor Name</label><input type="text" id="pr_vendor" placeholder="Supplier Name"></div>
+                        <div><label>Purchase Date</label><input type="date" id="pr_date"></div>
+                    </div>
+                    <div class="grid-3" style="margin-top:15px;">
+                        <div><label>Total Cost (GHS/$)</label><input type="text" id="pr_cost" placeholder="0.00"></div>
+                        <div><label>Payment Status</label>
+                            <select id="pr_stat"><option>Paid</option><option>Part-Payment</option><option>Invoice Received</option></select>
+                        </div>
+                        <div><label>Department</label><input type="text" id="pr_dept" placeholder="e.g. Clever Minds Hub"></div>
+                    </div>
+                    <button class="btn-erp" style="background:var(--procure);" onclick="Logic.saveProcure()">Log Purchase</button>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>Date</th><th>Item</th><th>Vendor</th><th>Cost</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No procurement records.</td></tr>'}</tbody>
+                </table>`;
+            },
+            Audit: () => `<h1>Tax & Compliance</h1><p>Locked & Static.</p>`,
+            Backup: () => `<h1>System Vault</h1><p>Locked & Static.</p>`
+        };
+
+        const Logic = {
+            saveProcure: () => {
+                const data = {
+                    item: document.getElementById('pr_item').value,
+                    vendor: document.getElementById('pr_vendor').value,
+                    date: document.getElementById('pr_date').value,
+                    cost: document.getElementById('pr_cost').value
+                };
+                if(!data.item || !data.cost) return alert("Procurement Error: Item and Cost are required.");
+                db.collection("procurement").add(data);
+                let list = VAULT.get('cm_procure_erp'); list.push(data); VAULT.save('cm_procure_erp', list);
+                Nexus.load('Procure');
+            }
+        };
+
+        const Nexus = {
+            load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Module Locked</h2>`; }
+        };
+
+        Nexus.load('Procure');
+    </script>
+</body>
+</html>
