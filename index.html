@@ -1,36 +1,146 @@
-<div id="login-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--navy); z-index:9999; display:flex; align-items:center; justify-content:center;">
-    <div style="background:white; padding:40px; border-radius:10px; width:350px; text-align:center; border-top: 8px solid var(--gold);">
-        <h2 style="color:var(--navy); font-size:18px; margin-bottom:5px;">CLEVER MINDS ERP</h2>
-        <p style="font-size:10px; color:#666; margin-bottom:25px;">STAFF AUTHENTICATION REQUIRED</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TLOIN ERP v27.4 - ACADEMIC GOVERNANCE</title>
+    <style>
+        :root { 
+            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
+            --teacher: #2ecc71; --asst: #3498db; --head: #e74c3c; --border: #dcdde1;
+        }
+        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
         
-        <label style="text-align:left;">STAFF ID</label>
-        <input type="text" id="staff-id" placeholder="CM-STF-XXXX" style="margin-bottom:15px;">
+        /* SIDEBAR STATIC */
+        #sidebar { background: var(--navy); border-right: 4px solid var(--gold); color: white; }
+        .nav-item { padding: 15px 20px; font-size: 10px; font-weight: 800; color: #aab; text-transform: uppercase; border-left: 4px solid transparent; cursor: pointer; }
+        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
+
+        #viewport { padding: 25px; overflow-y: auto; }
+        .search-bar { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; background: white url('https://cdn-icons-png.flaticon.com/512/622/622669.png') no-repeat 97%; background-size: 15px; }
+
+        .role-header { display: flex; gap: 10px; margin-bottom: 20px; }
+        .role-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 9px; color: white; transition: 0.3s; }
+
+        .console-card { display: none; background: white; border-radius: 10px; border: 1px solid var(--border); padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .console-card.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .widget-h { font-size: 11px; font-weight: 900; color: var(--navy); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase; }
         
-        <label style="text-align:left;">ACCESS PIN</label>
-        <input type="password" id="staff-pin" placeholder="••••" style="margin-bottom:20px;">
-        
-        <button onclick="Core.unlock()" class="btn-seal">Enter Terminal</button>
-        <p id="login-err" style="color:red; font-size:9px; margin-top:10px; display:none;">INVALID CREDENTIALS</p>
-    </div>
+        /* APPRAISAL CHECKBOXES */
+        .ges-check { transform: scale(1.2); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 11px; margin-top: 15px; }
+        .upload-box { border: 2px dashed var(--asst); padding: 15px; text-align: center; font-size: 10px; font-weight: 700; color: var(--asst); cursor: pointer; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+<div id="tloin-nexus">
+    <aside id="sidebar">
+        <div style="padding: 25px;"><h2 style="font-size:14px; color:var(--gold);">CLEVER MINDS</h2></div>
+        <div class="nav-item">1. Registry Nexus</div>
+        <div class="nav-item active-mod">2. Academic Command</div>
+        <div class="nav-item">3. Finance Desk</div>
+    </aside>
+
+    <main id="viewport">
+        <input type="text" class="search-bar" placeholder="Quick Search Student, Staff, or Voucher ID...">
+
+        <div class="role-header">
+            <button class="role-btn" style="background:var(--teacher)" onclick="Gate.show('teacher')">Teacher Console</button>
+            <button class="role-btn" style="background:var(--asst)" onclick="Gate.show('asst')">Asst. Head Hub</button>
+            <button class="role-btn" style="background:var(--head)" onclick="Gate.show('head')">Headteacher Command</button>
+        </div>
+
+        <div id="con-teacher" class="console-card active">
+            <div class="widget-h">Daily GES Classroom Appraisal & Attendance</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Present</th>
+                        <th>Activeness</th>
+                        <th>Punctuality</th>
+                        <th>Daily Performance (A-E)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ekow Blankson</td>
+                        <td><input type="checkbox" class="ges-check" checked></td>
+                        <td><input type="checkbox" class="ges-check"></td>
+                        <td><input type="checkbox" class="ges-check" checked></td>
+                        <td><select><option>A - Exceptional</option><option>B - High</option><option>C - Average</option></select></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:20px;">
+                <div>
+                    <div class="widget-h">Lesson Plan Upload</div>
+                    <div class="upload-box">📁 CLICK TO UPLOAD LESSON PLAN (PDF/DOC)<br><span style="font-size:8px;">PENDING APPROVAL: WEEK 4</span></div>
+                </div>
+                <div>
+                    <div class="widget-h">Quick Assessment Log</div>
+                    <input type="number" placeholder="Enter Quiz Marks (Max 15)">
+                    <button class="btn-seal" style="padding:10px;">Lock Marks</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="con-asst" class="console-card">
+            <div class="widget-h">Operational Control & Petty Cash</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div style="background:#f0f7ff; padding:15px; border-radius:8px;">
+                    <label>PETTY CASH REQUEST (DIRECT OPS)</label>
+                    <input type="text" placeholder="Purpose (e.g., Markers, Minor Repair)">
+                    <input type="number" placeholder="Amount (GHS)">
+                    <button class="btn-seal" style="background:var(--asst)">Submit for Head Approval</button>
+                </div>
+                <div style="border:1px solid #ddd; padding:15px; border-radius:8px;">
+                    <label>LESSON PLAN APPROVAL QUEUE</label>
+                    <div style="font-size:10px;">
+                        <p>Class 2: Ms. Janet - <span style="color:var(--asst); font-weight:800;">REVIEW PENDING</span></p>
+                        <p>Class 5: Mr. Kojo - <span style="color:var(--teacher); font-weight:800;">APPROVED ✅</span></p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-seal" style="background:var(--navy); margin-top:20px;" onclick="Gate.show('teacher')">View Class Teacher Terminals (Oversight Mode)</button>
+        </div>
+
+        <div id="con-head" class="console-card">
+            <div class="widget-h">Executive Governance & Payment Vouchers</div>
+            <div style="background:#fff5f5; border:1px solid var(--head); padding:20px; border-radius:8px; margin-bottom:20px;">
+                <h4 style="margin:0 0 10px 0; font-size:12px; color:var(--head);">INTERNAL PAYMENT VOUCHER (PV)</h4>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                    <div><label>Payee</label><input type="text"></div>
+                    <div><label>Voucher Category</label><select><option>Salary</option><option>Procurement</option><option>Maintenance</option></select></div>
+                    <div><label>Total Amount (GHS)</label><input type="number"></div>
+                </div>
+                <label>Description / Audit Justification</label>
+                <textarea rows="2"></textarea>
+                <button class="btn-seal" style="background:var(--head)">Seal PV & Push to Finance</button>
+            </div>
+            
+            <div class="widget-h">Staff Activeness & Appraisal Review</div>
+            <p style="font-size:10px; color:#666;">Synchronized with Teacher Appraisal Ticks from Module 2.</p>
+            <button class="btn-seal" style="background:var(--navy)" onclick="Gate.show('teacher')">Enter Ghost Mode (All Teacher Consoles)</button>
+        </div>
+    </main>
 </div>
 
 <script>
-    // STATIC AUTHENTICATION LOGIC
-    const Core = {
-        unlock: function() {
-            const id = document.getElementById('staff-id').value;
-            const pin = document.getElementById('staff-pin').value;
-            
-            // Hard-locked for initial setup
-            if(id.startsWith("CM-") && pin === "2026") {
-                document.getElementById('login-gate').style.transition = "0.5s";
-                document.getElementById('login-gate').style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById('login-gate').style.display = "none";
-                }, 500);
-            } else {
-                document.getElementById('login-err').style.display = "block";
-            }
+    const Gate = {
+        show: (role) => {
+            document.querySelectorAll('.console-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('con-' + role).classList.add('active');
         }
     }
 </script>
+</body>
+</html>
