@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v29.04 - STUDENT DESK EDIT</title>
+    <title>TLOIN ERP v29.05 - STAFF DESK EDIT</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
@@ -30,7 +30,7 @@
         
         label { display: block; font-size: 8px; font-weight: 800; color: #4a5568; margin-bottom: 5px; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; box-sizing: border-box; }
-        .readonly-field { background: #edf2f7; font-weight: bold; color: var(--navy); }
+        .readonly-field { background: #f1f5f9; font-weight: 900; color: var(--navy); border: 1px solid #cbd5e0; }
 
         .upload-area { display: grid; grid-template-columns: 120px 1fr; gap: 15px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed var(--border); }
         .pic-box { width: 120px; height: 120px; border: 2px solid var(--border); background: #eee; position: relative; border-radius: 5px; overflow: hidden; }
@@ -54,81 +54,70 @@
     <main id="main-viewport">
         <div class="module-container">
             <div class="console-header">
-                <button class="tab-btn active" onclick="SwitchDesk(1)">Student Registry</button>
-                <button class="tab-btn" onclick="SwitchDesk(2)">Staff/Volunteer Registry</button>
+                <button class="tab-btn" onclick="SwitchDesk(1)">Student Registry</button>
+                <button class="tab-btn active" onclick="SwitchDesk(2)">Staff/Volunteer Registry</button>
                 <button class="tab-btn" onclick="SwitchDesk(3)">Incoming Donations</button>
                 <button class="tab-btn" onclick="SwitchDesk(4)">Outgoing Donations</button>
                 <button class="tab-btn" onclick="SwitchDesk(5)">NGO Membership Clubs</button>
                 <button class="tab-btn" onclick="SwitchDesk(6)">Business Grant Registry</button>
             </div>
 
-            <div id="desk-1" class="standalone-desk active">
-                <div class="section-tag">Student Personal Profile & Identity</div>
+            <div id="desk-2" class="standalone-desk active">
+                <div class="section-tag">Staff/Volunteer Personnel Biodata</div>
                 <div class="upload-area">
                     <div class="pic-box">
-                        <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PIC REQUIRED</span>
-                        <img id="s-pic"><input type="file" onchange="Preview(this, 's-pic')" required>
+                        <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO REQ.</span>
+                        <img id="st-pic"><input type="file" onchange="Preview(this, 'st-pic')" required>
                     </div>
                     <div>
-                        <label>Optional Document Upload (Birth Cert/Results)</label>
+                        <label>ID Document Scan (Optional Upload)</label>
                         <input type="file">
                         <div class="grid-2" style="margin-top:10px;">
-                            <div><label>First Name</label><input type="text"></div>
-                            <div><label>Surname</label><input type="text"></div>
+                            <div><label>Full Name</label><input type="text"></div>
+                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="grid-3" style="margin-top:15px;">
-                    <div><label>Class Selector</label>
-                        <select>
-                            <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
-                            <option>K.G. 1</option><option>K.G. 2</option>
-                            <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
-                            <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+                    <div><label>ID Card Type & Number</label><input type="text" placeholder="GHA-000000000-0"></div>
+                    <div><label>Job Role / Title</label><input type="text"></div>
+                    <div><label>Employment Type</label>
+                        <select id="st-type" onchange="TogglePayroll()">
+                            <option value="vol">Volunteer</option>
+                            <option value="per">Permanent</option>
                         </select>
                     </div>
-                    <div><label>Date of Birth</label><input type="date"></div>
-                    <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
                 </div>
 
-                <div class="section-tag">International Medical Standard History</div>
-                <div class="grid-3">
-                    <div><label>Blood Group</label><select><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></div>
-                    <div><label>Genotype</label><select><option>AA</option><option>AS</option><option>SS</option><option>AC</option></select></div>
-                    <div><label>Chronic Conditions</label><input type="text" placeholder="Asthma, Diabetes, etc."></div>
-                </div>
                 <div class="grid-2" style="margin-top:10px;">
-                    <div><label>Known Allergies (Food/Drug)</label><textarea style="height:40px;"></textarea></div>
-                    <div><label>Regular Medications</label><textarea style="height:40px;"></textarea></div>
+                    <div><label>Assigned Entity</label><select><option>NGO Office</option><option>School Division</option></select></div>
+                    <div><label>Phone Number</label><input type="tel"></div>
                 </div>
 
-                <div class="section-tag">Comprehensive Parent/Guardian & Emergency Contacts</div>
-                <div class="grid-3">
-                    <div><label>Primary Guardian Name</label><input type="text"></div>
-                    <div><label>Relationship</label><input type="text"></div>
-                    <div><label>Guardian Occupation</label><input type="text"></div>
+                <div id="payroll-section" style="display:none;">
+                    <div class="section-tag">Bank Details & Statutory Deductions (Local Laws)</div>
+                    <div class="grid-3">
+                        <div><label>Bank Name & Branch</label><input type="text"></div>
+                        <div><label>Account Number</label><input type="text"></div>
+                        <div><label>Gross Salary (GHS)</label><input type="number" id="gross" oninput="RunPayroll()"></div>
+                    </div>
+                    <div class="grid-3" style="margin-top:10px;">
+                        <div><label>SSNIT (5.5%)</label><input type="text" id="ssnit" class="readonly-field" readonly></div>
+                        <div><label>Income Tax (PAYE)</label><input type="text" id="tax" class="readonly-field" readonly></div>
+                        <div><label>Net Salary</label><input type="text" id="net" class="readonly-field" readonly style="background: #e6fffa;"></div>
+                    </div>
                 </div>
-                <div class="grid-2">
-                    <div><label>Guardian Address</label><input type="text"></div>
-                    <div><label>Guardian Primary Phone</label><input type="tel"></div>
-                </div>
-                <div class="grid-2" style="margin-top:10px; background:#fef3c7; padding:10px; border-radius:5px;">
-                    <div><label>Emergency Contact Person</label><input type="text"></div>
-                    <div><label>Emergency Phone (24hr)</label><input type="tel"></div>
-                </div>
-                
-                <button class="btn-execute">Save Complete Student Profile</button>
+
+                <button class="btn-execute">Archive Personnel File</button>
             </div>
 
-            <div id="desk-2" class="standalone-desk">
-                <div class="section-tag">STAFF/VOLUNTEER REGISTRY</div>
-                <p style="font-size:11px;">[LOCKED: Static for Comparison]</p>
-            </div>
-            <div id="desk-3" class="standalone-desk"><div class="section-tag">INCOMING DONATIONS</div><p style="font-size:11px;">[LOCKED]</p></div>
-            <div id="desk-4" class="standalone-desk"><div class="section-tag">OUTGOING DONATIONS</div><p style="font-size:11px;">[LOCKED]</p></div>
-            <div id="desk-5" class="standalone-desk"><div class="section-tag">NGO MEMBERSHIP CLUBS</div><p style="font-size:11px;">[LOCKED]</p></div>
-            <div id="desk-6" class="standalone-desk"><div class="section-tag">BUSINESS GRANT REGISTRY</div><p style="font-size:11px;">[LOCKED]</p></div>
+            <div id="desk-1" class="standalone-desk"><div class="section-tag">STUDENT REGISTRY [LOCKED]</div></div>
+            <div id="desk-3" class="standalone-desk"><div class="section-tag">INCOMING DONATIONS [LOCKED]</div></div>
+            <div id="desk-4" class="standalone-desk"><div class="section-tag">OUTGOING DONATIONS [LOCKED]</div></div>
+            <div id="desk-5" class="standalone-desk"><div class="section-tag">NGO MEMBERSHIP CLUBS [LOCKED]</div></div>
+            <div id="desk-6" class="standalone-desk"><div class="section-tag">BUSINESS GRANT REGISTRY [LOCKED]</div></div>
+
         </div>
     </main>
 </div>
@@ -140,12 +129,41 @@
         document.getElementById('desk-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
     }
+
     function Preview(input, id) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
             reader.onload = e => { document.getElementById(id).src = e.target.result; document.getElementById(id).style.display='block'; };
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    function TogglePayroll() {
+        const isPermanent = document.getElementById('st-type').value === 'per';
+        document.getElementById('payroll-section').style.display = isPermanent ? 'block' : 'none';
+    }
+
+    function RunPayroll() {
+        let gross = parseFloat(document.getElementById('gross').value) || 0;
+        
+        // 1. SSNIT Calculation (Employee portion 5.5%)
+        let ssnit = gross * 0.055;
+        
+        // 2. Taxable Income
+        let taxable = gross - ssnit;
+        
+        // 3. Ghanaian PAYE Tax Simplified (Tiered Logic)
+        let tax = 0;
+        if (taxable > 402) {
+            let taxableAmt = taxable - 402;
+            if (taxableAmt <= 110) tax = taxableAmt * 0.05;
+            else tax = (110 * 0.05) + ((taxableAmt - 110) * 0.10); 
+            // Simplified for logic; full tiered schedule can be added.
+        }
+
+        document.getElementById('ssnit').value = ssnit.toFixed(2);
+        document.getElementById('tax').value = tax.toFixed(2);
+        document.getElementById('net').value = (gross - ssnit - tax).toFixed(2);
     }
 </script>
 </body>
