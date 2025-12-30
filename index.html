@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v25.1 - HR & PAYROLL</title>
+    <title>TLOIN ERP v25.2 - GHANA PAYROLL</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --hr: #2980b9; --payroll: #27ae60;
+            --border: #ced4da; --hr: #2980b9; --payroll: #27ae60; --tax: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -18,116 +18,67 @@
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
         .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--hr); padding-bottom: 15px; margin-bottom: 25px; }
         
-        .grid-hr { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; }
+        .grid-hr { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
         .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
         select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
         
-        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
-        .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
-        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .payroll-summary { background: #f8f9fa; border-radius: 6px; padding: 15px; border-left: 5px solid var(--payroll); }
+        .tax-row { display: flex; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #eee; }
+        .val { font-weight: bold; color: var(--navy); }
+        .deduct { color: var(--tax); }
 
         .btn-hr { background: var(--hr); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
         .btn-payroll { background: var(--payroll); }
-        
-        .status-dot { height: 10px; width: 100px; display: inline-block; border-radius: 4px; text-align: center; color: white; font-size: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v25.1</h2></div>
-            <div class="nav-header">Human Resources</div>
-            <div class="desk-link active" onclick="location.reload()">Staff Profiles & Attendance</div>
-            <div class="desk-link" onclick="alert('Opening Payroll Engine...')">Monthly Payroll Ledger</div>
-            <div class="nav-header">Performance</div>
-            <div class="desk-link" onclick="alert('Accessing Appraisal Records...')">Staff Appraisals</div>
+            <div class="brand"><h2>TLOIN ERP v25.2</h2></div>
+            <div class="nav-header">HR & GH Payroll</div>
+            <div class="desk-link active" onclick="location.reload()">Staff Remuneration</div>
+            <div class="desk-link" onclick="alert('Exporting GRA Tax Schedule...')">GRA Tax Report</div>
+            <div class="desk-link" onclick="alert('Exporting SSNIT Tier 1 Schedule...')">SSNIT Schedule</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Staff Management & Payroll Nexus</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--hr);">OFFICE: ADMINISTRATION</div>
+                <h2>Ghanaian Statutory Payroll Engine</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--hr);">PAY PERIOD: DEC 2025</div>
             </div>
 
             <div class="grid-hr">
                 <div class="card">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Daily Staff Roll Call</h3>
-                    <input type="text" placeholder="Quick Staff Search..." id="s_search" onkeyup="Logic.filterStaff()">
+                    <label>Quick Staff Search</label>
+                    <input type="text" placeholder="Search by Staff ID or Name..." id="s_query">
                     
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Staff Name</th>
-                                <th>Role</th>
-                                <th>Check-In</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="staff_body">
-                            <tr class="staff-row">
-                                <td class="s-name"><b>Isaac Boateng</b></td>
-                                <td>Class Teacher (P1)</td>
-                                <td>07:15 AM</td>
-                                <td><span class="status-dot" style="background:var(--payroll)">PRESENT</span></td>
-                            </tr>
-                            <tr class="staff-row">
-                                <td class="s-name"><b>Sarah Mensah</b></td>
-                                <td>Registrar</td>
-                                <td>--:--</td>
-                                <td><span class="status-dot" style="background:#e67e22">LATE</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn-hr" onclick="alert('Staff Attendance Locked for the day.')">Lock Staff Attendance</button>
+                    <label>Select Staff Member</label>
+                    <select id="s_list" onchange="Payroll.calculate()">
+                        <option value="3500">Isaac Boateng (Basic: GHS 3,500)</option>
+                        <option value="5000">Sarah Mensah (Basic: GHS 5,000)</option>
+                        <option value="2800">Kofi Annan (Basic: GHS 2,800)</option>
+                    </select>
+
+                    <label>Additional Allowances (Rent/Fuel)</label>
+                    <input type="number" id="allowance" value="0" oninput="Payroll.calculate()">
+
+                    <label>Other Deductions (Loans/Welfare)</label>
+                    <input type="number" id="other_deduct" value="0" oninput="Payroll.calculate()">
+                    
+                    <button class="btn-hr btn-payroll" onclick="alert('Payroll Processed & Locked. Electronic Payslip Generated.')">Process Monthly Pay</button>
                 </div>
 
-                <div class="card" style="border-top: 5px solid var(--payroll);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--payroll);">Payroll Processing</h3>
-                    <label>Select Month</label>
-                    <select><option>December 2025</option><option>January 2026</option></select>
+                <div class="card">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Automatic Statutory Breakdown</h3>
                     
-                    <div style="background:#f9f9f9; padding:15px; border:1px solid #eee; border-radius:4px;">
-                        <label>Base Salary (GHS)</label>
-                        <input type="number" value="3500" readonly style="background:#eee;">
+                    <div class="payroll-summary">
+                        <div class="tax-row"><span>Basic Salary:</span> <span class="val" id="disp_basic">GHS 0.00</span></div>
+                        <div class="tax-row"><span>Allowances:</span> <span class="val" id="disp_allow">GHS 0.00</span></div>
+                        <div class="tax-row" style="background:#eee; padding:8px;"><span>Gross Salary:</span> <span class="val" id="disp_gross">GHS 0.00</span></div>
                         
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                            <div><label>Allowances</label><input type="number" placeholder="0.00"></div>
-                            <div><label>Deductions (SSNIT/Tax)</label><input type="number" placeholder="0.00"></div>
-                        </div>
-                        
-                        <label>Net Salary Payable</label>
-                        <div style="font-size:18px; font-weight:800; color:var(--payroll);">GHS 3,150.00</div>
-                    </div>
-                    
-                    <button class="btn-hr btn-payroll" style="margin-top:15px;" onclick="alert('Payroll Authorized. Payslips Sent to Staff Email.')">Authorize Monthly Payroll</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <label>Staff Performance Appraisal (Quarterly)</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;">
-                    <div><label>Academic Delivery</label><select><option>Excellent</option><option>Satisfactory</option></select></div>
-                    <div><label>Punctuality Score</label><select><option>90% - 100%</option><option>Below 80%</option></select></div>
-                    <div><label>Parent Feedback</label><select><option>Positive</option><option>Neutral</option></select></div>
-                </div>
-                <button class="btn-hr" style="background:var(--navy); margin-top:10px;">Submit Appraisal Record</button>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        const Logic = {
-            filterStaff: () => {
-                const query = document.getElementById('s_search').value.toLowerCase();
-                const rows = document.querySelectorAll('.staff-row');
-                rows.forEach(row => {
-                    const name = row.querySelector('.s-name').innerText.toLowerCase();
-                    row.style.display = name.includes(query) ? '' : 'none';
-                });
-            }
-        };
-    </script>
-</body>
-</html>
+                        <div style="margin-top:15px;"><label style="color:var(--tax)">Statutory Deductions</label></div>
+                        <div class="tax-row"><span>SSNIT (5.5% Employee):</span> <span class="val deduct" id="disp_ssnit">GHS 0.00</span></div>
+                        <div class="tax-row"><span>PAYE (Income Tax):</span> <span class="val deduct" id="disp_paye">GHS 0.00</span></div>
+                        <div class="tax-row"><span>Other Deductions:</span> <span class="val deduct" id="disp_other">GHS 0.00</span></div>
