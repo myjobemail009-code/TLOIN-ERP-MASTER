@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.4 - MASTER REGISTRY NEXUS</title>
+    <title>TLOIN ERP v28.5 - MODULE 1 COMPLETE</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
@@ -11,7 +11,7 @@
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* SIDEBAR - MODULE LIST */
+        /* SIDEBAR STATIC */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
         .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; }
@@ -27,19 +27,17 @@
 
         .section-h { font-size: 9px; font-weight: 900; color: var(--locked); margin: 30px 0 15px 0; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-        /* INPUTS & GRID */
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         label { display: block; font-size: 9px; font-weight: 800; color: #444; text-transform: uppercase; margin-bottom: 6px; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 6px; font-size: 11px; margin-bottom: 15px; box-sizing: border-box; }
         
         .photo-gate { width: 110px; height: 110px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; color: #888; background: #fafafa; cursor: pointer; }
-        
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 18px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 10px;}
 
-        /* MULTI-ITEM LOGIC */
+        /* ITEMIZATION LOGIC */
+        .item-list { border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fdfdfd; }
         .item-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .item-head { font-size: 8px; font-weight: 900; color: var(--locked); display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 5px; }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -48,10 +46,7 @@
 
 <div id="tloin-nexus">
     <aside id="sidebar">
-        <div class="brand">
-            <h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.4</h2>
-            <p style="font-size:8px; opacity:0.6;">MODULE 1: REGISTRY NEXUS</p>
-        </div>
+        <div class="brand"><h2 style="font-size:14px; color:var(--gold); margin:0;">TLOIN v28.5</h2></div>
         <div class="nav-item active" onclick="SwitchForm('student')">Student Registry</div>
         <div class="nav-item" onclick="SwitchForm('staff')">Staff & Volunteers</div>
         <div class="nav-item" onclick="SwitchForm('don-in')">Donations (Incoming)</div>
@@ -61,24 +56,5 @@
     </aside>
 
     <main id="viewport">
-        <div id="form-student" class="registry-form active">
-            <div class="form-h"><span>SCHOOL</span> FULL BIODATA & MEDICAL ADMISSION</div>
-            <div style="display:flex; gap:25px;">
-                <div class="photo-gate">MANDATORY<br>PHOTO UPLOAD</div>
-                <div style="flex:1;">
-                    <div class="grid-3">
-                        <div><label>First Name</label><input type="text"></div>
-                        <div><label>Middle Name</label><input type="text"></div>
-                        <div><label>Surname</label><input type="text"></div>
-                    </div>
-                    <div class="grid-3">
-                        <div><label>Class Selector</label>
-                            <select>
-                                <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
-                                <option>K.G. 1</option><option>K.G. 2</option><option>Primary 1</option>
-                                <option>Primary 2</option><option>Primary 3</option><option>Primary 4</option>
-                                <option>Primary 5</option><option>Primary 6</option>
-                            </select>
-                        </div>
-                        <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
-                        <div><label>D.O.B</
+        <div id="form-student" class
+            
