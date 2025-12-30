@@ -2,184 +2,132 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v25.0 - MASTER NEXUS</title>
+    <title>TLOIN ERP v25.1 - HR & PAYROLL</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --finance: #27ae60; --medical: #e74c3c; --academic: #8e44ad;
+            --border: #ced4da; --hr: #2980b9; --payroll: #27ae60;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
+        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* LAYOUT ARCHITECTURE */
-        #master-container { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
-        
-        /* SIDEBAR NAVIGATION (Locked) */
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; }
-        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .brand h1 { margin: 0; font-size: 14px; color: var(--gold); letter-spacing: 1px; }
-        
-        .nav-group { padding: 20px 0; flex-grow: 1; }
-        .nav-item { padding: 15px 25px; font-size: 11px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; color: #aab; }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
-        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left: 4px solid var(--gold); }
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
+        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
 
-        /* VIEWPORT */
-        #viewport { overflow-y: auto; padding: 30px; position: relative; }
-        .desk-view { display: none; animation: fadeIn 0.4s ease; }
-        .desk-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* UNIVERSAL COMPONENTS */
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--hr); padding-bottom: 15px; margin-bottom: 25px; }
+        
+        .grid-hr { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
+        
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 10px; box-sizing: border-box; }
+        select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
         
-        .btn-action { background: var(--navy); color: white; padding: 12px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 10px; }
-        .lock-banner { background: #fff5f5; border: 1px solid #feb2b2; padding: 10px; border-radius: 4px; color: #c53030; font-size: 10px; font-weight: bold; margin-bottom: 15px; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
+        .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
+        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        /* TABLE STYLING */
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; color: var(--navy); }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
+        .btn-hr { background: var(--hr); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
+        .btn-payroll { background: var(--payroll); }
+        
+        .status-dot { height: 10px; width: 100px; display: inline-block; border-radius: 4px; text-align: center; color: white; font-size: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="tloin-nexus">
+        <aside id="sidebar">
+            <div class="brand"><h2>TLOIN ERP v25.1</h2></div>
+            <div class="nav-header">Human Resources</div>
+            <div class="desk-link active" onclick="location.reload()">Staff Profiles & Attendance</div>
+            <div class="desk-link" onclick="alert('Opening Payroll Engine...')">Monthly Payroll Ledger</div>
+            <div class="nav-header">Performance</div>
+            <div class="desk-link" onclick="alert('Accessing Appraisal Records...')">Staff Appraisals</div>
+        </aside>
 
-<div id="master-container">
-    <aside id="sidebar">
-        <div class="brand">
-            <h1>CLEVER MINDS</h1>
-            <p style="font-size: 9px; margin: 5px 0 0 0; color: #fff;">ERP v25.0 | MAIN CAMPUS</p>
-        </div>
-        <nav class="nav-group">
-            <div class="nav-item active" onclick="App.show('desk-registry', this)">Student Registry</div>
-            <div class="nav-item" onclick="App.show('desk-attendance', this)">Attendance & Health</div>
-            <div class="nav-item" onclick="App.show('desk-finance', this)">Finance & Fees</div>
-            <div class="nav-item" onclick="App.show('desk-academic', this)">GES Assessment</div>
-            <div class="nav-item" onclick="App.show('desk-inventory', this)">Store & Inventory</div>
-        </nav>
-        <div style="padding: 20px; font-size: 9px; color: #678;">SYSTEM STATUS: <span id="clock" style="color:var(--gold)">00:00</span></div>
-    </aside>
-
-    <main id="viewport">
-        
-        <div id="desk-registry" class="desk-view active">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="margin:0; font-size:18px; color:var(--navy);">Admission & Biodata Registry</h2>
-                <div style="font-size:11px; font-weight:bold;">ID: <span id="auto_id" style="color:var(--academic)"></span></div>
+        <main id="main-dashboard">
+            <div class="desk-header">
+                <h2>Staff Management & Payroll Nexus</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--hr);">OFFICE: ADMINISTRATION</div>
             </div>
-            <div class="grid-2">
-                <div class="card">
-                    <label>Passport Picture (Mandatory)</label>
-                    <div style="width:100px; height:100px; border:2px dashed #ccc; margin-bottom:10px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#999;">PHOTO REQ</div>
-                    <input type="file" accept="image/*">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="First Name">
-                    <input type="text" placeholder="Surname">
-                    <label>Religion</label>
-                    <select><option>Christianity</option><option>Islam</option><option>Other</option></select>
-                </div>
-                <div class="card">
-                    <label>Medical History</label>
-                    <select><option>Blood Group: O+</option><option>Blood Group: A+</option></select>
-                    <textarea placeholder="Critical Allergies..."></textarea>
-                    <label>Emergency Contact (Person 3)</label>
-                    <input type="text" placeholder="Full Name">
-                    <input type="text" placeholder="Primary Phone">
-                </div>
-            </div>
-        </div>
 
-        <div id="desk-attendance" class="desk-view">
-            <h2 style="color:var(--navy);">Daily Attendance & Welfare</h2>
-            <div id="lock_warning" class="lock-banner" style="display:none;">🔒 SYSTEM LOCKED: 10:00 AM EXCEEDED. REQUEST AUTHORIZATION.</div>
-            <div class="card">
-                <label>Search Student</label>
-                <input type="text" placeholder="Filter names...">
-                <table id="att_table">
-                    <thead><tr><th>Student</th><th>Status</th><th>Medical Alert</th></tr></thead>
-                    <tbody>
-                        <tr><td>Kofi Mensah</td><td><select class="att-in"><option>Present</option><option>Absent</option></select></td><td><span style="color:red; font-weight:bold;">Peanut Allergy</span></td></tr>
-                        <tr><td>Amma Asante</td><td><select class="att-in"><option>Present</option><option>Absent</option></select></td><td><span style="color:green;">Clear</span></td></tr>
-                    </tbody>
-                </table>
-                <button class="btn-action" style="margin-top:15px;" id="att_save">Save Daily Log</button>
-            </div>
-        </div>
-
-        <div id="desk-finance" class="desk-view">
-            <h2 style="color:var(--navy);">Fee & Balance Ledger</h2>
-            <div class="grid-2">
-                <div class="card" style="border-top: 5px solid var(--finance);">
-                    <label>Quick Search</label>
-                    <input type="text" placeholder="Student Name/ID">
-                    <div class="grid-2">
-                        <div><label>Total Bill</label><input type="number" value="1800" readonly></div>
-                        <div><label>Prev Paid</label><input type="number" id="prev_paid" value="500" readonly></div>
-                    </div>
-                    <label>Current Payment</label>
-                    <input type="number" id="new_pay" oninput="App.calcFinance()" placeholder="0.00">
-                    <div style="background:#f0f7f0; padding:15px; border-radius:4px;">
-                        <label>Remaining Owed</label>
-                        <div id="rem_val" style="font-size:20px; font-weight:800; color:var(--finance);">GHS 1,300.00</div>
-                    </div>
-                    <button class="btn-action" style="background:var(--finance); margin-top:15px; width:100%;">Authorize Payment</button>
-                </div>
+            <div class="grid-hr">
                 <div class="card">
-                    <label>Toiletries Status</label>
-                    <table style="font-size:10px;">
-                        <tr><td>Dettol</td><td><input type="checkbox" checked> Received</td></tr>
-                        <tr><td>Broom</td><td><input type="checkbox"> Pending</td></tr>
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Daily Staff Roll Call</h3>
+                    <input type="text" placeholder="Quick Staff Search..." id="s_search" onkeyup="Logic.filterStaff()">
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Role</th>
+                                <th>Check-In</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staff_body">
+                            <tr class="staff-row">
+                                <td class="s-name"><b>Isaac Boateng</b></td>
+                                <td>Class Teacher (P1)</td>
+                                <td>07:15 AM</td>
+                                <td><span class="status-dot" style="background:var(--payroll)">PRESENT</span></td>
+                            </tr>
+                            <tr class="staff-row">
+                                <td class="s-name"><b>Sarah Mensah</b></td>
+                                <td>Registrar</td>
+                                <td>--:--</td>
+                                <td><span class="status-dot" style="background:#e67e22">LATE</span></td>
+                            </tr>
+                        </tbody>
                     </table>
+                    <button class="btn-hr" onclick="alert('Staff Attendance Locked for the day.')">Lock Staff Attendance</button>
+                </div>
+
+                <div class="card" style="border-top: 5px solid var(--payroll);">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--payroll);">Payroll Processing</h3>
+                    <label>Select Month</label>
+                    <select><option>December 2025</option><option>January 2026</option></select>
+                    
+                    <div style="background:#f9f9f9; padding:15px; border:1px solid #eee; border-radius:4px;">
+                        <label>Base Salary (GHS)</label>
+                        <input type="number" value="3500" readonly style="background:#eee;">
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div><label>Allowances</label><input type="number" placeholder="0.00"></div>
+                            <div><label>Deductions (SSNIT/Tax)</label><input type="number" placeholder="0.00"></div>
+                        </div>
+                        
+                        <label>Net Salary Payable</label>
+                        <div style="font-size:18px; font-weight:800; color:var(--payroll);">GHS 3,150.00</div>
+                    </div>
+                    
+                    <button class="btn-hr btn-payroll" style="margin-top:15px;" onclick="alert('Payroll Authorized. Payslips Sent to Staff Email.')">Authorize Monthly Payroll</button>
                 </div>
             </div>
-        </div>
 
-        <div id="desk-academic" class="desk-view">
-            <h2 style="color:var(--navy);">GES Terminal Assessment</h2>
             <div class="card">
-                <div style="display:flex; gap:10px;">
-                    <select style="width:200px;"><option>Primary 1</option></select>
-                    <select style="width:200px;"><option>Mathematics</option></select>
+                <label>Staff Performance Appraisal (Quarterly)</label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;">
+                    <div><label>Academic Delivery</label><select><option>Excellent</option><option>Satisfactory</option></select></div>
+                    <div><label>Punctuality Score</label><select><option>90% - 100%</option><option>Below 80%</option></select></div>
+                    <div><label>Parent Feedback</label><select><option>Positive</option><option>Neutral</option></select></div>
                 </div>
-                <table>
-                    <thead><tr><th>Student</th><th>SBA (40%)</th><th>Exams (60%)</th><th>Total</th><th>Grade</th></tr></thead>
-                    <tbody>
-                        <tr><td>Kofi Mensah</td><td><input type="number" value="35" style="width:50px;"></td><td><input type="number" value="52" style="width:50px;"></td><td>87</td><td><b style="color:var(--finance)">1</b></td></tr>
-                    </tbody>
-                </table>
-                <button class="btn-action" style="background:var(--academic); margin-top:15px;">Seal & Lock Term Results</button>
+                <button class="btn-hr" style="background:var(--navy); margin-top:10px;">Submit Appraisal Record</button>
             </div>
-        </div>
+        </main>
+    </div>
 
-        <div id="desk-inventory" class="desk-view">
-            <h2 style="color:var(--navy);">Stock & Supply Chain</h2>
-            <div class="card">
-                <table>
-                    <thead><tr><th>Item</th><th>Category</th><th>Quantity</th><th>Status</th></tr></thead>
-                    <tbody>
-                        <tr><td>Dettol (L)</td><td>Toiletries</td><td>12</td><td><span style="color:orange;">Low Stock</span></td></tr>
-                        <tr><td>A4 Paper</td><td>Stationery</td><td>45</td><td><span style="color:green;">Sufficient</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </main>
-</div>
-
-<script>
-    const App = {
-        init: () => {
-            // Auto ID Generation
-            document.getElementById('auto_id').innerText = "CM-" + Math.floor(Math.random()*9000 + 1000) + "-" + new Date().getFullYear();
-            
-            // Time Watcher for 10 AM Lock
-            setInterval(App.updateTime, 1000);
-            App.updateTime();
-        },
-
-        show: (id, el) => {
-            document.querySelectorAll('.desk-view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i
+    <script>
+        const Logic = {
+            filterStaff: () => {
+                const query = document.getElementById('s_search').value.toLowerCase();
+                const rows = document.querySelectorAll('.staff-row');
+                rows.forEach(row => {
+                    const name = row.querySelector('.s-name').innerText.toLowerCase();
+                    row.style.display = name.includes(query) ? '' : 'none';
+                });
+            }
+        };
+    </script>
+</body>
+</html>
