@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v24.8 - FINANCIAL OFFICE</title>
+    <title>TLOIN ERP v24.9 - INVENTORY DESK</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --finance: #27ae60; --alert: #e67e22; --debt: #c0392b;
+            --border: #ced4da; --stock: #e67e22; --asset: #34495e;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -16,9 +16,9 @@
         .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
 
         #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--finance); padding-bottom: 15px; margin-bottom: 25px; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--stock); padding-bottom: 15px; margin-bottom: 25px; }
         
-        .grid-finance { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .grid-inventory { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
         .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
         
         label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
@@ -28,140 +28,107 @@
         .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
         .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
 
-        .btn-pay { background: var(--finance); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
+        .btn-stock { background: var(--stock); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
         
-        /* CALCULATION DISPLAY */
-        .calc-box { background: #f8f9fa; border: 1px solid #ddd; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
-        .calc-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; }
-        .calc-val { font-weight: 700; color: var(--navy); }
-        .debt-val { color: var(--debt); font-weight: 800; }
+        .stock-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+        .low-stock { background: #e74c3c; animation: blink 1s infinite; }
+        .good-stock { background: #2ecc71; }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v24.8</h2></div>
-            <div class="nav-header">Finance Control</div>
-            <div class="desk-link active" onclick="location.reload()">Fees & Logistics</div>
-            <div class="nav-header">Debt Audit</div>
-            <div id="debt_tracker" style="padding: 15px; font-size: 10px; color: var(--gold);">SYST. READY</div>
+            <div class="brand"><h2>TLOIN ERP v24.9</h2></div>
+            <div class="nav-header">Supply Chain</div>
+            <div class="desk-link active" onclick="location.reload()">Stock & Inventory</div>
+            <div class="desk-link" onclick="alert('Procurement request generated.')">Purchase Orders</div>
+            <div class="nav-header">Asset Registry</div>
+            <div class="desk-link" onclick="alert('Opening Fixed Assets list...')">School Property</div>
         </aside>
 
         <main id="main-dashboard">
             <div class="desk-header">
-                <h2>Student Fee Ledger & Debt Recovery</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--finance);">OFFICE: BURSARY | 2025/2026</div>
+                <h2>Inventory, Supplies & Supply Chain</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--stock);">STORE: MAIN CAMPUS WAREHOUSE</div>
             </div>
 
-            <div class="grid-finance">
-                <div class="card" style="border-top: 5px solid var(--finance);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Process Payment Transaction</h3>
+            <div class="grid-inventory">
+                <div class="card" style="border-top: 5px solid var(--stock);">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Log Incoming Supplies</h3>
+                    <label>Quick Item Search</label>
+                    <input type="text" id="i_search" placeholder="Type item name (e.g. Dettol)..." onkeyup="Logic.filterStock()">
                     
-                    <label>Select Enrolled Student</label>
-                    <select id="f_student" onchange="Logic.loadDebtProfile()">
-                        <option value="">Choose Student...</option>
-                        <option value="1800" data-paid="1000">Kofi Mensah (P1)</option>
-                        <option value="1800" data-paid="1800">Amma Asante (P1)</option>
-                        <option value="1400" data-paid="500">Kojo Boateng (N2)</option>
+                    <label>Category</label>
+                    <select id="i_cat">
+                        <option>Toiletries (Student Contribution)</option>
+                        <option>Textbooks & Stationery</option>
+                        <option>Uniforms & Merch</option>
+                        <option>Office & IT Supplies</option>
                     </select>
 
-                    <div class="calc-box">
-                        <div class="calc-row"><span>Total Term Bill:</span> <span class="calc-val" id="val_bill">GHS 0.00</span></div>
-                        <div class="calc-row"><span>Previous Amount Paid:</span> <span class="calc-val" id="val_prev" style="color:var(--finance);">GHS 0.00</span></div>
-                        <div class="calc-row" style="border-top:1px solid #ddd; padding-top:5px; margin-top:5px;">
-                            <span>Current Balance Owed:</span> <span class="debt-val" id="val_bal">GHS 0.00</span>
-                        </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div><label>Quantity Received</label><input type="number" id="i_qty" placeholder="0"></div>
+                        <div><label>Unit Cost (GHS)</label><input type="number" id="i_cost" placeholder="0.00"></div>
                     </div>
 
-                    <label>New Payment Amount (GHS)</label>
-                    <input type="number" id="pay_amt" placeholder="Enter amount to pay..." onkeyup="Logic.calculateProjection()">
-
-                    <div class="calc-box" style="background:#fff7ed; border:1px solid #ffedd5;">
-                        <div class="calc-row">
-                            <span style="font-weight:800; color:var(--alert);">NEW REMAINING DEBT:</span>
-                            <span class="debt-val" id="val_remain" style="font-size:14px;">GHS 0.00</span>
-                        </div>
-                    </div>
+                    <label>Supplier / Source</label>
+                    <input type="text" placeholder="e.g. School Store Purchase / Student Submission">
                     
-                    <button class="btn-pay" onclick="alert('Transaction Authorized. Ledger Updated.')">Authorize & Print Receipt</button>
+                    <button class="btn-stock" onclick="alert('Warehouse Inventory Updated.')">Authorize Stock Entry</button>
                 </div>
 
-                <div class="card" style="border-top: 5px solid var(--alert);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--alert);">Logistics & Toiletries Tracker</h3>
-                    <label>Assigned Items for Student</label>
+                <div class="card">
+                    <label>Current Warehouse Levels</label>
                     <table class="data-table">
-                        <thead><tr><th>Item</th><th>Status</th></tr></thead>
-                        <tbody>
-                            <tr><td>Dettol (Large)</td><td><input type="checkbox"> Received</td></tr>
-                            <tr><td>Tissues (12 Pack)</td><td><input type="checkbox"> Received</td></tr>
-                            <tr><td>Broom / Dustpan</td><td><input type="checkbox"> Received</td></tr>
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Category</th>
+                                <th>Stock Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stock_body">
+                            <tr class="stock-row">
+                                <td class="item-name"><b>Dettol (Large)</b></td>
+                                <td>Toiletries</td>
+                                <td><b>14 Units</b></td>
+                                <td><span class="stock-indicator low-stock"></span> Low Stock</td>
+                            </tr>
+                            <tr class="stock-row">
+                                <td class="item-name"><b>Exercise Books (12pk)</b></td>
+                                <td>Stationery</td>
+                                <td><b>450 Units</b></td>
+                                <td><span class="stock-indicator good-stock"></span> Sufficient</td>
+                            </tr>
+                            <tr class="stock-row">
+                                <td class="item-name"><b>Nursery Uniform (Size M)</b></td>
+                                <td>Uniforms</td>
+                                <td><b>8 Units</b></td>
+                                <td><span class="stock-indicator low-stock"></span> Low Stock</td>
+                            </tr>
                         </tbody>
                     </table>
-                    <button class="btn-pay" style="background:var(--navy)">Save Logistics Audit</button>
+                    
+                    <div style="background: #fdf2f2; padding: 15px; border-radius: 4px; border: 1px solid #feb2b2;">
+                        <label style="color:red">Critical Supply Alerts</label>
+                        <p style="font-size: 10px; margin: 5px 0 0 0;">3 Items have fallen below the "Minimum Safety Level". Procurement is required.</p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card">
-                <label>Recent Financial Entries</label>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Student</th>
-                            <th>Total Bill</th>
-                            <th>Total Paid</th>
-                            <th>Remaining Balance</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><b>Kofi Mensah</b></td>
-                            <td>GHS 1,800.00</td>
-                            <td>GHS 1,000.00</td>
-                            <td class="debt-val">GHS 800.00</td>
-                            <td><span style="background:#fff3cd; color:#856404; padding:2px 5px; border-radius:3px; font-weight:800;">PARTIAL</span></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </main>
     </div>
 
     <script>
         const Logic = {
-            loadDebtProfile: () => {
-                const selector = document.getElementById('f_student');
-                const selected = selector.options[selector.selectedIndex];
-                
-                if (!selected.value) return;
-
-                const bill = parseFloat(selected.value);
-                const prevPaid = parseFloat(selected.getAttribute('data-paid'));
-                const currentBal = bill - prevPaid;
-
-                document.getElementById('val_bill').innerText = `GHS ${bill.toFixed(2)}`;
-                document.getElementById('val_prev').innerText = `GHS ${prevPaid.toFixed(2)}`;
-                document.getElementById('val_bal').innerText = `GHS ${currentBal.toFixed(2)}`;
-                document.getElementById('val_remain').innerText = `GHS ${currentBal.toFixed(2)}`;
-                document.getElementById('pay_amt').value = "";
-            },
-
-            calculateProjection: () => {
-                const currentBalText = document.getElementById('val_bal').innerText.replace('GHS ', '');
-                const currentBal = parseFloat(currentBalText) || 0;
-                const payAmt = parseFloat(document.getElementById('pay_amt').value) || 0;
-                
-                const remain = currentBal - payAmt;
-                const display = document.getElementById('val_remain');
-                
-                display.innerText = `GHS ${remain.toFixed(2)}`;
-                
-                if(remain <= 0) {
-                    display.style.color = "var(--finance)";
-                    display.innerText = "FULLY PAID";
-                } else {
-                    display.style.color = "var(--debt)";
-                }
+            filterStock: () => {
+                const query = document.getElementById('i_search').value.toLowerCase();
+                const rows = document.querySelectorAll('.stock-row');
+                rows.forEach(row => {
+                    const name = row.querySelector('.item-name').innerText.toLowerCase();
+                    row.style.display = name.includes(query) ? '' : 'none';
+                });
             }
         };
     </script>
