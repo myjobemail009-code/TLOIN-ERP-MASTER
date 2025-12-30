@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - ERP v18.4</title>
+    <title>TLOIN & CLEVER MINDS - ERP v19.2</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --procure: #27ae60; --audit: #7f8c8d; --success: #2ecc71;
+            --border: #ced4da; --security: #c0392b; --asset: #2980b9; --success: #2ecc71;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
@@ -38,14 +38,16 @@
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v18.4</h2></div>
+            <div class="brand"><h2>TLOIN ERP v19.2</h2></div>
             
-            <div class="nav-header">Finance & Supply</div>
-            <div class="desk-link" onclick="Nexus.load('Procure')">Procurement & Vendors <span style="color:var(--success)">? LIVE</span></div>
-            <div class="desk-link" onclick="Nexus.load('Audit')">Tax & Compliance <span style="color:var(--success)">? LIVE</span></div>
+            <div class="nav-header">System Admin</div>
+            <div class="desk-link" onclick="Nexus.load('Security')">Access Control <span style="color:var(--success)">● LIVE</span></div>
+            
+            <div class="nav-header">Assets</div>
+            <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry <span style="color:var(--success)">● LIVE</span></div>
             
             <div class="nav-header">System</div>
-            <div class="desk-link" onclick="Nexus.load('Backup')">Master Data Vault <span style="color:var(--success)">? LIVE</span></div>
+            <div class="desk-link" onclick="Nexus.load('Backup')">Master Data Vault <span style="color:var(--success)">● LIVE</span></div>
         </aside>
 
         <main id="main-dashboard">
@@ -72,47 +74,53 @@
         };
 
         const Desks = {
-            Procure: () => {
-                const logs = VAULT.get('cm_procure_erp');
-                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.item}</b></td><td>${l.vendor}</td><td>${l.cost}</td></tr>`).join('');
+            Security: () => {
+                const logs = VAULT.get('cm_security_erp');
+                const rows = logs.map(l => `<tr><td>${l.user}</td><td><b>${l.role}</b></td><td>${l.status}</td></tr>`).join('');
                 return `
                 <div class="form-card">
-                    <h2 style="color:var(--procure); border-bottom: 2px solid var(--procure); padding-bottom:10px;">PROCUREMENT & VENDOR MANAGEMENT</h2>
+                    <h2 style="color:var(--security); border-bottom: 2px solid var(--security); padding-bottom:10px;">SECURITY & ACCESS CONTROL</h2>
                     <div class="grid-3" style="margin-top:20px;">
-                        <div><label>Item/Service Description</label><input type="text" id="pr_item" placeholder="e.g. 10 HP Laptops"></div>
-                        <div><label>Vendor Name</label><input type="text" id="pr_vendor" placeholder="Supplier Name"></div>
-                        <div><label>Purchase Date</label><input type="date" id="pr_date"></div>
-                    </div>
-                    <div class="grid-3" style="margin-top:15px;">
-                        <div><label>Total Cost (GHS/$)</label><input type="text" id="pr_cost" placeholder="0.00"></div>
-                        <div><label>Payment Status</label>
-                            <select id="pr_stat"><option>Paid</option><option>Part-Payment</option><option>Invoice Received</option></select>
+                        <div><label>User Full Name</label><input type="text" id="s_user" placeholder="Staff Name"></div>
+                        <div><label>Permission Role</label>
+                            <select id="s_role">
+                                <option>Super Admin</option>
+                                <option>Project Manager</option>
+                                <option>Finance Officer</option>
+                                <option>M&E Specialist</option>
+                                <option>Read Only</option>
+                            </select>
                         </div>
-                        <div><label>Department</label><input type="text" id="pr_dept" placeholder="e.g. Clever Minds Hub"></div>
+                        <div><label>Account Status</label>
+                            <select id="s_stat"><option>Active</option><option>Suspended</option></select>
+                        </div>
                     </div>
-                    <button class="btn-erp" style="background:var(--procure);" onclick="Logic.saveProcure()">Log Purchase</button>
+                    <div style="margin-top:15px;">
+                        <label>Authorized Email Address</label>
+                        <input type="email" id="s_email" placeholder="staff@cleverminds.org">
+                    </div>
+                    <button class="btn-erp" style="background:var(--security);" onclick="Logic.saveSecurity()">Authorize User</button>
                 </div>
                 <table class="data-table">
-                    <thead><tr><th>Date</th><th>Item</th><th>Vendor</th><th>Cost</th></tr></thead>
-                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No procurement records.</td></tr>'}</tbody>
+                    <thead><tr><th>User</th><th>Role</th><th>Status</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="3" style="text-align:center;">No users authorized.</td></tr>'}</tbody>
                 </table>`;
             },
-            Audit: () => `<h1>Tax & Compliance</h1><p>Locked & Static.</p>`,
+            Asset: () => `<h1>Asset Registry</h1><p>Locked & Static.</p>`,
             Backup: () => `<h1>System Vault</h1><p>Locked & Static.</p>`
         };
 
         const Logic = {
-            saveProcure: () => {
+            saveSecurity: () => {
                 const data = {
-                    item: document.getElementById('pr_item').value,
-                    vendor: document.getElementById('pr_vendor').value,
-                    date: document.getElementById('pr_date').value,
-                    cost: document.getElementById('pr_cost').value
+                    user: document.getElementById('s_user').value,
+                    role: document.getElementById('s_role').value,
+                    status: document.getElementById('s_stat').value
                 };
-                if(!data.item || !data.cost) return alert("Procurement Error: Item and Cost are required.");
-                db.collection("procurement").add(data);
-                let list = VAULT.get('cm_procure_erp'); list.push(data); VAULT.save('cm_procure_erp', list);
-                Nexus.load('Procure');
+                if(!data.user) return alert("Security Error: User name is required.");
+                db.collection("system_access").add(data);
+                let list = VAULT.get('cm_security_erp'); list.push(data); VAULT.save('cm_security_erp', list);
+                Nexus.load('Security');
             }
         };
 
@@ -120,7 +128,7 @@
             load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Module Locked</h2>`; }
         };
 
-        Nexus.load('Procure');
+        Nexus.load('Security');
     </script>
 </body>
 </html>
