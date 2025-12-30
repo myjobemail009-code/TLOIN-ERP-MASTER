@@ -2,125 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v25.4 - NGO IMPACT DESK</title>
+    <title>TLOIN & CLEVER MINDS - STAFF CENTRE</title>
     <style>
         :root { 
-            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --ngo: #16a085; --donor: #2980b9; --impact: #8e44ad;
+            --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
+            --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
+        /* LOGIN CONSOLE STYLING */
+        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--navy); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: var(--white); padding: 40px; border-radius: 12px; width: 350px; text-align: center; border-bottom: 8px solid var(--gold); }
+        .login-box h1 { font-size: 14px; color: var(--navy); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* SYSTEM INTERFACE */
+        #nexus-core { display: none; grid-template-columns: 280px 1fr; height: 100vh; }
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; }
+        .nav-header { padding: 15px 25px; font-size: 10px; color: var(--gold); background: rgba(0,0,0,0.2); text-transform: uppercase; font-weight: 800; }
+        .nav-item { padding: 15px 25px; font-size: 11px; cursor: pointer; border-left: 4px solid transparent; transition: 0.2s; color: #cbd5e0; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--gold); }
+        .active-nav { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: white; }
 
-        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--ngo); padding-bottom: 15px; margin-bottom: 25px; }
+        #main-stage { padding: 30px; overflow-y: auto; }
+        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
         
-        .grid-ngo { display: grid; grid-template-columns: 1fr 1.2fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
-        
-        label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
-        select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
-        
-        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
-        .data-table th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--ngo); font-size: 9px; }
-        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
+        /* FINANCE DESK UNIQUE STYLING */
+        .fin-badge { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: 900; color: white; margin-bottom: 10px; display: inline-block; }
+        .badge-school { background: var(--school); }
+        .badge-ngo { background: var(--ngo); }
 
-        .btn-ngo { background: var(--ngo); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
-        .grant-pill { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: bold; background: #e8f6f3; color: var(--ngo); border: 1px solid var(--ngo); }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-prime { background: var(--navy); color: white; padding: 15px; border: none; border-radius: 4px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 11px; }
     </style>
 </head>
 <body>
-    <div id="tloin-nexus">
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h1>Staff Centre Portal</h1>
+            <p style="font-size: 10px; color: #666; margin-bottom: 20px;">TLOIN & CLEVER MINDS EDUCATIONAL COMPLEX</p>
+            <input type="text" id="staff_id" placeholder="Enter Unique Staff ID (e.g. CM-NGO-101)">
+            <input type="password" placeholder="Access PIN">
+            <button class="btn-prime" onclick="System.login()">Authorize Access</button>
+            <div id="login-error" style="color:red; font-size:10px; margin-top:10px; display:none;">Invalid ID or Access Level.</div>
+        </div>
+    </div>
+
+    <div id="nexus-core">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN NGO ERP v25.4</h2></div>
-            <div class="nav-header">Donor Relations</div>
-            <div class="desk-link active" onclick="location.reload()">Donor Management</div>
-            <div class="desk-link" onclick="alert('Opening Grant Pipeline...')">Grant Applications</div>
-            <div class="nav-header">Operations</div>
-            <div class="desk-link" onclick="alert('Project M&E Records...')">Impact & M&E</div>
-            <div class="desk-link" onclick="alert('Registrar General Docs...')">Compliance & Audit</div>
+            <div style="padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div id="user_display" style="font-size: 12px; font-weight: 800; color: var(--gold);"></div>
+                <div id="role_display" style="font-size: 9px; text-transform: uppercase; margin-top: 5px;"></div>
+            </div>
+            
+            <nav id="nav-container">
+                </nav>
         </aside>
 
-        <main id="main-dashboard">
-            <div class="desk-header">
-                <h2>NGO Donor & Project Management Desk</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--ngo);">NGO REG: G-3392 / SW-884</div>
-            </div>
-
-            <div class="grid-ngo">
-                <div class="card" style="border-top: 5px solid var(--donor);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--donor);">Record Donor Contribution</h3>
-                    <label>Donor Type</label>
-                    <select id="d_type">
-                        <option>International Foundation</option>
-                        <option>Corporate Sponsor (Ghana)</option>
-                        <option>Individual Philanthropist</option>
-                    </select>
-
-                    <label>Donor Name / Organization</label>
-                    <input type="text" placeholder="e.g. Ford Foundation / MTN Ghana">
-
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div><label>Amount (USD/GHS)</label><input type="number" placeholder="0.00"></div>
-                        <div><label>Currency</label><select><option>GHS</option><option>USD</option><option>GBP</option></select></div>
-                    </div>
-
-                    <label>Designated Project</label>
-                    <select>
-                        <option>Rural Education Support</option>
-                        <option>School Feeding Program</option>
-                        <option>Girls in Tech Initiative</option>
-                    </select>
-                    
-                    <button class="btn-ngo" style="background:var(--donor)" onclick="alert('Contribution Logged. Tax Receipt generated for Donor.')">Process Donation</button>
+        <main id="main-stage">
+            <header style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--navy); padding-bottom: 15px; margin-bottom: 25px;">
+                <h2 id="view_title">Command Centre</h2>
+                <div style="text-align: right;">
+                    <div style="font-size: 10px; font-weight: 900;">SYSTEM ID: <span id="trace_id" style="color:var(--admin)"></span></div>
+                    <div style="font-size: 10px; color: #777;">Ghana Standard Time: 2025-12-30</div>
                 </div>
+            </header>
 
-                <div class="card" style="border-top: 5px solid var(--impact);">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--impact);">Active Grant & Project Pipeline</h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Funding Status</th>
-                                <th>Utilization</th>
-                                <th>Impact Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><b>STEM for Northern Region</b></td>
-                                <td><span class="grant-pill">Fully Funded</span></td>
-                                <td><div style="width:100%; background:#eee; height:5px;"><div style="width:75%; background:var(--ngo); height:100%;"></div></div></td>
-                                <td><b>8.5/10</b></td>
-                            </tr>
-                            <tr>
-                                <td><b>Safe Water Project</b></td>
-                                <td><span class="grant-pill" style="color:var(--impact); border-color:var(--impact);">Pending Review</span></td>
-                                <td><div style="width:100%; background:#eee; height:5px;"><div style="width:10%; background:var(--impact); height:100%;"></div></div></td>
-                                <td><b>--</b></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div style="background:#f4f4f4; padding:15px; border-radius:5px; border:1px dashed #ccc;">
-                        <label>M&E Impact Summary</label>
-                        <p style="font-size:10px; color:#555;">Beneficiaries Reached this Month: <b>1,240 Students</b><br>Geographic Reach: <b>Upper West & Savannah Regions</b></p>
-                    </div>
+            <div id="content-area">
                 </div>
-            </div>
-
-            <div class="card">
-                <label>Statutory Compliance Status (Ghana)</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top:10px;">
-                    <div style="font-size:10px; border:1px solid #eee; padding:10px;">Registrar General Annual Return: <b style="color:green;">UPDATED</b></div>
-                    <div style="font-size:10px; border:1px solid #eee; padding:10px;">Social Welfare Cert Renewed: <b style="color:green;">YES</b></div>
-                    <div style="font-size:10px; border:1px solid #eee; padding:10px;">GRA Tax Exemption Status: <b style="color:orange;">IN-REVIEW</b></div>
-                </div>
-            </div>
         </main>
     </div>
+
+    <script>
+        const System = {
+            users: {
+                "CM-NGO-101": { name: "John Mensah", role: "Volunteer", wing: "NGO", access: ["Impact", "Attendance"] },
+                "CM-SCH-202": { name: "Sarah Boateng", role: "Teacher", wing: "SCHOOL", access: ["Academic", "Attendance", "Registry"] },
+                "CM-EXE-001": { name: "General Manager", role: "Management", wing: "ALL", access: ["Registry", "Academic", "Impact", "Attendance", "Finance", "HR", "Supply", "Fleet", "Compliance", "CEO"] }
+            },
+
+            login: () => {
+                const id = document.getElementById('staff_id').value;
+                const user = System.users[id];
+                
+                if (user) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('nexus-core').style.display = 'flex';
+                    System.initDashboard(user, id);
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            },
+
+            initDashboard: (user, id) => {
+                document.getElementById('user_display').innerText = user.name;
+                document.getElementById('role_display').innerText = `${user.wing} | ${user.role}`;
+                document.getElementById('trace_id').innerText = id;
+
+                const nav = document.getElementById('nav-container');
+                nav.innerHTML = `<div class="nav-header">Operations Nexus</div>`;
+                
+                user.access.forEach(module => {
+                    nav.innerHTML += `<div class="nav-item" onclick="System.loadModule('${module}')">${module} Control</div>`;
+                });
+
+                // Default view: Shared Finance Logic
+                System.loadModule('Finance');
+            },
+
+            loadModule: (mod) => {
+                document.getElementById('view_title').innerText = `${mod} Master Control`;
+                const area = document.getElementById('content-area');
+                const user = System.users[document.getElementById('staff_id').value];
+
+                if (mod === 'Finance') {
+                    area.innerHTML = `
+                        <div class="card">
+                            <span class="fin-badge ${user.wing === 'NGO' ? 'badge-ngo' : 'badge-school'}">${user.wing} FINANCIAL VIEW</span>
+                            <p style="font-size:11px;">Activity Tracing: <b>${user.name} (${document.getElementById('staff_id').value})</b></p>
+                            <label>Record Transaction Type</label>
+                            <select>
+                                ${user.wing === 'ALL' || user.wing === 'SCHOOL' ? '<option>Student Fee Payment</option>' : ''}
+                                ${user.wing === 'ALL' || user.wing === 'NGO' ? '<option>NGO Grant Disbursement</option>' : ''}
+                                <option>Internal Expense Request</option>
+                            </select>
+                            <input type="number" placeholder="Enter Amount (GHS)">
+                            <button class="btn-prime">Submit for Audit</button>
+                        </div>
+                    `;
+                } else {
+                    area.innerHTML = `<div class="card"><h3>${mod} Data Interface</h3><p>Authorized access granted to ${user.name}.</p></div>`;
+                }
+            }
+        };
+    </script>
 </body>
 </html>
