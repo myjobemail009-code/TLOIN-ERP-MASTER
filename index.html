@@ -58,176 +58,91 @@
         <div class="brand"><h2>TLOIN ERP</h2></div>
         <div class="nav-item active">01. Registry Nexus</div>
         <div class="nav-item">02. Academic Command</div>
-        </aside>
+    </aside>
 
     <main id="main-viewport">
         <div class="module-container">
             <div class="console-header">
                 <button class="tab-btn active" onclick="SwitchDesk(1)">Student Registry</button>
                 <button class="tab-btn" onclick="SwitchDesk(2)">Staff/Volunteer</button>
-                <button class="tab-btn" onclick="Switch(3)">Donations In</button>
-                <button class="tab-btn" onclick="Switch(4)">Donations Out</button>
-                <button class="tab-btn" onclick="Switch(5)">NGO Clubs</button>
-                <button class="tab-btn" onclick="Switch(6)">Business Grants</button>
+                <button class="tab-btn" onclick="SwitchDesk(3)">Donations In</button>
+                <button class="tab-btn" onclick="SwitchDesk(4)">Donations Out</button>
+                <button class="tab-btn" onclick="SwitchDesk(5)">NGO Clubs</button>
+                <button class="tab-btn" onclick="SwitchDesk(6)">Business Grants</button>
             </div>
 
             <div id="desk-1" class="standalone-desk active">
                 <div class="section-tag">Student Full Biodata & Identity</div>
                 <div class="upload-area">
-                    <div class="pic-box">
-                        <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO</span>
-                        <img id="s-pic"><input type="file" accept="image/*" onchange="Preview(this, 's-pic')">
-                    </div>
-                    <div>
-                        <label>ID Document Scan (Optional)</label>
-                        <input type="file">
-                        <div class="grid-2" style="margin-top:10px;">
-                            <div><label>First Name</label><input type="text"></div>
-                            <div><label>Surname</label><input type="text"></div>
-                        </div>
-                    </div>
+                    <div class="pic-box"><span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO</span><img id="s-pic"><input type="file" onchange="Preview(this, 's-pic')"></div>
+                    <div><label>ID Document Scan (Optional)</label><input type="file"><div class="grid-2" style="margin-top:10px;"><div><label>First Name</label><input type="text"></div><div><label>Surname</label><input type="text"></div></div></div>
                 </div>
                 <div class="grid-3" style="margin-top:15px;">
-                    <div><label>Class Selector</label>
-                        <select>
-                            <option>Creche</option><option>Nursery 1</option><option>Nursery 2</option>
-                            <option>K.G. 1</option><option>K.G. 2</option>
-                            <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
-                            <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
-                        </select>
-                    </div>
+                    <div><label>Class Selector</label><select><option>Creche</option><option>Nursery 1&2</option><option>K.G. 1&2</option><option>Primary 1 to 6</option></select></div>
                     <div><label>Date of Birth</label><input type="date"></div>
                     <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
                 </div>
-                <div class="section-tag">Medical History (International Standard)</div>
-                <div class="grid-3">
-                    <div><label>Blood Group</label><input type="text" placeholder="e.g. O+"></div>
-                    <div><label>Allergies</label><input type="text"></div>
-                    <div><label>Chronic Illnesses</label><input type="text"></div>
-                </div>
-                <div class="section-tag">Comprehensive Guardian & Emergency Biodata</div>
-                <div class="grid-3">
-                    <div><label>Guardian Name</label><input type="text"></div>
-                    <div><label>Relationship</label><input type="text"></div>
-                    <div><label>Guardian Occupation</label><input type="text"></div>
-                </div>
-                <div class="grid-2">
-                    <div><label>Emergency Person Name</label><input type="text"></div>
-                    <div><label>Emergency Phone</label><input type="tel"></div>
-                </div>
-                <button class="btn-execute">Save Complete Student Record</button>
+                <div class="section-tag">Medical & Guardian History</div>
+                <div class="grid-3"><div><label>Blood Group</label><input type="text"></div><div><label>Allergies</label><input type="text"></div><div><label>Guardian Name</label><input type="text"></div></div>
+                <div class="grid-2"><div><label>Emergency Contact</label><input type="tel"></div><div><label>Emergency Name</label><input type="text"></div></div>
+                <button class="btn-execute">Save Student Record</button>
             </div>
 
             <div id="desk-2" class="standalone-desk">
-                <div class="section-tag">Staff/Volunteer Registry & Payroll Logic</div>
+                <div class="section-tag">Staff/Volunteer Registry</div>
                 <div class="upload-area">
                     <div class="pic-box"><img id="st-pic"><input type="file" onchange="Preview(this, 'st-pic')"></div>
-                    <div class="grid-2">
-                        <div><label>ID Card Type/Number</label><input type="text"></div>
-                        <div><label>ID Scan (Optional)</label><input type="file"></div>
-                    </div>
+                    <div class="grid-2"><div><label>ID Scan</label><input type="file"></div><div><label>Role</label><input type="text"></div></div>
                 </div>
                 <div class="grid-3" style="margin-top:15px;">
-                    <div><label>Job Role</label><input type="text"></div>
                     <div><label>Status</label><select id="st-status" onchange="ToggleSal()"><option value="vol">Volunteer</option><option value="per">Permanent</option></select></div>
                     <div><label>Entity</label><select><option>NGO</option><option>School</option></select></div>
+                    <div><label>Bank Name</label><input type="text"></div>
                 </div>
                 <div id="payroll-area" style="display:none;">
-                    <div class="section-tag">Bank & Statutory (Ghana Laws)</div>
-                    <div class="grid-3">
-                        <div><label>Bank Name/Branch</label><input type="text"></div>
-                        <div><label>Account Number</label><input type="text"></div>
-                        <div><label>Gross Salary (GHS)</label><input type="number" id="gross" oninput="StaffCalc()"></div>
-                    </div>
                     <div class="grid-3" style="margin-top:10px;">
+                        <div><label>Gross Salary</label><input type="number" id="gross" oninput="StaffCalc()"></div>
                         <div><label>SSNIT (5.5%)</label><input type="text" id="ssnit" class="readonly-field" readonly></div>
-                        <div><label>Tax (PAYE)</label><input type="text" id="tax" class="readonly-field" readonly></div>
-                        <div><label>Net Payable</label><input type="text" id="net" class="readonly-field" readonly></div>
+                        <div><label>Tax Deduction</label><input type="text" id="tax" class="readonly-field" readonly></div>
                     </div>
                 </div>
-                <button class="btn-execute">Archive Staff Record</button>
+                <button class="btn-execute">Archive Staff</button>
             </div>
 
             <div id="desk-3" class="standalone-desk">
                 <div class="section-tag">Incoming Donation Registry</div>
-                <div class="grid-3">
-                    <div><label>Donor Source</label><input type="text"></div>
-                    <div><label>Donation Type</label><select id="don-type" onchange="ToggleDon()"><option value="cash">Cash</option><option value="item">Items/Supplies</option></select></div>
-                    <div><label>Program Target</label><input type="text" placeholder="General or Special Program"></div>
+                <div class="grid-3"><div><label>Source</label><input type="text"></div><div><label>Type</label><select id="don-type" onchange="ToggleDon()"><option value="cash">Cash</option><option value="item">Items</option></select></div><div><label>Special Program</label><input type="text"></div></div>
+                <div id="cash-don"><div class="grid-2" style="margin-top:10px;"><div><label>Currency</label><select><option>GHS</option><option>USD</option></select></div><div><label>Equivalent GHS</label><input type="number"></div></div></div>
+                <div id="item-don" style="display:none;">
+                    <table class="heavy-table" id="in-items"><thead><tr><th>Item</th><th>Measure</th><th>Value</th><th>Pkg</th><th>Qty</th></tr></thead><tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody></table>
+                    <button class="add-row-btn" onclick="AddRow('in-items')">+ Add Item</button>
                 </div>
-                <div id="cash-don">
-                    <div class="grid-2" style="margin-top:15px;">
-                        <div><label>Currency</label><select><option>GHS</option><option>USD</option><option>GBP</option></select></div>
-                        <div><label>GHS Equivalent</label><input type="number"></div>
-                    </div>
-                </div>
-                <div id="item-don" style="display:none; margin-top:15px;">
-                    <table class="heavy-table" id="in-items">
-                        <thead><tr><th>Item Name</th><th>Unit/Measure</th><th>Market Value</th><th>Package</th><th>Qty</th></tr></thead>
-                        <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody>
-                    </table>
-                    <button class="add-row-btn" onclick="AddRow('in-items')">+ Add Extra Item</button>
-                </div>
-                <div class="auth-workflow">
-                    <label>Workflow Authorization (Admin/Audit PIN)</label>
-                    <input type="password" placeholder="****">
-                </div>
-                <button class="btn-execute">Authorize Intake</button>
+                <div class="auth-workflow"><label>Audit Authorization PIN</label><input type="password"></div>
+                <button class="btn-execute">Verify Intake</button>
             </div>
 
             <div id="desk-4" class="standalone-desk">
-                <div class="section-tag">Community Outreach Disbursement</div>
-                <div class="grid-2">
-                    <div><label>Community/Location</label><input type="text"></div>
-                    <div><label>Outreach Program Name</label><input type="text"></div>
-                </div>
-                <div class="grid-2" style="margin-top:15px;">
-                   <div><label>Cash Amount (If any)</label><input type="number"></div>
-                   <div><label>Workflow Authorization</label><input type="password" placeholder="Manager Signature PIN"></div>
-                </div>
-                <div class="section-tag">Disbursed Items</div>
-                <table class="heavy-table" id="out-items">
-                    <thead><tr><th>Item</th><th>Measure</th><th>Qty</th><th>Package</th><th>Value</th></tr></thead>
-                    <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody>
-                </table>
-                <button class="add-row-btn" onclick="AddRow('out-items')">+ Add Extra Item</button>
-                <button class="btn-execute">Confirm Outreach Disbursement</button>
+                <div class="section-tag">Outreach Disbursement</div>
+                <div class="grid-2"><div><label>Location</label><input type="text"></div><div><label>Program</label><input type="text"></div></div>
+                <table class="heavy-table" id="out-items" style="margin-top:10px;"><thead><tr><th>Item</th><th>Measure</th><th>Qty</th><th>Pkg</th><th>Value</th></tr></thead><tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody></table>
+                <button class="add-row-btn" onclick="AddRow('out-items')">+ Add Item</button>
+                <div class="auth-workflow"><label>Manager Signature PIN</label><input type="password"></div>
+                <button class="btn-execute">Confirm Outreach</button>
             </div>
 
             <div id="desk-5" class="standalone-desk">
-                <div class="section-tag">NGO Membership & Club Registry</div>
-                <div class="upload-area">
-                    <div class="pic-box"><img id="m-pic"><input type="file" onchange="Preview(this, 'm-pic')"></div>
-                    <div class="grid-2">
-                        <div><label>Full Name</label><input type="text"></div>
-                        <div><label>Community/Address</label><input type="text"></div>
-                    </div>
-                </div>
-                <div class="grid-3" style="margin-top:15px;">
-                    <div><label>ID Card Details</label><input type="text"></div>
-                    <div><label>ID Scan</label><input type="file"></div>
-                    <div><label>Group to Join</label><input type="text"></div>
-                </div>
-                <div class="section-tag">Grant Eligibility Biodata</div>
-                <textarea placeholder="Comprehensive background for business grant qualification..."></textarea>
+                <div class="section-tag">Membership Registry</div>
+                <div class="grid-2"><div><label>Full Name</label><input type="text"></div><div><label>Address</label><input type="text"></div></div>
+                <div class="grid-3" style="margin-top:10px;"><div><label>ID Type</label><input type="text"></div><div><label>Group</label><input type="text"></div><div><label>ID Scan</label><input type="file"></div></div>
                 <button class="btn-execute">Register Member</button>
             </div>
 
             <div id="desk-6" class="standalone-desk">
-                <div class="section-tag">Business Grant & Soft Loan Engine</div>
-                <div class="grid-3">
-                    <div><label>Member Name</label><input type="text"></div>
-                    <div><label>Loan Type</label><select id="l-plan"><option value="weekly">Weekly Repayment</option><option value="monthly">Monthly Repayment</option></select></div>
-                    <div><label>Principal (GHS)</label><input type="number" id="l-principal" oninput="LoanCalc()"></div>
-                </div>
-                <div class="grid-3" style="margin-top:15px;">
-                    <div><label>Interest Rate (%)</label><input type="number" id="l-int" oninput="LoanCalc()"></div>
-                    <div><label>Total to Pay</label><input type="text" id="l-total" class="readonly-field" readonly></div>
-                    <div><label>Authorization</label><input type="password" placeholder="CEO PIN"></div>
-                </div>
-                <button class="btn-execute" style="background:var(--success); color:white;">Disburse Soft Loan</button>
+                <div class="section-tag">Business Grant Logic</div>
+                <div class="grid-3"><div><label>Member</label><input type="text"></div><div><label>Plan</label><select><option>Weekly</option><option>Monthly</option></select></div><div><label>Principal</label><input type="number" id="l-principal" oninput="LoanCalc()"></div></div>
+                <div class="grid-2" style="margin-top:10px;"><div><label>Interest %</label><input type="number" id="l-int" oninput="LoanCalc()"></div><div><label>Total Repayable</label><input type="text" id="l-total" class="readonly-field" readonly></div></div>
+                <button class="btn-execute">Disburse Grant</button>
             </div>
-
         </div>
     </main>
 </div>
@@ -239,8 +154,6 @@
         document.getElementById('desk-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
     }
-    // Shared Functions
-    function Switch(n) { SwitchDesk(n); }
     function Preview(input, id) {
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -253,18 +166,13 @@
         let r = t.insertRow();
         r.innerHTML = t.rows[0].innerHTML;
     }
-
-    // Intelligence Logic
-    function ToggleSal() {
-        document.getElementById('payroll-area').style.display = (document.getElementById('st-status').value === 'per') ? 'block' : 'none';
-    }
+    function ToggleSal() { document.getElementById('payroll-area').style.display = (document.getElementById('st-status').value === 'per') ? 'block' : 'none'; }
     function StaffCalc() {
         let g = parseFloat(document.getElementById('gross').value) || 0;
-        let s = g * 0.055; // SSNIT
-        let t = (g > 402) ? (g - s - 402) * 0.05 : 0; // Simplified Ghanaian PAYE logic
+        let s = g * 0.055;
+        let t = (g > 402) ? (g - s - 402) * 0.05 : 0;
         document.getElementById('ssnit').value = s.toFixed(2);
         document.getElementById('tax').value = t.toFixed(2);
-        document.getElementById('net').value = (g - s - t).toFixed(2);
     }
     function ToggleDon() {
         let type = document.getElementById('don-type').value;
