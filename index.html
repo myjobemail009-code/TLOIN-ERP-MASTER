@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN & CLEVER MINDS - ERP v19.8</title>
+    <title>TLOIN & CLEVER MINDS - ERP v20.2</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --media: #9b59b6; --task: #8e44ad; --ict: #3498db; --success: #2ecc71;
+            --border: #ced4da; --supply: #e67e22; --finance: #27ae60; --task: #8e44ad; --ict: #3498db; --gov: #2c3e50;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 320px 1fr; height: 100vh; width: 100vw; }
@@ -27,37 +27,34 @@
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         
         label { display: block; font-size: 10px; font-weight: 700; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
         .btn-erp { background: var(--navy); color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; margin-top: 15px; }
 
         .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
-        .data-table th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid var(--navy); }
-        .data-table td { padding: 10px; border-bottom: 1px solid #eee; }
-        .badge { padding: 4px 8px; border-radius: 12px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
-        .bg-pending { background: #ffeaa7; color: #d35400; }
-        .bg-done { background: #55efc4; color: #00b894; }
+        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid var(--navy); color: var(--navy); text-transform: uppercase; }
+        .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        
+        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: bold; }
+        .under { background: #d4edda; color: #155724; }
+        .over { background: #f8d7da; color: #721c24; }
+        .preview-tag { float: right; color: var(--gold); font-size: 9px; border: 1px solid var(--gold); padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v19.8</h2></div>
+            <div class="brand"><h2>TLOIN ERP v20.2</h2></div>
             
-            <div class="nav-header">Communication</div>
-            <div class="desk-link" onclick="Nexus.load('Media')">Media & Public Relations <span style="color:var(--media)">● ACTIVE</span></div>
-            <div class="desk-link" onclick="Nexus.load('Tasks')">Internal Tasks <span style="color:var(--gold)">● PREVIEW</span></div>
+            <div class="nav-header">Active Previews</div>
+            <div class="desk-link" onclick="Nexus.load('Finance')">Budget & Finance</div>
+            <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hub Performance</div>
+            <div class="desk-link" onclick="Nexus.load('Tasks')">Internal Task Manager</div>
+            <div class="desk-link" onclick="Nexus.load('Board')">Board Governance</div>
+            <div class="desk-link" onclick="Nexus.load('Supply')">Vendor Registry</div>
             
-            <div class="nav-header">Hub Operations</div>
-            <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hub Performance <span style="color:var(--gold)">● PREVIEW</span></div>
+            <div class="nav-header">System Operations</div>
             <div class="desk-link" onclick="Nexus.load('Asset')">Asset Registry</div>
-            
-            <div class="nav-header">External Relations</div>
-            <div class="desk-link" onclick="Nexus.load('Partner')">Strategic Partnerships <span style="color:var(--gold)">● PREVIEW</span></div>
-            <div class="desk-link" onclick="Nexus.load('Grants')">Grant Pipeline</div>
-            
-            <div class="nav-header">Governance</div>
-            <div class="desk-link" onclick="Nexus.load('ME')">Impact Tracking</div>
-            <div class="desk-link" onclick="Nexus.load('Policy')">Policy Vault</div>
+            <div class="desk-link" onclick="Nexus.load('Volunteer')">Volunteers & Interns</div>
+            <div class="desk-link" onclick="Nexus.load('Policy')">Legal Vault</div>
         </aside>
 
         <main id="main-dashboard">
@@ -71,87 +68,47 @@
             save: (key, data) => localStorage.setItem(key, JSON.stringify(data))
         };
 
-        // SAMPLE DATA INJECTION FOR PREVIEW FEEL
-        const initSampleData = () => {
-            if(VAULT.get('cm_task_erp').length === 0) {
-                VAULT.save('cm_task_erp', [
-                    {deadline: '2025-12-31', title: 'End of Year Impact Report', assignee: 'Kofi Mensah', status: 'In Progress'},
-                    {deadline: '2026-01-05', title: 'Tamale Hub Solar Maintenance', assignee: 'Technical Team', status: 'To Do'}
-                ]);
-            }
-            if(VAULT.get('cm_ict_erp').length === 0) {
-                VAULT.save('cm_ict_erp', [
-                    {date: '2025-12-29', hub: 'Accra Hub', students: '45', data: '120'},
-                    {date: '2025-12-29', hub: 'Tamale Hub', students: '32', data: '85'}
-                ]);
-            }
+        // GLOBAL MOCK DATA FOR THE PREVIEW FEEL
+        const seed = () => {
+            if(!localStorage.getItem('cm_finance_erp')) VAULT.save('cm_finance_erp', [{dept:'ICT Training', budget:20000, actual:18500, status:'under'}, {dept:'Mobile Outreach', budget:5000, actual:6200, status:'over'}]);
+            if(!localStorage.getItem('cm_ict_erp')) VAULT.save('cm_ict_erp', [{date:'2025-12-30', hub:'Tamale Hub', students:42, data:'15GB'}, {date:'2025-12-30', hub:'Accra Hub', students:38, data:'80GB'}]);
+            if(!localStorage.getItem('cm_task_erp')) VAULT.save('cm_task_erp', [{deadline:'2026-01-10', title:'Q1 Strategic Review', assignee:'Director', status:'Pending'}, {deadline:'2025-12-31', title:'Submit Tax Returns', assignee:'Accountant', status:'Ongoing'}]);
+            if(!localStorage.getItem('cm_board_erp')) VAULT.save('cm_board_erp', [{date:'2025-11-20', ref:'BR-09', subject:'New Hub Acquisition', outcome:'Passed'}, {date:'2025-12-15', ref:'BR-10', subject:'Volunteer Stipend Review', outcome:'Deferred'}]);
+            if(!localStorage.getItem('cm_vendor_erp')) VAULT.save('cm_vendor_erp', [{name:'Starlink Ghana', service:'High-Speed Data', contact:'Support', rating:'★★★★★'}, {name:'OfficeTop', service:'Stationery', contact:'0244...', rating:'★★★☆☆'}]);
         };
-        initSampleData();
+        seed();
 
         const Desks = {
-            Media: () => {
-                const logs = VAULT.get('cm_media_erp');
-                const rows = logs.map(l => `<tr><td>${l.date}</td><td><b>${l.platform}</b></td><td>${l.topic}</td><td>${l.status}</td></tr>`).join('');
-                return `
-                <div class="form-card">
-                    <h2 style="color:var(--media); border-bottom: 2px solid var(--media); padding-bottom:10px;">MEDIA & COMMUNICATIONS DESK</h2>
-                    <div class="grid-3" style="margin-top:20px;">
-                        <div><label>Content Date</label><input type="date" id="m_date"></div>
-                        <div><label>Platform</label>
-                            <select id="m_plat">
-                                <option>Instagram/Facebook</option><option>LinkedIn</option>
-                                <option>Twitter/X</option><option>Website Blog</option><option>Press Release</option>
-                            </select>
-                        </div>
-                        <div><label>Campaign/Topic</label><input type="text" id="m_topic" placeholder="e.g. Volunteer Spotlight"></div>
-                    </div>
-                    <div style="margin-top:15px;">
-                        <label>Post Caption / Media Brief</label>
-                        <textarea id="m_brief" rows="2" placeholder="What is the story we are telling?"></textarea>
-                    </div>
-                    <button class="btn-erp" style="background:var(--media);" onclick="Logic.saveMedia()">Schedule Media Post</button>
-                </div>
-                <table class="data-table">
-                    <thead><tr><th>Date</th><th>Platform</th><th>Topic</th><th>Status</th></tr></thead>
-                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">No scheduled posts.</td></tr>'}</tbody>
-                </table>`;
-            },
-            Tasks: () => {
-                const logs = VAULT.get('cm_task_erp');
-                const rows = logs.map(l => `<tr><td>${l.deadline}</td><td>${l.title}</td><td>${l.assignee}</td><td><span class="badge ${l.status === 'Completed' ? 'bg-done' : 'bg-pending'}">${l.status}</span></td></tr>`).join('');
-                return `<h2 style="color:var(--task)">Task Manager Preview</h2><table class="data-table"><thead><tr><th>Due</th><th>Task</th><th>Owner</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+            Finance: () => {
+                const rows = VAULT.get('cm_finance_erp').map(l => `<tr><td><b>${l.dept}</b></td><td>GHS ${l.budget}</td><td>GHS ${l.actual}</td><td><span class="status-pill ${l.status}">${l.status.toUpperCase()}</span></td></tr>`).join('');
+                return `<h3><span class="preview-tag">LIVE DATA</span>Budgetary Control</h3><table class="data-table"><thead><tr><th>Dept</th><th>Budget</th><th>Actual</th><th>Variance</th></tr></thead><tbody>${rows}</tbody></table>`;
             },
             ICT: () => {
-                const logs = VAULT.get('cm_ict_erp');
-                const rows = logs.map(l => `<tr><td>${l.date}</td><td>${l.hub}</td><td>${l.students}</td><td>${l.data} GB</td></tr>`).join('');
-                return `<h2 style="color:var(--ict)">Hub Performance Preview</h2><table class="data-table"><thead><tr><th>Date</th><th>Hub</th><th>Students</th><th>Data</th></tr></thead><tbody>${rows}</tbody></table>`;
+                const rows = VAULT.get('cm_ict_erp').map(l => `<tr><td>${l.date}</td><td><b>${l.hub}</b></td><td>${l.students} Students</td><td>${l.data} Left</td></tr>`).join('');
+                return `<h3><span class="preview-tag">LIVE DATA</span>ICT Hub Performance</h3><table class="data-table"><thead><tr><th>Date</th><th>Hub</th><th>Attendance</th><th>Internet</th></tr></thead><tbody>${rows}</tbody></table>`;
             },
-            Partner: () => `<h1>Strategic Partnerships</h1><p>Preview Mode: UNICEF Ghana (Financial - Active)</p>`,
-            Asset: () => `<h1>Asset Registry</h1><p>Locked & Static.</p>`,
-            Grants: () => `<h1>Grant Pipeline</h1><p>Locked & Static.</p>`,
-            ME: () => `<h1>M&E Impact</h1><p>Locked & Static.</p>`,
-            Policy: () => `<h1>Policy Vault</h1><p>Locked & Static.</p>`
-        };
-
-        const Logic = {
-            saveMedia: () => {
-                const data = {
-                    date: document.getElementById('m_date').value,
-                    platform: document.getElementById('m_plat').value,
-                    topic: document.getElementById('m_topic').value,
-                    status: 'Scheduled'
-                };
-                if(!data.date || !data.topic) return alert("Media Error: Date and Topic required.");
-                let list = VAULT.get('cm_media_erp'); list.push(data); VAULT.save('cm_media_erp', list);
-                Nexus.load('Media');
-            }
+            Tasks: () => {
+                const rows = VAULT.get('cm_task_erp').map(l => `<tr><td>${l.deadline}</td><td><b>${l.title}</b></td><td>${l.assignee}</td><td>${l.status}</td></tr>`).join('');
+                return `<h3><span class="preview-tag">LIVE DATA</span>Task Tracking</h3><table class="data-table"><thead><tr><th>Deadline</th><th>Task</th><th>Assignee</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+            },
+            Board: () => {
+                const rows = VAULT.get('cm_board_erp').map(l => `<tr><td>${l.date}</td><td>${l.ref}</td><td><b>${l.subject}</b></td><td>${l.outcome}</td></tr>`).join('');
+                return `<h3><span class="preview-tag">LIVE DATA</span>Board Resolutions</h3><table class="data-table"><thead><tr><th>Date</th><th>Ref</th><th>Subject</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table>`;
+            },
+            Supply: () => {
+                const rows = VAULT.get('cm_vendor_erp').map(l => `<tr><td><b>${l.name}</b></td><td>${l.service}</td><td>${l.contact}</td><td>${l.rating}</td></tr>`).join('');
+                return `<h3><span class="preview-tag">LIVE DATA</span>Vendor Registry</h3><table class="data-table"><thead><tr><th>Vendor</th><th>Service</th><th>Contact</th><th>Rating</th></tr></thead><tbody>${rows}</tbody></table>`;
+            },
+            Asset: () => `<h3>Asset Registry</h3><p>Locked & Static.</p>`,
+            Volunteer: () => `<h3>Volunteers & Interns</h3><p>Locked & Static.</p>`,
+            Policy: () => `<h3>Legal Vault</h3><p>Locked & Static.</p>`
         };
 
         const Nexus = {
             load: (d) => { document.getElementById('mount-point').innerHTML = Desks[d] ? Desks[d]() : `<h2>Loading...</h2>`; }
         };
 
-        Nexus.load('Media');
+        Nexus.load('Finance');
     </script>
 </body>
 </html>
