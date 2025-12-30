@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.23 - MODULE 1 STANDALONE</title>
+    <title>TLOIN ERP v28.24 - MODULE 1: INDEPENDENT CONSOLES</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
@@ -11,53 +11,49 @@
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        /* STATIC SIDEBAR */
+        /* SIDEBAR - STATIC & LOCKED */
         #sidebar { background: var(--navy); color: white; border-right: 6px solid var(--gold); overflow-y: auto; }
         .brand { padding: 35px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 18px 25px; font-size: 10px; font-weight: 800; color: #a0aec0; text-transform: uppercase; cursor: pointer; border-left: 5px solid transparent; transition: 0.3s; }
-        .nav-item.active { background: rgba(255,255,255,0.15); color: var(--gold); border-left-color: var(--gold); }
+        .nav-item { padding: 18px 25px; font-size: 10px; font-weight: 800; color: #a0aec0; text-transform: uppercase; cursor: pointer; border-left: 5px solid transparent; }
+        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
 
-        /* VIEWPORT ARCHITECTURE */
+        /* VIEWPORT */
         #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .module-desk { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; display: flex; flex-direction: column; border: 1px solid var(--border); overflow: hidden; }
+        .module-desk { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
         
-        /* STANDALONE TAB SYSTEM */
-        .console-header { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 20px 25px; display: flex; gap: 10px; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 20px; font-size: 9px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 6px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
-        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* INDEPENDENT CONSOLE NAVIGATION */
+        .console-header { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .tab-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
+        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
 
-        /* STANDALONE DESKS */
-        .registry-pane { display: none; padding: 35px; animation: fadeIn 0.4s ease; }
-        .registry-pane.active { display: block; }
+        /* STANDALONE CONSOLE PANES */
+        .standalone-console { display: none; padding: 35px; animation: lockedFade 0.3s ease-in-out; }
+        .standalone-console.active { display: block; }
         
-        .section-tag { font-size: 11px; font-weight: 900; color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 8px; margin: 30px 0 20px 0; text-transform: uppercase; letter-spacing: 1px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin: 25px 0 15px 0; text-transform: uppercase; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 10px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+        label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 8px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; background: #fff; }
 
-        /* UPLOAD SLOTS */
-        .upload-slot { border: 2px dashed #cbd5e0; border-radius: 12px; padding: 25px; text-align: center; background: #f7fafc; cursor: pointer; font-size: 10px; font-weight: 700; color: #718096; }
+        /* UPLOAD & ITEMIZATION */
+        .upload-area { border: 2px dashed #cbd5e0; border-radius: 10px; padding: 20px; text-align: center; background: #f9fafb; font-size: 9px; font-weight: 800; }
+        .item-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .item-table th { background: #f1f5f9; padding: 12px; font-size: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+        .item-table td { padding: 8px; border-bottom: 1px solid #f1f5f9; }
         
-        /* DYNAMIC TABLES */
-        .item-table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 1px solid #edf2f7; border-radius: 8px; overflow: hidden; }
-        .item-table th { background: #f8fafc; padding: 15px; font-size: 9px; text-align: left; color: #2d3748; border-bottom: 2px solid #edf2f7; }
-        .item-table td { padding: 12px; border-bottom: 1px solid #f7fafc; }
-        .btn-add { background: var(--success); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+        .btn-add { background: var(--success); color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        .btn-execute { width: 100%; padding: 20px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 30px; letter-spacing: 1px; }
 
-        /* EXECUTION & AUDIT */
-        .audit-gate { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 10px; margin-top: 25px; }
-        .btn-execute { width: 100%; padding: 24px; background: var(--navy); color: var(--gold); border: none; border-radius: 12px; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 14px; margin-top: 40px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes lockedFade { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:20px; color:var(--gold); margin:0;">TLOIN v28.23</h2></div>
+        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.24</h2></div>
         <div class="nav-item active">01. Registry Nexus</div>
         <div class="nav-item">02. Academic Command</div>
         <div class="nav-item">03. Impact & Field Ops</div>
@@ -73,159 +69,149 @@
     <main id="main-viewport">
         <div class="module-desk">
             <div class="console-header">
-                <button class="tab-btn active" onclick="Standalone(1)">Student Desk</button>
-                <button class="tab-btn" onclick="Standalone(2)">Staff/Volunteer Desk</button>
-                <button class="tab-btn" onclick="Standalone(3)">NGO Inflow (Donations)</button>
-                <button class="tab-btn" onclick="Standalone(4)">NGO Outflow (Outreach)</button>
-                <button class="tab-btn" onclick="Standalone(5)">NGO Club Registry</button>
-                <button class="tab-btn" onclick="Standalone(6)">Business Grant Engine</button>
+                <button class="tab-btn active" onclick="SwitchConsole(1)">Student Registry</button>
+                <button class="tab-btn" onclick="SwitchConsole(2)">Staff/Volunteer Registry</button>
+                <button class="tab-btn" onclick="SwitchConsole(3)">Incoming Donations</button>
+                <button class="tab-btn" onclick="SwitchConsole(4)">Outgoing (Outreach)</button>
+                <button class="tab-btn" onclick="SwitchConsole(5)">NGO Club Membership</button>
+                <button class="tab-btn" onclick="SwitchConsole(6)">Business Grant Desk</button>
             </div>
 
-            <div id="desk-1" class="registry-pane active">
-                <div class="section-tag">Student Comprehensive Biodata</div>
+            <div id="console-1" class="standalone-console active">
+                <div class="section-tag">Independent Student File</div>
                 <div class="grid-2">
-                    <div class="upload-slot">MANDATORY PICTURE UPLOAD</div>
-                    <div class="upload-slot">OPTIONAL DOCUMENT LOAD AREA (Birth Cert/ID)</div>
+                    <div class="upload-area">STUDENT PICTURE (MANDATORY)</div>
+                    <div class="upload-area">DOCUMENT UPLOAD (OPTIONAL)</div>
                 </div>
-                <div class="grid-3" style="margin-top:20px;">
-                    <div><label>Full Name</label><input type="text"></div>
+                <div class="grid-3" style="margin-top:15px;">
+                    <div><label>First Name</label><input type="text"></div>
+                    <div><label>Last Name</label><input type="text"></div>
                     <div><label>Class Selector</label><select><option>Creche</option><option>Nursery 1&2</option><option>K.G. 1&2</option><option>Primary 1-6</option></select></div>
-                    <div><label>D.O.B</label><input type="date"></div>
                 </div>
-                <div class="section-tag">International Medical Practice History</div>
+                <div class="section-tag">Locked Medical Records</div>
                 <div class="grid-3">
                     <input type="text" placeholder="Blood Group">
-                    <input type="text" placeholder="Immunization Record">
-                    <input type="text" placeholder="Chronic Allergies/Conditions">
+                    <input type="text" placeholder="Vaccinations">
+                    <textarea placeholder="Medical History/Allergies" rows="2"></textarea>
                 </div>
-                <div class="section-tag">Guardian & Emergency Contacts</div>
+                <div class="section-tag">Autonomous Guardian Registry</div>
                 <div class="grid-2">
-                    <fieldset style="border:1px solid #edf2f7; padding:20px; border-radius:10px;"><legend style="font-size:9px; font-weight:900;">Parent/Guardian Bio</legend>
-                        <input type="text" placeholder="Name"><input type="text" placeholder="Occupation"><input type="tel" placeholder="Phone">
+                    <fieldset style="border:1px solid #eee; padding:15px; border-radius:8px;"><legend style="font-size:8px; font-weight:900;">Primary Guardian</legend>
+                        <input type="text" placeholder="Full Name"><input type="tel" placeholder="Phone">
                     </fieldset>
-                    <fieldset style="border:1px solid #edf2f7; padding:20px; border-radius:10px;"><legend style="font-size:9px; font-weight:900;">Emergency Person</legend>
-                        <input type="text" placeholder="Name"><input type="text" placeholder="Relationship"><input type="tel" placeholder="Contact">
+                    <fieldset style="border:1px solid #eee; padding:15px; border-radius:8px;"><legend style="font-size:8px; font-weight:900;">Emergency Contact</legend>
+                        <input type="text" placeholder="Full Name"><input type="tel" placeholder="Contact">
                     </fieldset>
                 </div>
-                <button class="btn-execute">Seal Student File</button>
+                <button class="btn-execute">Lock Student Record</button>
             </div>
 
-            <div id="desk-2" class="registry-pane">
-                <div class="section-tag">Staff Registry & Local Law Intelligence</div>
-                <div class="grid-2">
-                    <div class="upload-slot">MANDATORY PHOTO</div>
-                    <div class="upload-slot">ID CARD SCAN & BIODATA</div>
+            <div id="console-2" class="standalone-console">
+                <div class="section-tag">Independent Staff & Payroll Desk</div>
+                <div class="grid-2"><div class="upload-area">MANDATORY PHOTO</div><div class="upload-area">ID SCAN / BANK CARD</div></div>
+                <div class="grid-3" style="margin-top:15px;">
+                    <div><label>Role</label><input type="text"></div>
+                    <div><label>Status</label><select><option>Permanent</option><option>Volunteer</option></select></div>
+                    <div><label>Entity</label><select><option>NGO</option><option>School</option></select></div>
                 </div>
-                <div class="grid-3" style="margin-top:20px;">
-                    <div><label>Job Role</label><input type="text"></div>
-                    <div><label>Contract</label><select><option>Permanent</option><option>Volunteer</option></select></div>
-                    <div><label>Assign To</label><select><option>NGO Wing</option><option>School Wing</option></select></div>
-                </div>
-                <div class="section-tag">Bank, SSNIT & Tax (Auto-Calculated)</div>
+                <div class="section-tag">Ghanaian Statutory Calculations (Auto-Locked)</div>
                 <div class="grid-3">
-                    <div><label>Gross Salary (GHS)</label><input type="number" id="gsal" oninput="AutoPayroll()"></div>
-                    <div><label>SSNIT (5.5%)</label><input type="text" id="ssnit_v" readonly style="background:#f9f9f9"></div>
-                    <div><label>Income Tax (PAYE)</label><input type="text" id="tax_v" readonly style="background:#f9f9f9"></div>
+                    <div><label>Gross Salary (GHS)</label><input type="number" id="s_gross" oninput="RunStaffLogic()"></div>
+                    <div><label>SSNIT (5.5%)</label><input type="text" id="s_ssnit" readonly style="background:#f1f5f9"></div>
+                    <div><label>Tax (PAYE)</label><input type="text" id="s_tax" readonly style="background:#f1f5f9"></div>
                 </div>
                 <div class="grid-2">
                     <input type="text" placeholder="Bank Name"><input type="text" placeholder="Account Number">
                 </div>
-                <button class="btn-execute">Archive Personnel Profile</button>
+                <button class="btn-execute">Lock Personnel Profile</button>
             </div>
 
-            <div id="desk-3" class="registry-pane">
-                <div class="section-tag">Incoming Donation Registry</div>
+            <div id="console-3" class="standalone-console">
+                <div class="section-tag">Standalone Resource Inflow</div>
                 <div class="grid-3">
                     <input type="text" placeholder="Donor Source">
-                    <select id="it" onchange="TglDon()"><option value="item">Items/Supplies</option><option value="cash">Cash</option></select>
-                    <select><option>General Program</option><option>Special Program</option></select>
+                    <select id="in_type" onchange="ToggleIn()"><option value="item">Items/Supplies</option><option value="cash">Cash</option></select>
+                    <select><option>General</option><option>Special Program</option></select>
                 </div>
-                <div id="it_box">
-                    <table class="item-table" id="table_in">
-                        <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Package Type</th><th>Market Value</th></tr></thead>
+                <div id="in_item_box">
+                    <table class="item-table" id="t_in">
+                        <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Package</th><th>Value (GHS)</th></tr></thead>
                         <tbody><tr><td><input type="text" placeholder="e.g. Rice"></td><td><input type="number"></td><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody>
                     </table>
-                    <button class="btn-add" onclick="AddRow('table_in')">+ Add Extra Item/Supply</button>
+                    <button class="btn-add" onclick="AddRow('t_in')">+ Add Item Row</button>
                 </div>
-                <button class="btn-execute">Confirm Resource Inflow</button>
+                <button class="btn-execute">Archive Donation</button>
             </div>
 
-            <div id="desk-4" class="registry-pane">
-                <div class="section-tag">NGO Outreach & Community Disbursement</div>
+            <div id="console-4" class="standalone-console">
+                <div class="section-tag">Standalone Outreach Disbursement</div>
                 <div class="grid-2">
-                    <input type="text" placeholder="Outreach Name">
+                    <input type="text" placeholder="Program Name">
                     <input type="text" placeholder="Community / Location">
                 </div>
-                <table class="item-table" id="table_out">
-                    <thead><tr><th>Disbursed Item</th><th>Qty</th><th>Unit</th><th>Package Type</th><th>Market Value</th></tr></thead>
-                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody>
+                <table class="item-table" id="t_out">
+                    <thead><tr><th>Disbursed Item</th><th>Qty</th><th>Unit</th><th>Value</th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td></tr></tbody>
                 </table>
-                <button class="btn-add" onclick="AddRow('table_out')">+ Add Extra Item/Supply</button>
-                <div class="audit-gate">
-                    <div class="grid-2">
-                        <div><label>Authorizing Officer</label><input type="text"></div>
-                        <div><label>CEO Workflow PIN (Audit)</label><input type="password"></div>
-                    </div>
+                <button class="btn-add" onclick="AddRow('t_out')">+ Add Item Row</button>
+                <div class="section-tag">Smart Logic Workflow Authorization</div>
+                <div class="grid-2">
+                    <input type="text" placeholder="Authorizing Officer">
+                    <input type="password" placeholder="CEO Audit PIN">
                 </div>
                 <button class="btn-execute" style="background:var(--danger); color:white;">Authorize Outflow</button>
             </div>
 
-            <div id="desk-5" class="registry-pane">
-                <div class="section-tag">NGO Club Registry & Grant Vetting</div>
-                <div class="grid-2"><div class="upload-slot">MANDATORY PHOTO</div><div class="upload-slot">ID CARD SCAN AREA</div></div>
-                <div class="grid-3" style="margin-top:20px;">
+            <div id="console-5" class="standalone-console">
+                <div class="section-tag">Club Membership Independent Registry</div>
+                <div class="grid-2"><div class="upload-area">PHOTO</div><div class="upload-area">ID SCAN</div></div>
+                <div class="grid-3" style="margin-top:15px;">
                     <input type="text" placeholder="Full Name">
                     <input type="text" placeholder="ID Number">
-                    <input type="text" placeholder="Group to Join">
+                    <input type="text" placeholder="Club/Group">
                 </div>
-                <textarea rows="6" placeholder="Comprehensive Community Address & Background for Grant Qualification..."></textarea>
-                <button class="btn-execute">Register Member</button>
+                <textarea rows="4" placeholder="Comprehensive Address & Biodata (Vetting for Grant Eligibility)..."></textarea>
+                <button class="btn-execute">Seal Membership</button>
             </div>
 
-            <div id="desk-6" class="registry-pane">
-                <div class="section-tag">Business Grant / Soft Loan Engine</div>
+            <div id="console-6" class="standalone-console">
+                <div class="section-tag">Grant & Soft Loan Desk (Self-Autonomous)</div>
                 <div class="grid-3">
-                    <div><label>Principal (GHS)</label><input type="number" id="gp" oninput="CalcGrant()"></div>
-                    <div><label>Interest (%)</label><input type="number" id="gi" oninput="CalcGrant()"></div>
-                    <div><label>Repayment Plan</label><select><option>Weekly</option><option>Monthly</option></select></div>
+                    <div><label>Principal (GHS)</label><input type="number" id="g_p" oninput="RunGrantLogic()"></div>
+                    <div><label>Interest (%)</label><input type="number" id="g_i" oninput="RunGrantLogic()"></div>
+                    <div><label>Plan</label><select><option>Weekly</option><option>Monthly</option></select></div>
                 </div>
-                <div class="grid-2">
-                    <div><label>Total To Pay (Auto-Calculated)</label><input type="text" id="gt" readonly style="background:#f8fafc; font-weight:900;"></div>
-                </div>
-                <button class="btn-execute" style="background:var(--success); color:white;">Issue Business Grant</button>
+                <div><label>Total Repayment (Automated)</label><input type="text" id="g_t" readonly style="font-weight:900;"></div>
+                <button class="btn-execute" style="background:var(--success); color:white;">Issue Grant</button>
             </div>
         </div>
     </main>
 </div>
 
 <script>
-    function Standalone(n) {
-        document.querySelectorAll('.registry-pane').forEach(p => p.classList.remove('active'));
+    function SwitchConsole(n) {
+        document.querySelectorAll('.standalone-console').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('desk-' + n).classList.add('active');
+        document.getElementById('console-' + n).classList.add('active');
         event.currentTarget.classList.add('active');
     }
-    function AddRow(tid) {
-        let t = document.getElementById(tid).getElementsByTagName('tbody')[0];
+    function AddRow(id) {
+        let t = document.getElementById(id).getElementsByTagName('tbody')[0];
         let r = t.insertRow();
-        r.innerHTML = '<td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="text"></td><td><input type="number"></td>';
+        r.innerHTML = '<td><input type="text"></td><td><input type="number"></td><td><input type="text"></td><td><input type="number"></td>';
     }
-    function AutoPayroll() {
-        let sal = parseFloat(document.getElementById('gsal').value) || 0;
-        let ssnit = sal * 0.055;
-        let taxable = sal - ssnit;
-        let paye = (taxable > 402) ? (taxable - 402) * 0.05 : 0;
-        document.getElementById('ssnit_v').value = ssnit.toFixed(2);
-        document.getElementById('tax_v').value = paye.toFixed(2);
+    function RunStaffLogic() {
+        let gross = parseFloat(document.getElementById('s_gross').value) || 0;
+        let ssnit = gross * 0.055;
+        let taxable = gross - ssnit;
+        let tax = (taxable > 402) ? (taxable - 402) * 0.05 : 0;
+        document.getElementById('s_ssnit').value = ssnit.toFixed(2);
+        document.getElementById('s_tax').value = tax.toFixed(2);
     }
-    function CalcGrant() {
-        let p = parseFloat(document.getElementById('gp').value) || 0;
-        let i = parseFloat(document.getElementById('gi').value) || 0;
-        document.getElementById('gt').value = (p + (p * (i/100))).toFixed(2);
-    }
-    function TglDon() {
-        let v = document.getElementById('it').value;
-        document.getElementById('it_box').style.display = (v === 'item') ? 'block' : 'none';
+    function RunGrantLogic() {
+        let p = parseFloat(document.getElementById('g_p').value) || 0;
+        let i = parseFloat(document.getElementById('g_i').value) || 0;
+        document.getElementById('g_t').value = (p + (p * (i/100))).toFixed(2);
     }
 </script>
 </body>
