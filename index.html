@@ -1,25 +1,34 @@
 <div id="desk-2" class="standalone-desk active">
+    
     <div class="section-tag">Staff/Volunteer Personnel Biodata</div>
-    <div class="upload-area">
+    
+    <div class="upload-area" style="margin-bottom: 25px;">
         <div class="pic-box">
-            <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO REQ.</span>
+            <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%; font-weight:900;">PHOTO REQ.</span>
             <img id="st-pic"><input type="file" onchange="Preview(this, 'st-pic')" required>
         </div>
-        <div>
-            <label>ID Document Scan (Optional Upload)</label>
-            <input type="file">
-            <div class="grid-2" style="margin-top:10px;">
-                <div><label>Full Name</label><input type="text"></div>
-                <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+        <div style="display: flex; flex-direction: column; justify-content: center; gap: 15px;">
+            <div>
+                <label>ID Document Scan (Optional Upload)</label>
+                <input type="file" style="padding: 8px;">
+            </div>
+            <div class="grid-2">
+                <div><label>Full Name</label><input type="text" placeholder="Enter Full Name"></div>
+                <div><label>Gender</label>
+                    <select>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="grid-3" style="margin-top:15px;">
-        <div><label>ID Card Type & Number</label><input type="text"></div>
-        <div><label>Job Role / Title</label><input type="text"></div>
+    <div class="grid-3" style="margin-bottom: 20px;">
+        <div><label>ID Card Type & Number</label><input type="text" placeholder="e.g. Ghana Card"></div>
+        <div><label>Job Role / Title</label><input type="text" placeholder="e.g. Administrator"></div>
         <div><label>Employment Type</label>
-            <select id="st-type" onchange="TogglePayroll()">
+            <select id="st-type">
                 <option value="vol">Volunteer</option>
                 <option value="per">Permanent</option>
             </select>
@@ -27,25 +36,17 @@
     </div>
 
     <div class="section-tag">Financial & Statutory Information</div>
-    <div class="grid-3">
-        <div><label>Bank Name</label><input type="text"></div>
-        <div><label>Account Number</label><input type="text"></div>
-        <div><label>SSNIT Number</label><input type="text"></div>
+    <div class="grid-3" style="margin-bottom: 20px;">
+        <div><label>Bank Name</label><input type="text" placeholder="e.g. GCB Bank"></div>
+        <div><label>Account Number</label><input type="text" placeholder="Enter Number"></div>
+        <div><label>SSNIT Number</label><input type="text" placeholder="Enter SSNIT ID"></div>
     </div>
 
     <div class="section-tag">Emergency Contact Information</div>
-    <div class="grid-2">
-        <div><label>Emergency Person Name</label><input type="text"></div>
-        <div><label>Emergency Contact (Phone)</label><input type="tel"></div>
+    <div class="grid-2" style="margin-bottom: 20px;">
+        <div><label>Emergency Person Name</label><input type="text" placeholder="Full Name"></div>
+        <div><label>Emergency Contact (Phone)</label><input type="tel" placeholder="e.g. +233..."></div>
     </div>
 
-    <div id="payroll-section" style="display:none; margin-top:20px; border-top:1px solid #eee; pt:15px;">
-        <div class="grid-3">
-            <div><label>Gross Salary (GHS)</label><input type="number" id="gross" oninput="RunPayroll()"></div>
-            <div><label>SSNIT (5.5%) Deduction</label><input type="text" id="ssnit" class="readonly-field" readonly></div>
-            <div><label>Income Tax (PAYE)</label><input type="text" id="tax" class="readonly-field" readonly></div>
-        </div>
-    </div>
-
-    <button class="btn-execute">Archive Personnel File</button>
+    <button class="btn-execute" style="letter-spacing: 2px;">Archive Personnel File</button>
 </div>
