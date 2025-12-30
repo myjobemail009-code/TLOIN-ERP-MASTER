@@ -2,97 +2,151 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.4 - LOCKED CORE</title>
+    <title>TLOIN ERP v26.5 - COMPLETE UNIFIED SYSTEM</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --locked: #7f8c8d; --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
+            --border: #ced4da; --school: #2980b9; --ngo: #16a085; --admin: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        
-        /* STATIC ARCHITECTURE */
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; pointer-events: auto; }
-        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        
-        .nav-item { padding: 15px 25px; font-size: 11px; text-transform: uppercase; font-weight: 700; color: #aab; border-left: 4px solid transparent; cursor: not-allowed; opacity: 0.6; }
-        .nav-item.unlocked { cursor: pointer; opacity: 1; color: white; }
-        .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
+        /* SIDEBAR ARCHITECTURE */
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
+        .nav-item { padding: 12px 20px; font-size: 10px; text-transform: uppercase; font-weight: 800; color: #aab; border-left: 4px solid transparent; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
 
-        #main-stage { padding: 30px; overflow-y: auto; position: relative; }
-        .lock-indicator { position: absolute; top: 10px; right: 30px; font-size: 9px; font-weight: 800; color: var(--admin); background: #fff5f5; padding: 5px 10px; border: 1px solid var(--admin); border-radius: 4px; }
-
-        /* STATIC CARD DESIGN */
-        .card { background: var(--white); border: 1px solid #ddd; padding: 25px; border-radius: 8px; margin-bottom: 25px; position: relative; }
-        .card.locked-data { background: #fafafa; pointer-events: none; }
+        /* VIEWPORT */
+        #viewport { padding: 25px; overflow-y: auto; box-sizing: border-box; }
+        .module-view { display: none; }
+        .module-view.active { display: block; }
         
-        .btn-static { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+        /* STATIC COMPONENTS */
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        h3 { font-size: 12px; margin-top: 0; color: var(--navy); border-bottom: 1px solid #eee; padding-bottom: 10px; text-transform: uppercase; }
+        label { display: block; font-size: 9px; font-weight: 800; margin-bottom: 5px; color: #555; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 11px; margin-bottom: 15px; background: #fff; }
+        .btn-lock { background: var(--navy); color: var(--gold); border: none; padding: 12px; border-radius: 4px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 10px; width: 100%; }
         
-        input[readonly], select[disabled] { background: #f1f1f1 !important; cursor: not-allowed; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th { text-align: left; padding: 10px; background: #f8f9fa; border-bottom: 2px solid var(--navy); }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-    <div id="tloin-nexus">
-        <aside id="sidebar">
-            <div class="brand">
-                <h2 style="font-size:12px; color:var(--gold);">CLEVER MINDS STAFF CENTRE</h2>
-                <p style="font-size:9px;">SYSTEM STATE: LOCKED & STATIC</p>
-            </div>
-            
-            <nav id="locked-nav">
-                <div class="nav-item unlocked active" id="m1">1. Registry Nexus</div>
-                <div class="nav-item" id="m2">2. Academic Command</div>
-                <div class="nav-item" id="m3">3. Impact & Field Ops</div>
-                <div class="nav-item" id="m4">4. Attendance (10AM LOCK)</div>
-                <div class="nav-item unlocked" id="m5">5. Unified Finance</div>
-                <div class="nav-item" id="m6">6. Human Capital</div>
-                <div class="nav-item" id="m7">7. Supply Chain</div>
-                <div class="nav-item" id="m8">8. Fleet & Logistics</div>
-                <div class="nav-item" id="m9">9. Compliance</div>
-                <div class="nav-item unlocked" id="m10">10. Executive Command</div>
-            </nav>
-        </aside>
+<div id="tloin-nexus">
+    <aside id="sidebar">
+        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h1 style="font-size:12px; color:var(--gold); margin:0;">TLOIN STAFF CENTRE</h1>
+            <p style="font-size:8px; margin:5px 0 0 0;">ID: CM-EXE-001 | SYSTEM v26.5</p>
+        </div>
+        <div class="nav-item active" onclick="Core.switch(1)">1. Registry Nexus</div>
+        <div class="nav-item" onclick="Core.switch(2)">2. Academic Command</div>
+        <div class="nav-item" onclick="Core.switch(3)">3. Impact & Field Ops</div>
+        <div class="nav-item" onclick="Core.switch(4)">4. Attendance & Health</div>
+        <div class="nav-item" onclick="Core.switch(5)">5. Unified Finance & Audit</div>
+        <div class="nav-item" onclick="Core.switch(6)">6. Human Capital</div>
+        <div class="nav-item" onclick="Core.switch(7)">7. Supply & Assets</div>
+        <div class="nav-item" onclick="Core.switch(8)">8. Fleet & Logistics</div>
+        <div class="nav-item" onclick="Core.switch(9)">9. Compliance & Legal</div>
+        <div class="nav-item" onclick="Core.switch(10)">10. CEO Master Command</div>
+    </aside>
 
-        <main id="main-stage">
-            <div class="lock-indicator">🔒 PROTOCOL v26.4: ALL MODULES AUTONOMOUS & STATIC</div>
-            
-            <div class="desk-header" style="border-bottom: 2px solid var(--navy); padding-bottom:15px; margin-bottom:25px;">
-                <h2 id="view-title">Unified Finance Desk (Audit-Ready)</h2>
-                <p style="font-size:10px; color:#666;">TRACING ID: CM-EXE-001 | LOCATION: ACCRA, GH</p>
+    <main id="viewport">
+        <div id="mod-1" class="module-view active">
+            <div class="card">
+                <h3>1. Registry Nexus (Student & Beneficiary)</h3>
+                <div class="grid-2">
+                    <div><label>Full Name</label><input type="text"></div>
+                    <div><label>Category</label><select><option>School Student</option><option>NGO Beneficiary</option></select></div>
+                </div>
+                <button class="btn-lock">Seal Entry to Database</button>
             </div>
+        </div>
 
-            <div id="module-container">
-                <div class="card">
-                    <h3 style="font-size:12px; margin-top:0;">Secure Transaction Entry</h3>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <div>
-                            <label style="font-size:9px; font-weight:800;">Entity Wing</label>
-                            <input type="text" value="CORE MANAGEMENT" readonly>
-                        </div>
-                        <div>
-                            <label style="font-size:9px; font-weight:800;">Transaction Timestamp</label>
-                            <input type="text" value="2025-12-30 09:30:00" readonly>
-                        </div>
+        <div id="mod-2" class="module-view">
+            <div class="card">
+                <h3>2. Academic Command (GES Standards)</h3>
+                <label>Select Class</label>
+                <select><option>Basic 1</option><option>JHS 1</option></select>
+                <table>
+                    <thead><tr><th>Student</th><th>SBA (40)</th><th>Exam (60)</th><th>Grade</th></tr></thead>
+                    <tbody><tr><td>Kofi Mensah</td><td><input type="number"></td><td><input type="number"></td><td>--</td></tr></tbody>
+                </table>
+                <button class="btn-lock" style="background:var(--school)">Lock Terminal Marks</button>
+            </div>
+        </div>
+
+        <div id="mod-3" class="module-view">
+            <div class="card">
+                <h3>3. Impact & Field Ops (NGO Monitoring)</h3>
+                <label>Project Name</label>
+                <input type="text" value="Safe Water Phase 1" readonly>
+                <label>Beneficiary Reach Count</label>
+                <input type="number" placeholder="Enter headcount">
+                <button class="btn-lock" style="background:var(--ngo)">Sync Field Data</button>
+            </div>
+        </div>
+
+        <div id="mod-4" class="module-view">
+            <div class="card">
+                <h3>4. Attendance (10:00 AM Lockdown Active)</h3>
+                <div style="background:#fff5f5; color:red; padding:10px; font-size:9px; font-weight:800; margin-bottom:15px;">
+                    STATUS: SYSTEM TIME 09:36 AM - TERMINAL UNLOCKED
+                </div>
+                <table>
+                    <thead><tr><th>Subject/Staff</th><th>Status</th><th>Time-In</th></tr></thead>
+                    <tbody><tr><td>Senior Staff</td><td><select><option>Present</option><option>Absent</option></select></td><td>08:15 AM</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="mod-5" class="module-view">
+            <div class="card">
+                <h3>5. Unified Finance & Audit</h3>
+                <label>Billing/Income Source</label>
+                <select><option>School Fees</option><option>NGO Grant</option><option>Donation</option></select>
+                <input type="number" placeholder="GHS 0.00">
+                <button class="btn-lock" style="background:var(--admin)">Generate Traceable Receipt</button>
+            </div>
+        </div>
+
+        <div id="mod-10" class="module-view">
+            <div class="card">
+                <h3>10. CEO Master Command (360 Oversight)</h3>
+                <div class="grid-2">
+                    <div style="background:var(--navy); color:white; padding:15px; border-radius:4px;">
+                        <label style="color:var(--gold)">School Liquidity</label>
+                        <div style="font-size:20px; font-weight:800;">GHS 85,200</div>
                     </div>
-                    
-                    <label style="font-size:9px; font-weight:800; margin-top:15px; display:block;">Select Ledger Purpose</label>
-                    <select>
-                        <option>Student Fee Reconciliation</option>
-                        <option>NGO Grant Allocation</option>
-                        <option>Staff Statutory Payment (SSNIT/PAYE)</option>
-                    </select>
-
-                    <label style="font-size:9px; font-weight:800; margin-top:15px; display:block;">Amount (GHS)</label>
-                    <input type="number" placeholder="0.00" style="font-size:18px; font-weight:bold;">
-                    
-                    <button class="btn-static">Authorize & Seal Transaction</button>
-                    <p style="font-size:8px; color:var(--admin); margin-top:10px;">* Once authorized, this entry is locked and becomes a permanent part of the Audit 360 trail.</p>
+                    <div style="background:var(--ngo); color:white; padding:15px; border-radius:4px;">
+                        <label style="color:white">NGO Grant Balance</label>
+                        <div style="font-size:20px; font-weight:800;">USD 15,000</div>
+                    </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
 
+    </main>
+</div>
+
+<script>
+    const Core = {
+        switch: (modId) => {
+            document.querySelectorAll('.module-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            
+            const target = document.getElementById('mod-' + modId);
+            if(target) {
+                target.classList.add('active');
+            } else {
+                document.getElementById('viewport').innerHTML += `<div id="mod-${modId}" class="module-view active"><div class="card"><h3>Module ${modId}</h3><p>Static initialization complete for this autonomous desk.</p></div></div>`;
+            }
+            event.currentTarget.classList.add('active');
+        }
+    }
+</script>
 </body>
 </html>
