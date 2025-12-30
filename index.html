@@ -1,170 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TLOIN ERP v29.05 - STAFF DESK EDIT</title>
-    <style>
-        :root { 
-            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
-            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0;
-        }
-        body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
-        #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
-        #sidebar { background: var(--navy); color: white; border-right: 6px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 35px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 18px 25px; font-size: 10px; font-weight: 800; color: #a0aec0; text-transform: uppercase; cursor: pointer; border-left: 5px solid transparent; }
-        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left-color: var(--gold); }
-
-        #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .module-container { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
-        .console-header { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 10px 25px; display: flex; gap: 5px; flex-wrap: wrap; }
-        .tab-btn { padding: 8px 12px; font-size: 8px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
-        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
-
-        .standalone-desk { display: none; padding: 30px; animation: lockedFade 0.3s ease; }
-        .standalone-desk.active { display: block; }
-        
-        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 4px; margin: 20px 0 12px 0; text-transform: uppercase; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        
-        label { display: block; font-size: 8px; font-weight: 800; color: #4a5568; margin-bottom: 5px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; box-sizing: border-box; }
-        .readonly-field { background: #f1f5f9; font-weight: 900; color: var(--navy); border: 1px solid #cbd5e0; }
-
-        .upload-area { display: grid; grid-template-columns: 120px 1fr; gap: 15px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed var(--border); }
-        .pic-box { width: 120px; height: 120px; border: 2px solid var(--border); background: #eee; position: relative; border-radius: 5px; overflow: hidden; }
-        .pic-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .pic-box input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
-
-        .btn-execute { width: 100%; padding: 15px; background: var(--navy); color: var(--gold); border: none; border-radius: 8px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 25px; }
-
-        @keyframes lockedFade { from { opacity: 0; } to { opacity: 1; } }
-    </style>
-</head>
-<body>
-
-<div id="master-hub">
-    <aside id="sidebar">
-        <div class="brand"><h2>TLOIN ERP</h2></div>
-        <div class="nav-item active">01. Registry Nexus</div>
-        <div class="nav-item">02. Academic Command</div>
-    </aside>
-
-    <main id="main-viewport">
-        <div class="module-container">
-            <div class="console-header">
-                <button class="tab-btn" onclick="SwitchDesk(1)">Student Registry</button>
-                <button class="tab-btn active" onclick="SwitchDesk(2)">Staff/Volunteer Registry</button>
-                <button class="tab-btn" onclick="SwitchDesk(3)">Incoming Donations</button>
-                <button class="tab-btn" onclick="SwitchDesk(4)">Outgoing Donations</button>
-                <button class="tab-btn" onclick="SwitchDesk(5)">NGO Membership Clubs</button>
-                <button class="tab-btn" onclick="SwitchDesk(6)">Business Grant Registry</button>
-            </div>
-
-            <div id="desk-2" class="standalone-desk active">
-                <div class="section-tag">Staff/Volunteer Personnel Biodata</div>
-                <div class="upload-area">
-                    <div class="pic-box">
-                        <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO REQ.</span>
-                        <img id="st-pic"><input type="file" onchange="Preview(this, 'st-pic')" required>
-                    </div>
-                    <div>
-                        <label>ID Document Scan (Optional Upload)</label>
-                        <input type="file">
-                        <div class="grid-2" style="margin-top:10px;">
-                            <div><label>Full Name</label><input type="text"></div>
-                            <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-3" style="margin-top:15px;">
-                    <div><label>ID Card Type & Number</label><input type="text" placeholder="GHA-000000000-0"></div>
-                    <div><label>Job Role / Title</label><input type="text"></div>
-                    <div><label>Employment Type</label>
-                        <select id="st-type" onchange="TogglePayroll()">
-                            <option value="vol">Volunteer</option>
-                            <option value="per">Permanent</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid-2" style="margin-top:10px;">
-                    <div><label>Assigned Entity</label><select><option>NGO Office</option><option>School Division</option></select></div>
-                    <div><label>Phone Number</label><input type="tel"></div>
-                </div>
-
-                <div id="payroll-section" style="display:none;">
-                    <div class="section-tag">Bank Details & Statutory Deductions (Local Laws)</div>
-                    <div class="grid-3">
-                        <div><label>Bank Name & Branch</label><input type="text"></div>
-                        <div><label>Account Number</label><input type="text"></div>
-                        <div><label>Gross Salary (GHS)</label><input type="number" id="gross" oninput="RunPayroll()"></div>
-                    </div>
-                    <div class="grid-3" style="margin-top:10px;">
-                        <div><label>SSNIT (5.5%)</label><input type="text" id="ssnit" class="readonly-field" readonly></div>
-                        <div><label>Income Tax (PAYE)</label><input type="text" id="tax" class="readonly-field" readonly></div>
-                        <div><label>Net Salary</label><input type="text" id="net" class="readonly-field" readonly style="background: #e6fffa;"></div>
-                    </div>
-                </div>
-
-                <button class="btn-execute">Archive Personnel File</button>
-            </div>
-
-            <div id="desk-1" class="standalone-desk"><div class="section-tag">STUDENT REGISTRY [LOCKED]</div></div>
-            <div id="desk-3" class="standalone-desk"><div class="section-tag">INCOMING DONATIONS [LOCKED]</div></div>
-            <div id="desk-4" class="standalone-desk"><div class="section-tag">OUTGOING DONATIONS [LOCKED]</div></div>
-            <div id="desk-5" class="standalone-desk"><div class="section-tag">NGO MEMBERSHIP CLUBS [LOCKED]</div></div>
-            <div id="desk-6" class="standalone-desk"><div class="section-tag">BUSINESS GRANT REGISTRY [LOCKED]</div></div>
-
+<div id="desk-2" class="standalone-desk active">
+    <div class="section-tag">Staff/Volunteer Personnel Biodata</div>
+    <div class="upload-area">
+        <div class="pic-box">
+            <span style="position:absolute; font-size:8px; width:100%; text-align:center; top:45%;">PHOTO REQ.</span>
+            <img id="st-pic"><input type="file" onchange="Preview(this, 'st-pic')" required>
         </div>
-    </main>
+        <div>
+            <label>ID Document Scan (Optional Upload)</label>
+            <input type="file">
+            <div class="grid-2" style="margin-top:10px;">
+                <div><label>Full Name</label><input type="text"></div>
+                <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:15px;">
+        <div><label>ID Card Type & Number</label><input type="text"></div>
+        <div><label>Job Role / Title</label><input type="text"></div>
+        <div><label>Employment Type</label>
+            <select id="st-type" onchange="TogglePayroll()">
+                <option value="vol">Volunteer</option>
+                <option value="per">Permanent</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-tag">Financial & Statutory Information</div>
+    <div class="grid-3">
+        <div><label>Bank Name</label><input type="text"></div>
+        <div><label>Account Number</label><input type="text"></div>
+        <div><label>SSNIT Number</label><input type="text"></div>
+    </div>
+
+    <div class="section-tag">Emergency Contact Information</div>
+    <div class="grid-2">
+        <div><label>Emergency Person Name</label><input type="text"></div>
+        <div><label>Emergency Contact (Phone)</label><input type="tel"></div>
+    </div>
+
+    <div id="payroll-section" style="display:none; margin-top:20px; border-top:1px solid #eee; pt:15px;">
+        <div class="grid-3">
+            <div><label>Gross Salary (GHS)</label><input type="number" id="gross" oninput="RunPayroll()"></div>
+            <div><label>SSNIT (5.5%) Deduction</label><input type="text" id="ssnit" class="readonly-field" readonly></div>
+            <div><label>Income Tax (PAYE)</label><input type="text" id="tax" class="readonly-field" readonly></div>
+        </div>
+    </div>
+
+    <button class="btn-execute">Archive Personnel File</button>
 </div>
-
-<script>
-    function SwitchDesk(n) {
-        document.querySelectorAll('.standalone-desk').forEach(d => d.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('desk-' + n).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    function Preview(input, id) {
-        if (input.files && input.files[0]) {
-            let reader = new FileReader();
-            reader.onload = e => { document.getElementById(id).src = e.target.result; document.getElementById(id).style.display='block'; };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function TogglePayroll() {
-        const isPermanent = document.getElementById('st-type').value === 'per';
-        document.getElementById('payroll-section').style.display = isPermanent ? 'block' : 'none';
-    }
-
-    function RunPayroll() {
-        let gross = parseFloat(document.getElementById('gross').value) || 0;
-        
-        // 1. SSNIT Calculation (Employee portion 5.5%)
-        let ssnit = gross * 0.055;
-        
-        // 2. Taxable Income
-        let taxable = gross - ssnit;
-        
-        // 3. Ghanaian PAYE Tax Simplified (Tiered Logic)
-        let tax = 0;
-        if (taxable > 402) {
-            let taxableAmt = taxable - 402;
-            if (taxableAmt <= 110) tax = taxableAmt * 0.05;
-            else tax = (110 * 0.05) + ((taxableAmt - 110) * 0.10); 
-            // Simplified for logic; full tiered schedule can be added.
-        }
-
-        document.getElementById('ssnit').value = ssnit.toFixed(2);
-        document.getElementById('tax').value = tax.toFixed(2);
-        document.getElementById('net').value = (gross - ssnit - tax).toFixed(2);
-    }
-</script>
-</body>
-</html>
