@@ -2,105 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v26.2 - 360 AUDIT COMMAND</title>
+    <title>TLOIN ERP v26.3 - ACCESS CONTROL</title>
     <style>
         :root { 
-            --navy: #050a30; --gold: #ffcc00; --bg: #f0f2f5; --white: #ffffff; 
-            --school: #2980b9; --ngo: #16a085; --audit: #d35400; --alert: #e74c3c;
+            --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
+            --border: #ced4da; --admin: #c0392b; --school: #2980b9; --ngo: #16a085;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .nav-item { padding: 15px 25px; font-size: 11px; cursor: pointer; color: #cbd5e0; border-left: 4px solid transparent; }
-        .active-nav { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: white; }
-
-        #main-stage { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--audit); padding-bottom: 15px; margin-bottom: 25px; }
-
-        /* 360 DYNAMIC CARDS */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 25px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; border-bottom: 4px solid var(--navy); }
-        .stat-val { font-size: 18px; font-weight: 800; color: var(--navy); margin: 5px 0; }
-        .stat-label { font-size: 9px; font-weight: 800; color: #777; text-transform: uppercase; }
-
-        /* 360 REVENUE SPLIT */
-        .grid-split { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; }
-        .card { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 25px; }
+        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         
-        table { width: 100%; border-collapse: collapse; font-size: 10px; }
-        th { text-align: left; padding: 10px; background: #f8f9fa; color: var(--navy); text-transform: uppercase; font-size: 8px; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-
-        .tag { padding: 3px 6px; border-radius: 3px; font-size: 8px; font-weight: bold; color: white; }
-        .tag-school { background: var(--school); }
-        .tag-ngo { background: var(--ngo); }
+        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--admin); padding-bottom: 15px; margin-bottom: 25px; }
+        
+        .grid-config { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
+        
+        label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
+        select, input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
+        
+        .perm-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 11px; }
+        .perm-toggle { width: auto !important; margin-bottom: 0 !important; }
+        
+        .btn-save { background: var(--admin); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 700; width: 100%; text-transform: uppercase; font-size: 10px; }
+        .wing-tag { font-size: 8px; font-weight: bold; padding: 2px 5px; border-radius: 3px; color: white; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div style="padding:25px; text-align:center;"><h2 style="font-size:12px; color:var(--gold);">MASTER AUDIT COMMAND</h2></div>
-            <div class="nav-item active-nav">360° Org Overview</div>
-            <div class="nav-item">Financial Traceability</div>
-            <div class="nav-item">Staff/Volunteer Audit</div>
-            <div class="nav-item">Impact & Academic ROI</div>
+            <div class="brand"><h2 style="font-size:11px; color:var(--gold);">SYSTEM ADMINISTRATION</h2></div>
+            <div class="nav-header">Staff Privileges</div>
+            <div class="desk-link active">Role Assignments</div>
+            <div class="desk-link" onclick="alert('Opening System Audit Logs...')">Security Logs</div>
+            <div class="nav-header">Global Settings</div>
+            <div class="desk-link" onclick="alert('Configuring Currency & Tax...')">Regional Config</div>
         </aside>
 
-        <main id="main-stage">
+        <main id="main-dashboard">
             <div class="desk-header">
-                <h2>360° Organizational Intelligence Console</h2>
-                <div style="text-align:right">
-                    <div style="font-size: 10px; font-weight: 900; color:var(--audit)">GENERAL MANAGER ACCESS: CM-EXE-001</div>
-                </div>
+                <h2>Access Control & Permission Management</h2>
+                <div style="font-size: 10px; font-weight: 800; color: var(--admin);">SUPER ADMIN MODE</div>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Cash Position</div>
-                    <div class="stat-val">GHS 142,500.22</div>
-                    <div style="font-size:8px; color:green;">↑ 12% vs Last Month</div>
-                </div>
-                <div class="stat-card" style="border-bottom-color: var(--school);">
-                    <div class="stat-label">Student Enrollment</div>
-                    <div class="stat-val">482 Students</div>
-                    <div style="font-size:8px; color:var(--school);">98.2% Active Attendance</div>
-                </div>
-                <div class="stat-card" style="border-bottom-color: var(--ngo);">
-                    <div class="stat-label">NGO Beneficiaries</div>
-                    <div class="stat-val">1,240 Reached</div>
-                    <div style="font-size:8px; color:var(--ngo);">Active Projects: 4</div>
-                </div>
-                <div class="stat-card" style="border-bottom-color: var(--alert);">
-                    <div class="stat-label">Staff Count</div>
-                    <div class="stat-val">58 Personnel</div>
-                    <div style="font-size:8px; color:var(--alert);">Payroll Status: Pending Dec</div>
-                </div>
-            </div>
-
-            <div class="grid-split">
+            <div class="grid-config">
                 <div class="card">
-                    <h3 style="font-size:11px; text-transform:uppercase; margin-top:0;">Unified Operations Log (School & NGO)</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Timestamp</th><th>Operator ID</th><th>Wing</th><th>Activity Description</th><th>Audit Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>30-12-2025 07:10</td>
-                                <td>CM-SCH-202</td>
-                                <td><span class="tag tag-school">SCHOOL</span></td>
-                                <td>Class P4 - Attendance Sealed (10 AM Lock)</td>
-                                <td style="color:green;">COMPLIANT</td>
-                            </tr>
-                            <tr>
-                                <td>30-12-2025 07:45</td>
-                                <td>CM-NGO-101</td>
-                                <td><span class="tag tag-ngo">NGO</span></td>
-                                <td>Field Disbursement: Fuel for Project A</td>
-                                <td style="color:orange;">PENDING APPROVAL</td>
-                            </tr>
-                            <tr>
-                                <td>30-12-2025 08:20</td>
-                                <td>CM-EXE-001</td>
-                                <td><span class="tag" style="background:var(--navy)">CORE</span></td>
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Select Staff Profile</h3>
+                    <label>Search Staff Name/ID</label>
+                    <input type="text" placeholder="e.g. CM-NGO-101">
+                    
+                    <label>Assigned Wing</label>
+                    <select onchange="this.nextElementSibling.className = 'wing-tag ' + (this.value == 'NGO' ? 'bg-ngo' : 'bg-school')">
+                        <option value="SCHOOL">School Wing</option>
+                        <option value="NGO">NGO Wing</option>
+                        <option value="CORE">General Management (CORE)</option>
+                    </select>
+
+                    <label>Current Role/Position</label>
+                    <input type="text" value="Senior Field Coordinator">
+
+                    <div style="background:#fff5f5; padding:15px; border-radius:4px; border:1px solid #feb2b2;">
+                        <label style="color:var(--admin)">Account Status</label>
+                        <select style="margin-bottom:0;"><option>ACTIVE</option><option>SUSPENDED</option><option>DEACTIVATED</option></select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Module Access Level (Consolidated 10)</h3>
+                    <p style="font-size:9px; color:#666; margin-bottom:15px;">Tick the boxes to grant access to specific master consoles.</p>
+                    
+                    <div id="permission-list">
+                        <div class="perm-item"><span>1. Registry & Admissions</span> <input type="checkbox" class="perm-toggle" checked></div>
+                        <div class="perm-item"><span>2. Academic Command</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>3. Impact & Field Ops</span> <input type="checkbox" class="perm-toggle" checked></div>
+                        <div class="perm-item"><span>4. Attendance & Health</span> <input type="checkbox" class="perm-toggle" checked></div>
+                        <div class="perm-item"><span>5. Unified Finance & Audit</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>6. Human Capital & Payroll</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>7. Supply Chain & Assets</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>8. Fleet & Logistics</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>9. Governance & Compliance</span> <input type="checkbox" class="perm-toggle"></div>
+                        <div class="perm-item"><span>10. Executive Command (CEO)</span> <input type="checkbox" class="perm-toggle"></div>
+                    </div>
+
+                    <div style="margin-top:20px;">
+                        <label>Action Authorization Limit (GHS)</label>
+                        <input type="number" value="500" title="Amount this user can approve without higher clearance">
+                    </div>
+
+                    <button class="btn-save" onclick="alert('Permissions Updated and Logged. Staff user must re-login to see changes.')">Update Permissions</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+<style>
+    .bg-school { background: var(--school); }
+    .bg-ngo { background: var(--ngo); }
+</style>
+</html>
