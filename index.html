@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v28.30 - MODULE 4: ATTENDANCE GATEWAY</title>
+    <title>TLOIN ERP v28.31 - MODULE 5 & 6</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f9; --white: #ffffff; 
-            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0; --attendance: #3498db;
+            --success: #27ae60; --danger: #e74c3c; --border: #cbd5e0; --finance: #16a085; --health: #c0392b;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Segoe UI', sans-serif; background: var(--bg); overflow: hidden; }
         #master-hub { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
@@ -19,31 +19,26 @@
 
         /* VIEWPORT */
         #main-viewport { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .att-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+        .unified-console { background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); min-height: 88vh; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; margin-bottom: 40px; }
         
         /* TABS */
-        .att-tabs { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px; }
-        .tab-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; text-transform: uppercase; color: var(--navy); }
-        .tab-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+        .module-header { background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .mod-title { font-size: 11px; font-weight: 900; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* PANES */
-        .desk-pane { display: none; padding: 30px; animation: lockedFade 0.3s ease; }
-        .desk-pane.active { display: block; }
+        .desk-pane { padding: 30px; animation: lockedFade 0.3s ease; }
+        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
         
-        .section-tag { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 2px solid var(--attendance); padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase; }
-        
-        /* ATTENDANCE TABLE */
-        .att-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        .att-table th { background: #f8fafc; padding: 12px; text-align: left; border-bottom: 2px solid var(--border); font-size: 9px; }
-        .att-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        /* DATA GRID */
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-size: 9px; font-weight: 800; color: #4a5568; margin-bottom: 8px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; box-sizing: border-box; }
 
-        /* STATUS TOGGLES */
-        .status-btn { padding: 6px 12px; border-radius: 20px; border: none; font-size: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-right: 5px; }
-        .present { background: #e6fffa; color: #234e52; border: 1px solid #38b2ac; }
-        .absent { background: #fff5f5; color: #822727; border: 1px solid #feb2b2; }
-        .late { background: #fffaf0; color: #7b341e; border: 1px solid #fbd38d; }
+        .fin-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .fin-table th { background: #f8fafc; padding: 12px; font-size: 9px; text-align: left; border-bottom: 2px solid var(--border); }
+        .fin-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 12px; }
 
-        .btn-execute { width: 100%; padding: 20px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 30px; }
+        .btn-execute { width: 100%; padding: 18px; background: var(--navy); color: var(--gold); border: none; border-radius: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 25px; }
 
         @keyframes lockedFade { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -52,96 +47,82 @@
 
 <div id="master-hub">
     <aside id="sidebar">
-        <div class="brand"><h2 style="font-size:18px; color:var(--gold); margin:0;">TLOIN v28.30</h2></div>
+        <div class="brand"><h2>TLOIN v28.31</h2></div>
         <div class="nav-item">01. Registry Nexus</div>
         <div class="nav-item">02. Academic Command</div>
         <div class="nav-item">03. Impact & Field Ops</div>
-        <div class="nav-item active">04. Attendance Gateway</div>
-        </aside>
+        <div class="nav-item">04. Attendance Gateway</div>
+        <div class="nav-item active">05. Unified Finance</div>
+        <div class="nav-item active" style="background: rgba(192, 57, 43, 0.1);">06. Health & Wellness</div>
+        <div class="nav-item">07. Supply & Logistics</div>
+    </aside>
 
     <main id="main-viewport">
-        <div class="att-console">
-            <div class="att-tabs">
-                <button class="tab-btn active" onclick="SetDesk(1)">Student Attendance</button>
-                <button class="tab-btn" onclick="SetDesk(2)">Staff Clock-In</button>
-                <button class="tab-btn" onclick="SetDesk(3)">Volunteer Field Check</button>
-                <button class="tab-btn" onclick="SetDesk(4)">Monthly Reports</button>
+        
+        <div class="unified-console" style="border-top: 6px solid var(--finance);">
+            <div class="module-header">
+                <div class="mod-title">Module 05: Unified Finance Command</div>
+                <div style="font-size: 10px; font-weight: 900; color: var(--finance);">BALANCE: GHS 42,250.00</div>
             </div>
-
-            <div id="desk-1" class="desk-pane active">
-                <div class="section-tag">Daily Classroom Attendance Registry</div>
-                <div style="margin-bottom: 20px; display: flex; gap: 15px;">
-                    <select style="padding:10px; border-radius:6px; border:1px solid var(--border);"><option>Class: Primary 4</option></select>
-                    <input type="date" style="padding:10px; border-radius:6px; border:1px solid var(--border);">
-                </div>
-                
-                <table class="att-table">
-                    <thead>
-                        <tr>
-                            <th>Student Name</th>
-                            <th>Status Control</th>
-                            <th>Time In</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Kofi Mensah</td>
-                            <td>
-                                <button class="status-btn present">Present</button>
-                                <button class="status-btn absent">Absent</button>
-                                <button class="status-btn late">Late</button>
-                            </td>
-                            <td><input type="time" value="07:45"></td>
-                            <td><input type="text" placeholder="Note..."></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class="btn-execute">Submit Daily Roll Call</button>
-            </div>
-
-            <div id="desk-2" class="desk-pane">
-                <div class="section-tag">Staff Performance & Punctuality Tracker</div>
-                <div style="background: #f1f5f9; padding: 20px; border-radius: 10px; text-align: center;">
-                    <h3 style="margin:0; color: var(--navy);">08:14:22 AM</h3>
-                    <p style="font-size: 10px; font-weight: 800; color: #64748b;">CURRENT SYSTEM TIME</p>
-                </div>
-                <table class="att-table" style="margin-top:20px;">
-                    <thead><tr><th>Staff Member</th><th>Role</th><th>Shift Start</th><th>Actual Clock-In</th><th>Status</th></tr></thead>
-                    <tbody>
-                        <tr><td>Ebenezer Appiah</td><td>Head Teacher</td><td>08:00 AM</td><td>08:05 AM</td><td><span style="color:var(--danger); font-weight:900;">LATE</span></td></tr>
-                    </tbody>
-                </table>
-                <button class="btn-execute">Archive Staff Logs</button>
-            </div>
-
-            <div id="desk-3" class="desk-pane">
-                <div class="section-tag">Volunteer On-Site Verification</div>
+            <div class="desk-pane">
                 <div class="grid-2">
-                    <div style="border: 1px solid var(--border); padding: 20px; border-radius: 10px;">
-                        <label>Assigned Community</label>
-                        <input type="text" value="Asutware Community Center" readonly>
+                    <div style="background: #f0fdf4; padding: 20px; border-radius: 10px; border: 1px solid #bcf0da;">
+                        <div class="section-tag" style="border-color: var(--success);">Income / Fee Collection</div>
+                        <input type="text" placeholder="Payer Name" style="margin-bottom:10px;">
+                        <select style="margin-bottom:10px;"><option>School Fees</option><option>NGO Donation</option><option>Grant Repayment</option></select>
+                        <input type="number" placeholder="Amount (GHS)">
+                        <button class="btn-execute" style="background:var(--success); color:white; padding:10px;">Post Income</button>
                     </div>
-                    <div style="border: 1px solid var(--border); padding: 20px; border-radius: 10px;">
-                        <label>GPS Verification Status</label>
-                        <div style="color:var(--success); font-weight:900; font-size:10px;">● COORDINATES MATCHED</div>
+                    <div style="background: #fef2f2; padding: 20px; border-radius: 10px; border: 1px solid #fecaca;">
+                        <div class="section-tag" style="border-color: var(--danger);">Expense Ledger</div>
+                        <input type="text" placeholder="Payee/Vendor" style="margin-bottom:10px;">
+                        <select style="margin-bottom:10px;"><option>Salary Outflow</option><option>Maintenance</option><option>Outreach Logistics</option></select>
+                        <input type="number" placeholder="Amount (GHS)">
+                        <button class="btn-execute" style="background:var(--danger); color:white; padding:10px;">Post Expense</button>
                     </div>
                 </div>
-                <button class="btn-execute" style="background:var(--success); color:white;">Verify Volunteer Presence</button>
+                <div class="section-tag" style="margin-top:30px;">Recent Unified Transactions</div>
+                <table class="fin-table">
+                    <thead><tr><th>Ref ID</th><th>Entity</th><th>Category</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>#TX-901</td><td>School</td><td>Tuition</td><td>INCOME</td><td>GHS 1,200</td><td><b style="color:var(--success)">CLEARED</b></td></tr>
+                        <tr><td>#TX-902</td><td>NGO</td><td>Fuel/Field</td><td>EXPENSE</td><td>GHS 450</td><td><b style="color:var(--danger)">PENDING CEO</b></td></tr>
+                    </tbody>
+                </table>
             </div>
-
         </div>
+
+        <div class="unified-console" style="border-top: 6px solid var(--health);">
+            <div class="module-header">
+                <div class="mod-title">Module 06: Health & Wellness (Clinic Desk)</div>
+                <div style="font-size: 10px; font-weight: 900; color: var(--health);">SICK BAY ACTIVE</div>
+            </div>
+            <div class="desk-pane">
+                <div class="grid-3">
+                    <div class="metric-card" style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #eee;">
+                        <label>Student Search</label><input type="text" placeholder="Enter Name/ID">
+                    </div>
+                    <div class="metric-card" style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #eee;">
+                        <label>Vitals: Temp (°C)</label><input type="number" placeholder="36.5">
+                    </div>
+                    <div class="metric-card" style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #eee;">
+                        <label>Blood Pressure</label><input type="text" placeholder="120/80">
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top:20px;">
+                    <div><label>Symptoms / Complaint</label><textarea rows="3"></textarea></div>
+                    <div><label>Treatment / First Aid Given</label><textarea rows="3"></textarea></div>
+                </div>
+                <div class="grid-3" style="margin-top:15px;">
+                    <div><label>Medical Officer</label><input type="text"></div>
+                    <div><label>Referral Required?</label><select><option>No - Internal Only</option><option>Yes - Hospital</option></select></div>
+                    <div><label>Parent Notified?</label><select><option>No</option><option>Yes - SMS Sent</option></select></div>
+                </div>
+                <button class="btn-execute" style="background:var(--health); color:white;">Seal Medical Case File</button>
+            </div>
+        </div>
+
     </main>
 </div>
-
-<script>
-    function SetDesk(n) {
-        document.querySelectorAll('.desk-pane').forEach(d => d.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('desk-' + n).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-</script>
-
 </body>
 </html>
