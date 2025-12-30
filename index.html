@@ -2,40 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v27.0 - ACADEMIC COMMAND</title>
+    <title>TLOIN ERP v27.1 - ACADEMIC HIERARCHY</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --school: #2980b9; --locked: #7f8c8d; --admin: #c0392b;
+            --school: #2980b9; --admin: #c0392b; --teacher: #8e44ad;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); }
-        .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: default; }
-        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); cursor: pointer; }
+        .nav-item { padding: 15px 25px; font-size: 10px; font-weight: 800; color: #aab; border-left: 4px solid transparent; text-transform: uppercase; cursor: pointer; }
+        .active-mod { background: rgba(255,255,255,0.1); border-left-color: var(--gold); color: var(--gold); }
 
         #main-stage { padding: 30px; overflow-y: auto; }
-        .academic-tabs { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-        .tab-btn { padding: 12px 18px; font-size: 9px; font-weight: 900; border: 1px solid #ccc; background: #eee; cursor: pointer; text-transform: uppercase; border-radius: 4px; color: #555; }
-        .tab-btn.active { background: var(--school); color: white; border-color: var(--school); }
+        .role-tabs { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .role-btn { padding: 10px 15px; font-size: 9px; font-weight: 900; border: 1px solid #ccc; background: #eee; cursor: pointer; text-transform: uppercase; border-radius: 4px; color: #555; }
+        .role-btn.active { background: var(--navy); color: var(--gold); }
 
-        .academic-card { background: white; padding: 30px; border-radius: 8px; border: 1px solid #ddd; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .academic-card { background: white; padding: 25px; border-radius: 8px; border: 1px solid #ddd; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 40px; }
         .academic-card.active { display: block; }
 
-        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 12px; margin: 20px 0 15px 0; border-left: 5px solid var(--school); text-transform: uppercase; }
+        .section-h { font-size: 10px; font-weight: 900; color: var(--navy); background: #f8f9fa; padding: 10px; margin: 15px 0; border-left: 5px solid var(--gold); text-transform: uppercase; }
 
-        /* GRADING TABLE */
-        .grade-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 11px; }
-        .grade-table th { background: var(--navy); color: white; padding: 12px; text-align: left; text-transform: uppercase; font-size: 9px; }
-        .grade-table td { border: 1px solid #eee; padding: 10px; }
-        .sba-input { width: 60px; padding: 5px; border: 1px solid #ccc; text-align: center; font-weight: bold; }
-        
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; color: white; }
-        .bg-pass { background: #27ae60; }
-        .bg-fail { background: var(--admin); }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+        th { background: #f0f2f5; color: var(--navy); padding: 10px; text-align: left; font-size: 9px; border-bottom: 2px solid #ddd; }
+        td { border-bottom: 1px solid #eee; padding: 8px; }
 
-        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 11px; margin-top: 20px; }
+        .btn-seal { background: var(--navy); color: var(--gold); border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 15px; }
+        .class-lock { font-size: 9px; font-weight: bold; color: var(--admin); background: #fff5f5; padding: 5px; border-radius: 3px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -46,95 +41,117 @@
         <div class="nav-item">1. Registry Nexus</div>
         <div class="nav-item active-mod">2. Academic Command</div>
         <div class="nav-item">3. Impact & Field Ops</div>
-        <div class="nav-item">4. Attendance & Health</div>
-        <div class="nav-item">5. Unified Finance</div>
     </aside>
 
     <main id="main-stage">
-        <div class="academic-tabs">
-            <button class="tab-btn active" onclick="Aca.show('grading')">SBA & Grading</button>
-            <button class="tab-btn" onclick="Aca.show('curriculum')">Curriculum & Scheme</button>
-            <button class="tab-btn" onclick="Aca.show('timetable')">Master Timetable</button>
-            <button class="tab-btn" onclick="Aca.show('reports')">Terminal Reports</button>
+        <div class="role-tabs">
+            <button class="role-btn active" onclick="Aca.show('teacher')">Teacher Console</button>
+            <button class="role-btn" onclick="Aca.show('head')">Headteacher Desk</button>
+            <button class="role-btn" onclick="Aca.show('assistant')">Asst. Headteacher</button>
+            <button class="role-btn" onclick="Aca.show('billing')">Class Billing/Bursar</button>
         </div>
 
-        <div id="aca-grading" class="academic-card active">
-            <div class="grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                <div><label>Class</label><select><option>Primary 4</option><option>Primary 5</option></select></div>
-                <div><label>Subject</label><select><option>Mathematics</option><option>English Language</option><option>Science</option></select></div>
-                <div><label>Term</label><select><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
+        <div id="aca-teacher" class="academic-card active">
+            <div style="display:flex; justify-content:space-between;">
+                <h3 style="font-size:12px; margin:0;">Classroom Management Terminal</h3>
+                <span class="class-lock">🔒 ASSIGNED CLASS: PRIMARY 2</span>
             </div>
-
-            <div class="section-h">Class Assessment Records (GES Standards)</div>
-            <table class="grade-table">
+            
+            <div class="section-h">Daily Attendance & Punctuality</div>
+            <table>
                 <thead>
-                    <tr>
-                        <th>Student Name</th>
-                        <th>Class Test (15)</th>
-                        <th>Project (10)</th>
-                        <th>Homework (15)</th>
-                        <th>SBA Total (40)</th>
-                        <th>Exam (60)</th>
-                        <th>Overall (100)</th>
-                        <th>Grade</th>
-                    </tr>
+                    <tr><th>Student Name</th><th>Present</th><th>Absent</th><th>Late</th><th>Time-In</th></tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Kofi Mensah</td>
-                        <td><input type="number" class="sba-input" value="12"></td>
-                        <td><input type="number" class="sba-input" value="8"></td>
-                        <td><input type="number" class="sba-input" value="14"></td>
-                        <td><b style="color:var(--school)">34</b></td>
-                        <td><input type="number" class="sba-input" placeholder="0"></td>
-                        <td><b>34</b></td>
-                        <td><span class="badge bg-fail">F</span></td>
+                        <td><input type="radio" name="att1"></td>
+                        <td><input type="radio" name="att1"></td>
+                        <td><input type="radio" name="att1"></td>
+                        <td><input type="time"></td>
                     </tr>
-                    </tbody>
-            </table>
-            <button class="btn-seal">Seal Marks for Terminal Processing</button>
-        </div>
-
-        <div id="aca-curriculum" class="academic-card">
-            <h3 style="font-size:12px; color:var(--navy);">Scheme of Work / Lesson Plans</h3>
-            <label>Upload Verified Lesson Plan (PDF)</label>
-            <div style="border: 2px dashed #ccc; padding: 20px; text-align:center; font-size:10px; color:#666;">
-                📁 Drag and drop Scheme of Work for Approval
-            </div>
-            <div class="section-h">Weekly Topic Progress</div>
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <input type="checkbox"> Week 1: Numbers & Fractions (Completed)
-            </div>
-            <button class="btn-seal" style="background:var(--school)">Lock Progress Report</button>
-        </div>
-
-        <div id="aca-timetable" class="academic-card">
-            <h3 style="font-size:12px; color:var(--navy);">Master School Timetable</h3>
-            <table class="grade-table">
-                <thead>
-                    <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>08:00 - 08:30</td><td colspan="5" style="text-align:center; background:#eee;">Morning Assembly</td></tr>
-                    <tr><td>08:30 - 09:30</td><td>Maths</td><td>English</td><td>Science</td><td>Maths</td><td>ICT</td></tr>
                 </tbody>
             </table>
-            <button class="btn-seal">Download Class Timetable (PDF)</button>
+
+            <div class="section-h">Daily Student Appraisal (Character & Conduct)</div>
+            <textarea placeholder="Log general class behavior or specific incidents for today..." rows="2" style="width:100%; margin-bottom:10px;"></textarea>
+            
+            <div class="section-h">Academic Record Entry</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><label style="font-size:9px; font-weight:800;">Subject</label><select><option>Mathematics</option><option>English</option></select></div>
+                <div><label style="font-size:9px; font-weight:800;">Assessment Type</label><select><option>Class Work</option><option>Homework</option><option>Test</option></select></div>
+            </div>
+            <table>
+                <thead><tr><th>Student Name</th><th>Score</th><th>Max Score</th><th>Teacher Remarks</th></tr></thead>
+                <tbody><tr><td>Kofi Mensah</td><td><input type="number" style="width:50px;"></td><td>15</td><td><input type="text"></td></tr></tbody>
+            </table>
+            <button class="btn-seal">Seal Today's Records</button>
         </div>
 
-        <div id="aca-reports" class="academic-card">
-            <h3 style="font-size:12px; color:var(--navy);">Report Card Generation</h3>
-            <label>Select Student</label>
-            <input type="text" placeholder="Search Student Name...">
-            <div style="padding: 20px; border: 1px solid #ddd; background: #fafafa; font-size: 11px;">
-                <p><b>Student:</b> Kofi Mensah | <b>Class:</b> Primary 4</p>
-                <p><b>Average Score:</b> 72% | <b>Position:</b> 4th of 32</p>
-                <label>Teacher's Remark</label>
-                <textarea rows="2"></textarea>
-                <label>Headteacher's Remark</label>
-                <textarea rows="2"></textarea>
+        <div id="aca-head" class="academic-card">
+            <h3 style="font-size:12px; color:var(--admin);">Headteacher Strategic Overview</h3>
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px; margin-top:15px;">
+                <div style="background:var(--navy); color:white; padding:15px; border-radius:4px;">
+                    <div style="font-size:9px;">TOTAL ENROLLMENT</div>
+                    <div style="font-size:18px; font-weight:bold;">482</div>
+                </div>
+                <div style="background:var(--school); color:white; padding:15px; border-radius:4px;">
+                    <div style="font-size:9px;">STAFF ON-DUTY</div>
+                    <div style="font-size:18px; font-weight:bold;">24 / 26</div>
+                </div>
+                <div style="background:var(--gold); color:var(--navy); padding:15px; border-radius:4px;">
+                    <div style="font-size:9px;">DAILY INCOME (FEES)</div>
+                    <div style="font-size:18px; font-weight:bold;">GHS 4,250.00</div>
+                </div>
             </div>
-            <button class="btn-seal" style="background:var(--admin)">Seal & Issue Report Card</button>
+
+            <div class="section-h">Daily School Expenditure Log (Petty Cash)</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                <input type="text" placeholder="Description (e.g., Chalk, Water)">
+                <input type="number" placeholder="Amount GHS">
+                <button style="background:var(--admin); color:white; border:none; border-radius:4px;">Log Expense</button>
+            </div>
+            <button class="btn-seal">Approve All Class Appraisals</button>
+        </div>
+
+        <div id="aca-assistant" class="academic-card">
+            <h3 style="font-size:12px; color:var(--school);">Assistant Headteacher Operations</h3>
+            <div class="section-h">Staff Lesson Plan Verification</div>
+            <table>
+                <thead><tr><th>Teacher Name</th><th>Class</th><th>Subject</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                    <tr><td>Mr. Appiah</td><td>Class 2</td><td>Science</td><td><span style="color:orange;">PENDING</span></td><td><button>Review</button></td></tr>
+                </tbody>
+            </table>
+            <div class="section-h">Campus Incident Log</div>
+            <textarea placeholder="Record disciplinary actions or facility issues..."></textarea>
+            <button class="btn-seal">Lock Operational Report</button>
+        </div>
+
+        <div id="aca-billing" class="academic-card">
+            <h3 style="font-size:12px; color:var(--navy);">Class-Based Student Billing</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div>
+                    <label style="font-size:9px; font-weight:800;">Target Class</label>
+                    <select id="bill_class"><option>Creche</option><option>Nursery 1</option><option>Primary 1</option></select>
+                </div>
+                <div>
+                    <label style="font-size:9px; font-weight:800;">Billing Cycle</label>
+                    <select><option>Term 1</option><option>Term 2</option><option>Term 3</option></select>
+                </div>
+            </div>
+
+            <div class="section-h">Fee Structure & Toiletries Requirement</div>
+            <table>
+                <thead><tr><th>Description</th><th>Amount (GHS)</th><th>Qty (if item)</th></tr></thead>
+                <tbody>
+                    <tr><td>Tuition Fees</td><td><input type="number" value="450.00"></td><td>--</td></tr>
+                    <tr><td>Toilet Roll</td><td>--</td><td><input type="number" value="6"></td></tr>
+                    <tr><td>Hand Sanitizer</td><td>--</td><td><input type="number" value="2"></td></tr>
+                    <tr><td>Canteen Fee</td><td><input type="number" value="150.00"></td><td>--</td></tr>
+                </tbody>
+            </table>
+            <button class="btn-seal" style="background:var(--school)">Generate Class Bill Trace</button>
         </div>
 
     </main>
@@ -144,7 +161,7 @@
     const Aca = {
         show: (id) => {
             document.querySelectorAll('.academic-card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('aca-' + id).classList.add('active');
             event.currentTarget.classList.add('active');
         }
