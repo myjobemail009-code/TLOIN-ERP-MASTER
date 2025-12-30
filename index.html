@@ -2,142 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v25.2 - GHANA PAYROLL</title>
+    <title>TLOIN ERP v25.2 - UNLOCKED MASTER NEXUS</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --hr: #2980b9; --payroll: #27ae60; --tax: #c0392b;
+            --border: #ced4da; --finance: #27ae60; --academic: #8e44ad; --hr: #2980b9;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
-        #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
-        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
-        .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
+        /* MASTER ARCHITECTURE */
+        #master-nexus { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
+        
+        /* SIDEBAR (NAVY/GOLD THEME) */
+        #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); display: flex; flex-direction: column; }
+        .brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-group { padding: 20px 0; flex-grow: 1; }
+        .nav-item { padding: 15px 25px; font-size: 11px; text-transform: uppercase; font-weight: 700; cursor: pointer; color: #aab; border-left: 4px solid transparent; }
+        .nav-item.active { background: rgba(255,255,255,0.1); color: var(--gold); border-left: 4px solid var(--gold); }
 
-        #main-dashboard { padding: 30px; overflow-y: auto; box-sizing: border-box; }
-        .desk-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--hr); padding-bottom: 15px; margin-bottom: 25px; }
-        
-        .grid-hr { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
-        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;}
-        
-        label { display: block; font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; margin-bottom: 5px; }
-        select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 15px; }
-        
-        .payroll-summary { background: #f8f9fa; border-radius: 6px; padding: 15px; border-left: 5px solid var(--payroll); }
-        .tax-row { display: flex; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #eee; }
-        .val { font-weight: bold; color: var(--navy); }
-        .deduct { color: var(--tax); }
+        /* VIEWPORT */
+        #viewport { overflow-y: auto; padding: 30px; }
+        .desk-view { display: none; }
+        .desk-view.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .btn-hr { background: var(--hr); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; width: 100%; }
-        .btn-payroll { background: var(--payroll); }
+        /* UNLOCKED COMPONENTS */
+        .card { background: var(--white); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .unlocked-banner { background: #e8f5e9; border: 1px solid #2e7d32; color: #2e7d32; padding: 10px; border-radius: 4px; font-size: 10px; font-weight: 800; margin-bottom: 15px; text-align: center; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--navy); font-size: 9px; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; margin-bottom: 10px; box-sizing: border-box; background: #fff !important; color: #000 !important; }
+        .btn-master { background: var(--navy); color: white; padding: 12px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 10px; }
     </style>
 </head>
 <body>
-    <div id="tloin-nexus">
-        <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v25.2</h2></div>
-            <div class="nav-header">HR & GH Payroll</div>
-            <div class="desk-link active" onclick="location.reload()">Staff Remuneration</div>
-            <div class="desk-link" onclick="alert('Exporting GRA Tax Schedule...')">GRA Tax Report</div>
-            <div class="desk-link" onclick="alert('Exporting SSNIT Tier 1 Schedule...')">SSNIT Schedule</div>
-        </aside>
 
-        <main id="main-dashboard">
-            <div class="desk-header">
-                <h2>Ghanaian Statutory Payroll Engine</h2>
-                <div style="font-size: 10px; font-weight: 800; color: var(--hr);">PAY PERIOD: DEC 2025</div>
+<div id="master-nexus">
+    <aside id="sidebar">
+        <div class="brand">
+            <h1>CLEVER MINDS</h1>
+            <p style="font-size: 9px; color: var(--gold);">ADMIN UNLOCKED MODE</p>
+        </div>
+        <nav class="nav-group">
+            <div class="nav-item active" onclick="App.show('v-reg', this)">Registry</div>
+            <div class="nav-item" onclick="App.show('v-att', this)">Attendance (Unlocked)</div>
+            <div class="nav-item" onclick="App.show('v-fin', this)">Finance (Balance Engine)</div>
+            <div class="nav-item" onclick="App.show('v-ges', this)">GES Grading</div>
+            <div class="nav-item" onclick="App.show('v-pay', this)">Ghana Payroll</div>
+        </nav>
+    </aside>
+
+    <main id="viewport">
+        <div class="unlocked-banner">⚠️ ADMINISTRATIVE MODE: ALL TIME-LOCKS AND DATA SEALS ARE TEMPORARILY DISABLED FOR SYSTEM REVIEW.</div>
+
+        <div id="v-reg" class="desk-view active">
+            <div class="card">
+                <h3>Student Biodata Registry</h3>
+                <input type="text" placeholder="Full Student Name">
+                <input type="date">
+                <textarea placeholder="Medical History & Allergies"></textarea>
+                <button class="btn-master">Save to Registry</button>
             </div>
+        </div>
 
-            <div class="grid-hr">
-                <div class="card">
-                    <label>Quick Staff Search</label>
-                    <input type="text" placeholder="Search by Staff ID or Name..." id="s_query">
-                    
-                    <label>Select Staff Member</label>
-                    <select id="s_list" onchange="Payroll.calculate()">
-                        <option value="3500">Isaac Boateng (Basic: GHS 3,500)</option>
-                        <option value="5000">Sarah Mensah (Basic: GHS 5,000)</option>
-                        <option value="2800">Kofi Annan (Basic: GHS 2,800)</option>
-                    </select>
+        <div id="v-att" class="desk-view">
+            <div class="card">
+                <h3>Attendance Log (No 10AM Restriction)</h3>
+                <table>
+                    <thead><tr><th>Student</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kofi Mensah</td><td><select><option>Present</option><option>Absent</option></select></td></tr>
+                        <tr><td>Amma Asante</td><td><select><option>Present</option><option>Absent</option></select></td></tr>
+                    </tbody>
+                </table>
+                <button class="btn-master" style="margin-top:10px;">Save Attendance</button>
+            </div>
+        </div>
 
-                    <label>Additional Allowances (Rent/Fuel)</label>
-                    <input type="number" id="allowance" value="0" oninput="Payroll.calculate()">
-
-                    <label>Other Deductions (Loans/Welfare)</label>
-                    <input type="number" id="other_deduct" value="0" oninput="Payroll.calculate()">
-                    
-                    <button class="btn-hr btn-payroll" onclick="alert('Payroll Processed & Locked. Electronic Payslip Generated.')">Process Monthly Pay</button>
+        <div id="v-fin" class="desk-view">
+            <div class="card">
+                <h3>Finance & Balance Ledger</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div><label>Bill</label><input type="number" id="f_bill" value="1800"></div>
+                    <div><label>Prev Paid</label><input type="number" id="f_prev" value="500"></div>
                 </div>
+                <label>New Payment</label>
+                <input type="number" id="f_new" oninput="App.calcFin()" placeholder="0.00">
+                <div style="font-size:18px; font-weight:800; color:var(--finance);" id="f_rem">Remaining: GHS 1,300.00</div>
+            </div>
+        </div>
 
-                <div class="card">
-                    <h3 style="font-size:12px; margin-top:0; color:var(--navy);">Automatic Statutory Breakdown</h3>
-                    
-                    <div class="payroll-summary">
-                        <div class="tax-row"><span>Basic Salary:</span> <span class="val" id="disp_basic">GHS 0.00</span></div>
-                        <div class="tax-row"><span>Allowances:</span> <span class="val" id="disp_allow">GHS 0.00</span></div>
-                        <div class="tax-row" style="background:#eee; padding:8px;"><span>Gross Salary:</span> <span class="val" id="disp_gross">GHS 0.00</span></div>
-                        
-                        <div style="margin-top:15px;"><label style="color:var(--tax)">Statutory Deductions</label></div>
-                        <div class="tax-row"><span>SSNIT (5.5% Employee):</span> <span class="val deduct" id="disp_ssnit">GHS 0.00</span></div>
-                        <div class="tax-row"><span>PAYE (Income Tax):</span> <span class="val deduct" id="disp_paye">GHS 0.00</span></div>
-                        <div class="tax-row"><span>Other Deductions:</span> <span class="val deduct" id="disp_other">GHS 0.00</span></div>
-                        
-                        <div class="tax-row" style="border-top: 2px solid var(--payroll); margin-top:15px; padding-top:10px;">
-                            <span style="font-size:14px; font-weight:800;">NET SALARY:</span>
-                            <span style="font-size:18px; font-weight:800; color:var(--payroll);" id="disp_net">GHS 0.00</span>
-                        </div>
-                    </div>
+        <div id="v-ges" class="desk-view">
+            <div class="card">
+                <h3>GES Assessment (Unlocked)</h3>
+                <table>
+                    <thead><tr><th>Name</th><th>SBA (40)</th><th>Exam (60)</th><th>Grade</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kofi Mensah</td><td><input type="number" value="35"></td><td><input type="number" value="52"></td><td>1</td></tr>
+                    </tbody>
+                </table>
+                <button class="btn-master" style="background:var(--academic)">Update Marks</button>
+            </div>
+        </div>
 
-                    <div style="margin-top:20px; font-size:9px; color:#777; border:1px dashed #ccc; padding:10px;">
-                        <strong>Employer Liability (Hidden from Payslip):</strong><br>
-                        SSNIT Tier 1 (13% Employer Contribution): <span id="disp_employer_ssnit">GHS 0.00</span>
-                    </div>
+        <div id="v-pay" class="desk-view">
+            <div class="card">
+                <h3>Ghana Payroll (Auto-Deduction)</h3>
+                <label>Basic Salary</label>
+                <input type="number" id="p_basic" value="3500" oninput="App.calcPay()">
+                <div style="background:#f9f9f9; padding:10px; font-size:11px;">
+                    <div>SSNIT (5.5%): <span id="p_ssnit"></span></div>
+                    <div>PAYE (Tax): <span id="p_tax"></span></div>
+                    <hr>
+                    <div style="font-weight:bold; color:var(--payroll); font-size:14px;">Net Pay: <span id="p_net"></span></div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 
-    <script>
-        const Payroll = {
-            calculate: () => {
-                const basic = parseFloat(document.getElementById('s_list').value) || 0;
-                const allow = parseFloat(document.getElementById('allowance').value) || 0;
-                const others = parseFloat(document.getElementById('other_deduct').value) || 0;
-
-                const gross = basic + allow;
-                
-                // 1. SSNIT Employee Contribution (5.5% of Basic)
-                const ssnit = basic * 0.055;
-                
-                // 2. Taxable Income (Gross - SSNIT)
-                const taxableIncome = gross - ssnit;
-
-                // 3. Simplified Ghana PAYE logic (Approximation of tiers)
-                let paye = 0;
-                if(taxableIncome > 402) {
-                    const over = taxableIncome - 402;
-                    if(over <= 110) paye = over * 0.05;
-                    else paye = (110 * 0.05) + ((over-110) * 0.10); // Simplified for UI demonstration
-                }
-
-                const employerSSNIT = basic * 0.13;
-                const net = gross - (ssnit + paye + others);
-
-                // UI Update
-                document.getElementById('disp_basic').innerText = `GHS ${basic.toFixed(2)}`;
-                document.getElementById('disp_allow').innerText = `GHS ${allow.toFixed(2)}`;
-                document.getElementById('disp_gross').innerText = `GHS ${gross.toFixed(2)}`;
-                document.getElementById('disp_ssnit').innerText = `- GHS ${ssnit.toFixed(2)}`;
-                document.getElementById('disp_paye').innerText = `- GHS ${paye.toFixed(2)}`;
-                document.getElementById('disp_other').innerText = `- GHS ${others.toFixed(2)}`;
-                document.getElementById('disp_net').innerText = `GHS ${net.toFixed(2)}`;
-                document.getElementById('disp_employer_ssnit').innerText = `GHS ${employerSSNIT.toFixed(2)}`;
-            }
-        };
-
-        // Initialize first calculation
-        Payroll.calculate();
-    </script>
+<script>
+    const App = {
+        show: (id, el) => {
+            document.querySelectorAll('.desk-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+        },
+        calcFin: () => {
+            const b = parseFloat(document.getElementById('f_bill').value) || 0;
+            const p = parseFloat(document.getElementById('f_prev').value) || 0;
+            const n = parseFloat(document.getElementById('f_new').value) || 0;
+            document.getElementById('f_rem').innerText = "Remaining: GHS " + (b - (p + n));
+        },
+        calcPay: () => {
+            const b = parseFloat(document.getElementById('p_basic').value) || 0;
+            const s = b * 0.055;
+            const t = (b - s) > 402 ? (b - s - 402) * 0.1 : 0; // Simplified
+            document.getElementById('p_ssnit').innerText = "GHS " + s.toFixed(2);
+            document.getElementById('p_tax').innerText = "GHS " + t.toFixed(2);
+            document.getElementById('p_net').innerText = "GHS " + (b - (s + t)).toFixed(2);
+        }
+    };
+    App.calcPay();
+</script>
 </body>
 </html>
