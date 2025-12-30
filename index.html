@@ -2,155 +2,138 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TLOIN ERP v22.2 - GLOBAL EDITOR</title>
+    <title>TLOIN ERP v22.3 - SCHOOL OPERATIONS</title>
     <style>
         :root { 
             --navy: #050a30; --gold: #ffcc00; --bg: #f4f7f6; --white: #ffffff; 
-            --border: #ced4da; --edit: #e67e22;
+            --border: #ced4da; --school: #2980b9; --edu: #9b59b6;
         }
         body, html { margin: 0; padding: 0; height: 100vh; font-family: 'Inter', sans-serif; background: var(--bg); overflow: hidden; }
         #tloin-nexus { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
         
+        /* SIDEBAR */
         #sidebar { background: var(--navy); color: white; border-right: 5px solid var(--gold); overflow-y: auto; }
         .brand { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; }
+        .brand h2 { margin: 0; font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
 
         .nav-header { padding: 15px 25px 5px; font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 800; }
         .desk-link { padding: 10px 25px; cursor: pointer; color: #aab0b6; font-size: 11px; border-left: 4px solid transparent; }
         .desk-link:hover, .active { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--gold); }
 
-        #main-dashboard { padding: 30px; overflow-y: auto; }
-        .editor-container { background: var(--white); border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .editor-header { padding: 20px; border-bottom: 2px solid var(--navy); display: flex; justify-content: space-between; align-items: center; }
-        .editor-header h2 { margin: 0; font-size: 14px; text-transform: uppercase; color: var(--navy); }
+        /* MAIN AREA */
+        #main-dashboard { padding: 35px; overflow-y: auto; box-sizing: border-box; }
+        .form-card { background: var(--white); padding: 25px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         
-        .edit-grid { padding: 25px; display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .data-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 15px; background: #f9f9f9; border: 1px solid #eee; border-radius: 4px; }
+        label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 6px; color: var(--navy); text-transform: uppercase; }
+        input, select { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
         
-        label { font-size: 9px; font-weight: 800; color: var(--navy); text-transform: uppercase; display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; box-sizing: border-box; }
+        .btn-school { background: var(--school); color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; margin-top: 15px; }
+
+        .data-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; font-size: 11px; }
+        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid var(--navy); text-transform: uppercase; }
+        .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
         
-        .btn-save { background: var(--navy); color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
-        .btn-add { background: var(--edit); color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: bold; margin-bottom: 20px; }
-        
-        .footer-note { margin-top: 20px; font-size: 10px; color: #95a5a6; font-style: italic; }
+        .grade-pill { padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; }
+        .pass { background: #d4edda; color: #155724; }
     </style>
 </head>
 <body>
     <div id="tloin-nexus">
         <aside id="sidebar">
-            <div class="brand"><h2>TLOIN ERP v22.2</h2></div>
-            <div class="nav-header">Select Module to Edit</div>
-            <div class="desk-link" onclick="Editor.open('Finance')">Finance Ledger</div>
-            <div class="desk-link" onclick="Editor.open('Projects')">Project Lifecycle</div>
-            <div class="desk-link" onclick="Editor.open('ICT')">ICT Hub Performance</div>
-            <div class="desk-link" onclick="Editor.open('Board')">Board Governance</div>
-            <div class="desk-link" onclick="Editor.open('Stakeholders')">Stakeholder Contacts</div>
-            <div class="desk-link" onclick="Editor.open('Assets')">Asset Registry</div>
-            <div class="desk-link" onclick="Editor.open('Vendors')">Supply Chain</div>
+            <div class="brand"><h2>TLOIN ERP v22.3</h2></div>
+            
+            <div class="nav-header">School Desks</div>
+            <div class="desk-link" onclick="Nexus.load('Enrollment')">Student Registry</div>
+            <div class="desk-link" onclick="Nexus.load('Academic')">Curriculum & Grading</div>
+            <div class="desk-link" onclick="Nexus.load('Teachers')">Facilitator Logs</div>
+            
+            <div class="nav-header">Core ERP</div>
+            <div class="desk-link" onclick="Nexus.load('Finance')">Financial Ledger</div>
+            <div class="desk-link" onclick="Nexus.load('ICT')">ICT Hubs</div>
+            <div class="desk-link" onclick="Nexus.load('CEO')">CEO Dashboard</div>
         </aside>
 
         <main id="main-dashboard">
-            <div id="editor-mount">
-                <div style="text-align:center; margin-top:100px; color:#95a5a6;">
-                    <h2>TLOIN GLOBAL EDITOR</h2>
-                    <p>Select a module from the sidebar to begin secure editing.</p>
-                </div>
-            </div>
+            <div id="mount-point"></div>
         </main>
     </div>
 
     <script>
-        // CORE DATA REPOSITORY (LOADED FROM VAULT)
         const VAULT = {
-            get: (key) => JSON.parse(localStorage.getItem('cm_' + key.toLowerCase())) || [],
-            save: (key, data) => localStorage.setItem('cm_' + key.toLowerCase(), JSON.stringify(data))
+            get: (key) => JSON.parse(localStorage.getItem('cm_' + key)) || [],
+            save: (key, data) => localStorage.setItem('cm_' + key, JSON.stringify(data))
         };
 
-        const Editor = {
-            activeModule: '',
-            
-            open: (module) => {
-                Editor.activeModule = module;
-                const data = VAULT.get(module);
-                const mount = document.getElementById('editor-mount');
-                
-                let html = `
-                    <div class="editor-container">
-                        <div class="editor-header">
-                            <h2>Edit Module: ${module}</h2>
-                            <button class="btn-save" onclick="Editor.saveAll()">Save All Changes</button>
-                        </div>
-                        <div class="edit-grid">
-                            <button class="btn-add" onclick="Editor.addRow()">+ Add New Entry</button>
-                            <div id="rows-container">${Editor.renderRows(data)}</div>
-                        </div>
-                    </div>
-                    <p class="footer-note">Editing here updates the global database. Ensure data accuracy before saving.</p>`;
-                
-                mount.innerHTML = html;
-            },
-
-            renderRows: (data) => {
-                if (data.length === 0) return `<p style="font-size:12px; color:#999;">No entries found. Click "Add New Entry" to begin.</p>`;
-                return data.map((item, index) => {
-                    const keys = Object.keys(item);
-                    return `
-                        <div class="data-row" data-index="${index}">
-                            ${keys.map(k => `
-                                <div>
-                                    <label>${k}</label>
-                                    <input type="text" class="cell-input" data-key="${k}" value="${item[k]}">
-                                </div>
-                            `).join('')}
-                            <div style="display:flex; align-items:flex-end;">
-                                <button onclick="this.parentElement.parentElement.remove()" style="background:none; border:none; color:red; cursor:pointer; font-size:10px;">[Delete]</button>
-                            </div>
-                        </div>`;
-                }).join('');
-            },
-
-            addRow: () => {
-                const container = document.getElementById('rows-container');
-                // Schema discovery based on existing data or defaults
-                const defaultSchemas = {
-                    Finance: {dept: '', budget: '', actual: '', status: ''},
-                    Projects: {id: '', name: '', lead: '', stage: ''},
-                    ICT: {hub: '', students: '', data: '', uptime: ''},
-                    Board: {ref: '', subject: '', date: '', outcome: ''},
-                    Stakeholders: {name: '', role: '', hub: '', sentiment: ''},
-                    Assets: {id: '', item: '', location: '', condition: ''},
-                    Vendors: {name: '', service: '', contact: '', rating: ''}
-                };
-                
-                const schema = defaultSchemas[Editor.activeModule] || {field1: '', field2: ''};
-                const div = document.createElement('div');
-                div.className = 'data-row';
-                div.innerHTML = Object.keys(schema).map(k => `
-                    <div>
-                        <label>${k}</label>
-                        <input type="text" class="cell-input" data-key="${k}" value="">
-                    </div>
-                `).join('') + `<div style="display:flex; align-items:flex-end;"><button onclick="this.parentElement.parentElement.remove()" style="background:none; border:none; color:red; cursor:pointer; font-size:10px;">[Delete]</button></div>`;
-                container.prepend(div);
-            },
-
-            saveAll: () => {
-                const rows = document.querySelectorAll('.data-row');
-                const newData = [];
-                rows.forEach(row => {
-                    const entry = {};
-                    row.querySelectorAll('.cell-input').forEach(input => {
-                        entry[input.dataset.key] = input.value;
-                    });
-                    newData.push(entry);
-                });
-                
-                VAULT.save(Editor.activeModule, newData);
-                alert(`${Editor.activeModule} database successfully synchronized.`);
-                Editor.open(Editor.activeModule);
+        const Nexus = {
+            load: (d) => {
+                document.getElementById('mount-point').innerHTML = DeskContent[d] ? DeskContent[d]() : `<h2>Module Locked</h2>`;
             }
         };
+
+        const DeskContent = {
+            Enrollment: () => {
+                const data = VAULT.get('students');
+                const rows = data.map(s => `<tr><td><b>${s.id}</b></td><td>${s.name}</td><td>${s.hub}</td><td>${s.class}</td></tr>`).join('');
+                return `
+                <div class="form-card">
+                    <h2 style="color:var(--school)">Student Enrollment</h2>
+                    <div class="grid-3">
+                        <div><label>Student ID</label><input type="text" id="s_id" placeholder="CM-2025-001"></div>
+                        <div><label>Full Name</label><input type="text" id="s_name"></div>
+                        <div><label>Hub Location</label><select id="s_hub"><option>Tamale</option><option>Accra</option><option>Kumasi</option></select></div>
+                    </div>
+                    <div class="grid-3" style="margin-top:15px;">
+                        <div><label>Class/Level</label><input type="text" id="s_class" placeholder="Grade 4 / ICT Basic"></div>
+                        <div><label>Guardian Contact</label><input type="text" id="s_guardian"></div>
+                        <button class="btn-school" onclick="Logic.saveStudent()">Enroll Student</button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>ID</th><th>Name</th><th>Hub</th><th>Class</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="4">No records.</td></tr>'}</tbody>
+                </table>`;
+            },
+
+            Academic: () => `
+                <div class="form-card">
+                    <h2 style="color:var(--edu)">Curriculum & Assessment</h2>
+                    <div class="grid-3">
+                        <div><label>Module</label><select><option>Python for Beginners</option><option>Digital Literacy</option><option>Web Dev 101</option></select></div>
+                        <div><label>Test Score (%)</label><input type="number"></div>
+                        <div><label>Instructor Remarks</label><input type="text"></div>
+                    </div>
+                    <button class="btn-school" style="background:var(--edu)">Post Grade to Record</button>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>Student</th><th>Module</th><th>Score</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kofi Mensah</td><td>Python</td><td>85%</td><td><span class="grade-pill pass">DISTINCTION</span></td></tr>
+                        <tr><td>Amma Asante</td><td>Digital Lit.</td><td>72%</td><td><span class="grade-pill pass">PASS</span></td></tr>
+                    </tbody>
+                </table>`,
+
+            Teachers: () => `<h3>Facilitator Logs</h3><p>Tracking teaching hours and session delivery across hubs.</p>`,
+            Finance: () => `<h3>Financial Ledger</h3><p>Locked & Static.</p>`,
+            ICT: () => `<h3>ICT Hub Performance</h3><p>Locked & Static.</p>`,
+            CEO: () => `<h3>Executive Dashboard</h3><p>Locked & Static.</p>`
+        };
+
+        const Logic = {
+            saveStudent: () => {
+                const s = {
+                    id: document.getElementById('s_id').value,
+                    name: document.getElementById('s_name').value,
+                    hub: document.getElementById('s_hub').value,
+                    class: document.getElementById('s_class').value
+                };
+                if(!s.id || !s.name) return alert("Integrity Check: ID and Name Required.");
+                let data = VAULT.get('students'); data.push(s); VAULT.save('students', data);
+                Nexus.load('Enrollment');
+            }
+        };
+
+        Nexus.load('Enrollment');
     </script>
 </body>
 </html>
