@@ -1,66 +1,95 @@
 <div class="module-container" style="background: #ffffff; border-radius: 12px; border: 1px solid #cbd5e0; min-height: 85vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; overflow: hidden;">
     
     <div class="console-header" style="background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px;">
-        <button class="tab-nav active" onclick="GlobalSwitch(1)" id="nav-1" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #050a30; background: #050a30; color: #ffcc00; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Cyber-Perimeter</button>
-        <button class="tab-nav" onclick="GlobalSwitch(2)" id="nav-2" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">System Health</button>
-        <button class="tab-nav" onclick="GlobalSwitch(3)" id="nav-3" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Glocal Nodes</button>
-        <button class="tab-nav" onclick="GlobalSwitch(4)" id="nav-4" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Encryption Vault</button>
-        <button class="tab-nav" onclick="GlobalSwitch(5)" id="nav-5" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Identity (IAM)</button>
-        <button class="tab-nav" onclick="GlobalSwitch(6)" id="nav-6" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Recovery (BCP)</button>
+        <button class="tab-nav active" onclick="GlobalSwitch(1)" id="nav-1" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #050a30; background: #050a30; color: #ffcc00; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Chronological Ledger</button>
+        <button class="tab-nav" onclick="GlobalSwitch(2)" id="nav-2" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Forensic Trace</button>
+        <button class="tab-nav" onclick="GlobalSwitch(3)" id="nav-3" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Notarized Reports</button>
+        <button class="tab-nav" onclick="GlobalSwitch(4)" id="nav-4" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Glocal Tax Mirror</button>
+        <button class="tab-nav" onclick="GlobalSwitch(5)" id="nav-5" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">ISO Compliance Map</button>
+        <button class="tab-nav" onclick="GlobalSwitch(6)" id="nav-6" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Archival Vault</button>
+    </div>
+
+    <div id="panel-1" class="tab-panel" style="padding: 30px; display: block;">
+        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Granular Transactional Chronology</div>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+                <thead style="background: #050a30; color: #ffcc00;">
+                    <tr>
+                        <th style="padding: 12px; text-align: left;">TIMESTAMP (UTC)</th>
+                        <th style="padding: 12px; text-align: left;">MODULE ID</th>
+                        <th style="padding: 12px; text-align: left;">ACTOR ID</th>
+                        <th style="padding: 12px; text-align: left;">SHA-256 NOTARIZATION HASH</th>
+                        <th style="padding: 12px; text-align: center;">VERDICT</th>
+                    </tr>
+                </thead>
+                <tbody style="font-family: monospace; color: #334155;">
+                    <tr style="border-bottom: 1px solid #edf2f7;">
+                        <td style="padding: 10px;">2025-12-31 03:30:12</td>
+                        <td style="padding: 10px;">M07 (Logistics)</td>
+                        <td style="padding: 10px;">ADM-04</td>
+                        <td style="padding: 10px;">8f92...a3e1</td>
+                        <td style="padding: 10px; text-align: center; color: #27ae60; font-weight: 900;">VALID</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #edf2f7;">
+                        <td style="padding: 10px;">2025-12-31 03:35:45</td>
+                        <td style="padding: 10px;">M05 (Finance)</td>
+                        <td style="padding: 10px;">SYS-EXE</td>
+                        <td style="padding: 10px;">c4d1...77b2</td>
+                        <td style="padding: 10px; text-align: center; color: #27ae60; font-weight: 900;">VALID</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="panel-2" class="tab-panel" style="padding: 30px; display: none;">
+        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Forensic Swimlane: Discrepancy Isolation</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="border-left: 4px solid #050a30; padding: 15px; background: #f8fafc;">
+                <label style="font-size: 8px; font-weight: 900;">INVESTIGATION TRIGGER [MUST]</label>
+                <div style="font-size: 12px;">Deviation detected in Payroll M01 vs Finance M05.</div>
+            </div>
+            <div style="border-left: 4px solid #ffcc00; padding: 15px; background: #fffcf0;">
+                <label style="font-size: 8px; font-weight: 900;">LOGICAL RECONCILIATION [SHOULD]</label>
+                <div style="font-size: 12px;">Auto-tracing actor permissions and IP geolocation for timestamp 2025-12-31.</div>
+            </div>
+        </div>
     </div>
 
     <div id="panel-4" class="tab-panel" style="padding: 30px; display: none;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Cryptographic Asset Management</div>
+        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Regulatory Mirror: GRA (Ghana) vs. International (IFRS)</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="border: 1px solid #cbd5e0; padding: 15px; border-radius: 8px;">
-                <label>ENCRYPTION STANDARD [MUST]</label>
-                <div style="font-size: 14px; font-weight: 900;">AES-256-GCM</div>
-                <div style="font-size: 9px; color: #27ae60; margin-top: 5px;">Status: COMPLIANT</div>
+            <div style="border: 1px solid #cbd5e0; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 10px; font-weight: 900; color: #64748b;">GHANA REVENUE AUTHORITY</div>
+                <div style="font-size: 16px; font-weight: 900; margin-top: 10px;">NHIL / GETFund / COVID-19 Levy</div>
+                <div style="font-size: 9px; color: #27ae60; margin-top: 5px;">NOTARIZED STATUS: READY</div>
             </div>
-            <div style="border: 1px solid #cbd5e0; padding: 15px; border-radius: 8px;">
-                <label>KEY ROTATION [SHOULD]</label>
-                <div style="font-size: 11px;">Next Rotation: 15-JAN-2026</div>
-                <div style="font-size: 9px; color: #64748b; margin-top: 5px;">Policy: 90-Day Cycle</div>
+            <div style="border: 1px solid #cbd5e0; border-radius: 8px; padding: 20px;">
+                <div style="font-size: 10px; font-weight: 900; color: #64748b;">IFRS GLOBAL STANDARDS</div>
+                <div style="font-size: 16px; font-weight: 900; margin-top: 10px;">Fair Value / Accrual Basis</div>
+                <div style="font-size: 9px; color: #27ae60; margin-top: 5px;">NOTARIZED STATUS: READY</div>
             </div>
         </div>
     </div>
 
-    <div id="panel-5" class="tab-panel" style="padding: 30px; display: none;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Identity Governance & RBAC</div>
-        <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-            <thead style="background: #f8fafc;">
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #cbd5e0; text-align: left;">USER ROLE</th>
-                    <th style="padding: 10px; border: 1px solid #cbd5e0;">PERMISSION LEVEL</th>
-                    <th style="padding: 10px; border: 1px solid #cbd5e0;">MFA STATUS</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0;">Sys-Admin</td>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0; text-align: center;">ROOT ACCESS</td>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0; text-align: center; color: #27ae60; font-weight: 900;">ENFORCED</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0;">Logistics Officer</td>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0; text-align: center;">MODULE 7 ONLY</td>
-                    <td style="padding: 10px; border: 1px solid #cbd5e0; text-align: center; color: #27ae60; font-weight: 900;">ENFORCED</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="panel-6" class="tab-panel" style="padding: 30px; display: none;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Business Continuity Planning (BCP)</div>
-        <div style="background: #fff5f5; border: 1px solid #feb2b2; padding: 20px; border-radius: 8px;">
-            <label style="color: #c53030;">RTO (Recovery Time Objective)</label>
-            <div style="font-size: 18px; font-weight: 900; color: #c53030;">4 HOURS [MUST]</div>
-            <div style="font-size: 10px; margin-top: 10px;">Primary Cloud Backup: <strong>DAILY 00:00 GMT</strong></div>
-        </div>
-    </div>
-
-    <div id="panel-1" class="tab-panel" style="padding: 30px; display: block;"> [Restored Data for Desk 1] </div>
-    <div id="panel-2" class="tab-panel" style="padding: 30px; display: none;"> [Restored Data for Desk 2] </div>
-    <div id="panel-3" class="tab-panel" style="padding: 30px; display: none;"> [Restored Data for Desk 3] </div>
-
+    <button style="width: 100%; padding: 22px; background: #050a30; color: #ffcc00; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: auto; border-radius: 0 0 12px 12px; letter-spacing: 1px;">Seal Ledger & Execute Final Audit</button>
 </div>
+
+<script>
+    function GlobalSwitch(n) {
+        const panels = document.getElementsByClassName('tab-panel');
+        for (let i = 0; i < panels.length; i++) { panels[i].style.display = 'none'; }
+        const navs = document.getElementsByClassName('tab-nav');
+        for (let i = 0; i < navs.length; i++) {
+            navs[i].style.background = 'white';
+            navs[i].style.color = '#050a30';
+            navs[i].style.borderColor = '#cbd5e0';
+        }
+        document.getElementById('panel-' + n).style.display = 'block';
+        const targetNav = document.getElementById('nav-' + n);
+        targetNav.style.background = '#050a30';
+        targetNav.style.color = '#ffcc00';
+        targetNav.style.borderColor = '#050a30';
+    }
+</script>
