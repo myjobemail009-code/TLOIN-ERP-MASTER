@@ -3,39 +3,69 @@
     <div style="background: linear-gradient(90deg, #050a30 0%, #001242 100%); padding: 25px 40px; border-bottom: 5px solid #d4af37; display: flex; justify-content: space-between; align-items: center;">
         <div>
             <div style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 2px; text-transform: uppercase;">Sovereign Registry Control</div>
-            <div style="font-size: 9px; color: #d4af37; font-weight: 600; text-transform: uppercase; margin-top: 4px;">Primary Institutional Ledger // Desk 01</div>
+            <div style="font-size: 9px; color: #d4af37; font-weight: 600; text-transform: uppercase; margin-top: 4px;">Institutional Ledger // Desk 01</div>
         </div>
-        <div style="font-size: 10px; font-weight: 900; color: #ffffff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);">ADMINISTRATIVE_MASTER</div>
+        <div style="font-size: 10px; font-weight: 900; color: #ffffff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);">SECURE_ACCESS</div>
     </div>
 
     <div style="padding: 40px; background: radial-gradient(circle at top right, #f8fafc, #ffffff);">
         
-        <div style="margin-bottom: 40px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-            <div style="background: #f1f5f9; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; font-size: 10px; font-weight: 800; color: #334155; text-transform: uppercase;">1.0 Academic Entity Identification</div>
+        <div id="SECTION_STUDENT_BIODATA" style="margin-bottom: 40px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="background: #f1f5f9; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; font-size: 10px; font-weight: 800; color: #334155; text-transform: uppercase;">1.0 Academic Entity Identification (Student)</div>
             <div style="padding: 30px;">
-                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 25px;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 25px; margin-bottom: 25px;">
                     <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Legal Full Name</label>
-                         <input type="text" style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 13px;"></div>
-                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Academic Level</label>
-                         <select style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"><option>Primary 1-6</option></select></div>
-                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Reporting Term</label>
-                         <select style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-weight: 700;"><option>Term 1</option></select></div>
+                         <input type="text" placeholder="SURNAME FIRST" style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"></div>
+                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Classroom Selector</label>
+                         <select style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"><option>Creche - Primary 6</option></select></div>
+                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Academic Term</label>
+                         <select style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-weight: 700;"><option>Term 1 (Michaelmas)</option></select></div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 25px; margin-bottom: 25px;">
+                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Blood Group</label><select style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"><option>O+</option></select></div>
+                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Allergies</label><input type="text" style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"></div>
+                    <div><label style="font-size: 8px; font-weight: 800; color: #64748b; text-transform: uppercase;">Medical History</label><input type="text" style="width:100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px;"></div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                    <div style="background: #fffafa; border: 1px dashed #fee2e2; padding: 15px; border-radius: 12px; text-align: center;">
+                        <label style="font-size: 8px; font-weight: 900; color: #b91c1c;">MANDATORY PHOTO</label>
+                        <input type="file" style="font-size: 10px; margin-top: 5px;">
+                    </div>
+                    <div style="background: #f0f9ff; border: 1px dashed #e0f2fe; padding: 15px; border-radius: 12px; text-align: center;">
+                        <label style="font-size: 8px; font-weight: 900; color: #0369a1;">DOCUMENTS</label>
+                        <input type="file" style="font-size: 10px; margin-top: 5px;">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="background: #050a30; border-radius: 12px; overflow: hidden;">
+        <div id="SECTION_PARENT_BIODATA" style="background: #050a30; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(5,10,48,0.2);">
             <div style="background: rgba(255,255,255,0.05); padding: 12px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 10px; font-weight: 800; color: #d4af37; text-transform: uppercase;">2.0 Legal Guardian & Emergency Protocol</div>
             <div style="padding: 30px;">
-                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 25px;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 25px; margin-bottom: 25px;">
                     <div><label style="font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Guardian Name</label>
-                         <input type="text" style="width:100%; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: white;"></div>
+                         <input type="text" style="width:100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;"></div>
                     <div><label style="font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Relationship</label>
-                         <select style="width:100%; padding: 12px; background: #050a30; color: white; border: 1px solid rgba(255,255,255,0.2);"><option>Father</option></select></div>
+                         <select style="width:100%; padding: 12px; background: #050a30; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;"><option>Father</option><option>Mother</option></select></div>
                     <div><label style="font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Secure Contact</label>
-                         <input type="tel" style="width:100%; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: white;"></div>
+                         <input type="tel" style="width:100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;"></div>
+                </div>
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Verified Residential Address</label>
+                    <input type="text" style="width:100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                </div>
+                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px;">
+                    <div style="grid-column: 1 / -1; font-size: 9px; color: #ef4444; font-weight: 900; text-transform: uppercase;">Emergency Response Protocol</div>
+                    <div><label style="font-size: 8px; color: #94a3b8;">Person Name</label><input type="text" style="width:100%; padding: 10px; background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;"></div>
+                    <div><label style="font-size: 8px; color: #94a3b8;">Relationship</label><input type="text" style="width:100%; padding: 10px; background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;"></div>
+                    <div><label style="font-size: 8px; color: #94a3b8;">Contact</label><input type="tel" style="width:100%; padding: 10px; background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;"></div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 8px; color: #94a3b8;">Emergency Address</label>
+                    <input type="text" style="width:100%; padding: 12px; background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
                 </div>
             </div>
         </div>
+
     </div>
 </div>
