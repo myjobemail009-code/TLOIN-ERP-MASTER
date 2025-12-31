@@ -1,71 +1,40 @@
-<div id="M1_DESK_5_ATTENDANCE" style="display: block; margin-top: 50px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); font-family: sans-serif;">
+<div id="M1_DESK_6_DONATIONS_IN" style="display: block; margin-top: 50px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); font-family: sans-serif;">
     
-    <div style="background: #334155; padding: 22px 40px; border-bottom: 4px solid #d4af37; display: flex; justify-content: space-between; align-items: center;">
+    <div style="background: #065f46; padding: 22px 40px; border-bottom: 4px solid #d4af37; display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <span style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase;">Attendance & Time-Tracking</span>
-            <div style="font-size: 8px; color: #d4af37; font-weight: 700; margin-top: 2px;">OPERATIONAL ACCOUNTABILITY // DESK 05</div>
+            <span style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase;">Inbound Donations Registry</span>
+            <div style="font-size: 8px; color: #d4af37; font-weight: 700; margin-top: 2px;">RESOURCES ACQUISITION // DESK 06</div>
         </div>
-        <div style="font-size: 9px; color: #ffffff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);">TIME_LOG_v1.0</div>
     </div>
 
     <div style="padding: 40px; background: #f8fafc;">
-
         <fieldset style="border: 1px solid #cbd5e0; border-radius: 12px; padding: 30px; background: #ffffff; margin-bottom: 35px;">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #334155; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">1.0 Identity & Shift Context</legend>
-            
-            <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px;">
-                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Personnel Name (Staff/Volunteer)</label>
-                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white; box-sizing: border-box;">
-                        <option>Select Registered Member...</option>
-                        <option>Staff List Sync Active...</option>
-                     </select></div>
-                
-                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Work Site / Location</label>
-                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white; box-sizing: border-box;">
-                        <option>Accra Main Office</option>
-                        <option>Field Site A</option>
-                        <option>Vocational School</option>
-                        <option>Medical Unit</option>
-                     </select></div>
-                
-                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Shift Designation</label>
-                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;">
-                        <option>Day Shift</option>
-                        <option>Night Shift</option>
-                        <option>Weekend/Overtime</option>
-                     </select></div>
+            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #065f46; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">1.0 Source Identification</legend>
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px;">
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Donor Name / Organization</label>
+                     <input type="text" placeholder="Individual or Agency" style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Donation Type</label>
+                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;"><option>Cash</option><option>Items/Goods</option><option>Services</option></select></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Date Received</label>
+                     <input type="date" style="width:100%; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
             </div>
         </fieldset>
 
-        <fieldset style="border: 1px solid #10b981; border-radius: 12px; padding: 30px; background: #ffffff; margin-bottom: 35px;">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #10b981; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">2.0 Time Stamp Protocol</legend>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 20px;">
-                <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; border: 1px solid #dcfce7;">
-                    <label style="font-size: 8px; font-weight: 900; color: #166534; text-transform: uppercase; display: block; margin-bottom: 8px;">Clock-In Time</label>
-                    <input type="time" style="width:100%; border: none; background: transparent; font-size: 16px; font-weight: 900; color: #166534;">
-                </div>
-                <div style="background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px solid #fee2e2;">
-                    <label style="font-size: 8px; font-weight: 900; color: #b91c1c; text-transform: uppercase; display: block; margin-bottom: 8px;">Clock-Out Time</label>
-                    <input type="time" style="width:100%; border: none; background: transparent; font-size: 16px; font-weight: 900; color: #b91c1c;">
-                </div>
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Remarks / Exception Reason (If Late)</label>
-                    <textarea placeholder="Reason for tardiness or early exit..." style="width:100%; height: 50px; padding: 10px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 11px;"></textarea>
-                </div>
+        <fieldset style="border: 1px solid #cbd5e0; border-radius: 12px; padding: 30px; background: #ffffff;">
+            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #065f46; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">2.0 Itemized Receipt</legend>
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Item Description</label>
+                     <input type="text" style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Quantity</label>
+                     <input type="number" style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Estimated Value (GHS)</label>
+                     <input type="number" style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
             </div>
-        </fieldset>
-
-        <fieldset style="border: 1px solid #3b82f6; border-radius: 12px; padding: 30px; background: #ffffff;">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #3b82f6; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">3.0 Activity Summary</legend>
-            <div>
-                <label style="font-size: 8px; font-weight: 900; color: #1e40af; text-transform: uppercase; display: block; margin-bottom: 8px;">Daily Task Description / Accomplishments</label>
-                <textarea placeholder="Briefly describe activities performed during this shift..." style="width:100%; height: 80px; padding: 15px; border: 1.5px solid #bfdbfe; border-radius: 8px; font-size: 12px; box-sizing: border-box;"></textarea>
-            </div>
+            <button type="button" style="background: #065f46; color: #ffffff; border: none; padding: 8px 15px; border-radius: 6px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer;">+ Add Item</button>
         </fieldset>
 
         <div style="display: flex; justify-content: center; padding-top: 30px;">
-            <button type="button" style="width: 250px; background: #334155; color: #ffffff; border: none; padding: 18px; border-radius: 8px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; cursor: pointer;">SUBMIT LOG</button>
+            <button type="button" style="width: 250px; background: #065f46; color: #ffffff; border: none; padding: 18px; border-radius: 8px; font-size: 13px; font-weight: 900; letter-spacing: 4px; cursor: pointer;">RECORD DONATION</button>
         </div>
     </div>
 </div>
