@@ -1,83 +1,71 @@
-<div id="module-1-container" style="min-height: 90vh; background: #f0f2f5; padding: 20px; font-family: 'Segoe UI', system-ui; display: flex; flex-direction: column; gap: 20px;">
+<div id="TLOIN_M1_MASTER" style="all: initial; display: block; font-family: 'Segoe UI', sans-serif; background: #f4f7f9; min-height: 90vh; padding: 20px; box-sizing: border-box;">
 
-    <nav style="display: flex; gap: 5px; background: #050a30; padding: 10px; border-radius: 8px; border-bottom: 4px solid #ffcc00;">
-        <button onclick="ActivateCell(1)" style="flex:1; padding: 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; background: #ffcc00; color: #050a30;">Desk 1: Students</button>
-        <button onclick="ActivateCell(2)" style="flex:1; padding: 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; background: #1a1f3c; color: #ffffff;">Desk 2: Human Capital</button>
-        <button onclick="ActivateCell(3)" style="flex:1; padding: 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; background: #1a1f3c; color: #ffffff;">Desk 3: Inflow/Donations</button>
-        <button onclick="ActivateCell(4)" style="flex:1; padding: 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; background: #1a1f3c; color: #ffffff;">Desk 4: Outflow/Relief</button>
-        <button onclick="ActivateCell(5)" style="flex:1; padding: 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; background: #1a1f3c; color: #ffffff;">Desk 5: Membership</button>
-    </nav>
+    <div id="M1_BLOCK_NAV" style="margin-bottom: 20px; display: flex; gap: 10px; background: #050a30; padding: 15px; border-radius: 8px;">
+        <button onclick="M1_Toggle(1)" id="M1_BT_1" style="flex:1; padding: 12px; background: #ffcc00; color: #050a30; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">1. Students</button>
+        <button onclick="M1_Toggle(2)" id="M1_BT_2" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">2. Staff/Volunteers</button>
+        <button onclick="M1_Toggle(3)" id="M1_BT_3" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">3. Inflow/Donations</button>
+        <button onclick="M1_Toggle(4)" id="M1_BT_4" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">4. Outflow/Relief</button>
+        <button onclick="M1_Toggle(5)" id="M1_BT_5" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">5. Membership</button>
+    </div>
 
-    <section id="cell-1" class="sovereign-cell" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; overflow: hidden;">
-        <header style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; text-transform: uppercase;">
-            Registry: Student Master (Static Mode)
-        </header>
-        <div style="padding: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div style="display:flex; flex-direction:column;">
-                <label style="font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px;">STUDENT NAME</label>
-                <input type="text" readonly value="LOCKED" style="padding: 10px; border: 1px solid #edf2f7; background: #f8fafc; color: #cbd5e0;">
+    <div id="M1_DESK_1" class="m1-desk-block" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; color: #050a30;">DESK 1: STUDENT MASTER DATA [STATIC_LOCK]</div>
+        <div style="padding: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div>
+                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Legal Name</label>
+                <input type="text" readonly value="[LOCKED_FOR_AUDIT]" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
             </div>
-            <div style="display:flex; flex-direction:column;">
-                <label style="font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px;">STUDENT ID</label>
-                <input type="text" readonly value="GH-TLOIN-000" style="padding: 10px; border: 1px solid #edf2f7; background: #f8fafc;">
+            <div>
+                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Ghana Card ID</label>
+                <input type="text" readonly value="GHA-000000000-0" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
             </div>
-            <div style="display:flex; flex-direction:column;">
-                <label style="font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px;">STATUS</label>
-                <div style="padding: 10px; font-size: 10px; font-weight: 900; color: #27ae60; background: #ebfef2; text-align: center;">STANDALONE_READY</div>
+            <div style="text-align: right;">
+                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Cell Integrity</label>
+                <span style="font-size: 10px; font-weight: 900; color: #27ae60; background: #ebfef2; padding: 5px 10px; border-radius: 4px;">VERIFIED_BLOCK</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="cell-2" class="sovereign-cell" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; overflow: hidden;">
-        <header style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; text-transform: uppercase;">
-            Registry: Staff & Volunteers (Static Mode)
-        </header>
-        <div style="padding: 25px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-            <div style="border: 1px solid #cbd5e0; padding: 15px; border-radius: 4px; background: #fdfdfd;">
-                <label style="font-size: 8px; font-weight: 900;">GHANA STATUTORY CALCULATION</label>
-                <div style="font-size: 11px; margin-top: 10px; color: #4a5568;">
-                    SSNIT (13.5%): <strong>AUTO-CALC ENABLED</strong><br>
-                    PAYE (GRA): <strong>STATIC MAPPING ACTIVE</strong>
-                </div>
-            </div>
-            <div style="display:flex; flex-direction:column; justify-content: center;">
-                <button style="padding: 15px; background: #050a30; color: #ffcc00; font-weight: 900; border: none; font-size: 9px; cursor: not-allowed; opacity: 0.6;">DESK LOCKED</button>
-            </div>
+    <div id="M1_DESK_2" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
+        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">
+            <div style="margin-bottom: 10px;">[BLOCK_2_LOCKED]</div>
+            AWAITING CLINICAL SSNIT/TAX LOGIC INITIALIZATION
         </div>
-    </section>
+    </div>
 
-    <section id="cell-3" class="sovereign-cell" style="display: none; padding: 40px; text-align: center;">[DONATIONS_LEDGER: CELL_STANDALONE]</section>
-    <section id="cell-4" class="sovereign-cell" style="display: none; padding: 40px; text-align: center;">[RELIEF_OUTFLOW: CELL_STANDALONE]</section>
-    <section id="cell-5" class="sovereign-cell" style="display: none; padding: 40px; text-align: center;">[MEMBERSHIP_CLUB: CELL_STANDALONE]</section>
+    <div id="M1_DESK_3" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
+        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_3_LOCKED]</div>
+    </div>
+
+    <div id="M1_DESK_4" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
+        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_4_LOCKED]</div>
+    </div>
+
+    <div id="M1_DESK_5" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
+        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_5_LOCKED]</div>
+    </div>
 
 </div>
 
 <script>
-    /**
-     * @function ActivateCell
-     * Orchestrates the visibility of standalone cells without cross-contamination.
-     * All Desk data remains static within its own HTML block.
-     */
-    function ActivateCell(n) {
-        // Hide all sovereign cells
-        const cells = document.getElementsByClassName('sovereign-cell');
-        for (let i = 0; i < cells.length; i++) {
-            cells[i].style.display = 'none';
+    function M1_Toggle(n) {
+        // Block-Level Visibility Control
+        const blocks = document.getElementsByClassName('m1-desk-block');
+        for (let i = 0; i < blocks.length; i++) {
+            blocks[i].style.display = 'none';
         }
-        
-        // Internal switch to targeted cell
-        document.getElementById('cell-' + n).style.display = 'block';
-        
-        // Coordinator UI Update (Purely visual, no data authority change)
-        const buttons = document.querySelectorAll('nav button');
-        buttons.forEach((btn, idx) => {
-            if (idx === (n - 1)) {
+        document.getElementById('M1_DESK_' + n).style.display = 'block';
+
+        // Button State UI (Non-Functional change to other blocks)
+        for (let i = 1; i <= 5; i++) {
+            const btn = document.getElementById('M1_BT_' + i);
+            if (i === n) {
                 btn.style.background = '#ffcc00';
                 btn.style.color = '#050a30';
             } else {
                 btn.style.background = '#1a1f3c';
                 btn.style.color = '#ffffff';
             }
-        });
+        }
     }
 </script>
