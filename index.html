@@ -1,63 +1,61 @@
 <div id="TLOIN_M1_MASTER" style="all: initial; display: block; font-family: 'Segoe UI', sans-serif; background: #f4f7f9; min-height: 90vh; padding: 20px; box-sizing: border-box;">
 
-    <div id="M1_BLOCK_NAV" style="margin-bottom: 20px; display: flex; gap: 10px; background: #050a30; padding: 15px; border-radius: 8px;">
-        <button onclick="M1_Toggle(1)" id="M1_BT_1" style="flex:1; padding: 12px; background: #ffcc00; color: #050a30; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">1. Students</button>
-        <button onclick="M1_Toggle(2)" id="M1_BT_2" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">2. Staff/Volunteers</button>
-        <button onclick="M1_Toggle(3)" id="M1_BT_3" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">3. Inflow/Donations</button>
-        <button onclick="M1_Toggle(4)" id="M1_BT_4" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">4. Outflow/Relief</button>
-        <button onclick="M1_Toggle(5)" id="M1_BT_5" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 10px; cursor: pointer; text-transform: uppercase;">5. Membership</button>
+    <div id="M1_BLOCK_NAV" style="margin-bottom: 20px; display: flex; gap: 8px; background: #050a30; padding: 15px; border-radius: 8px;">
+        <button onclick="M1_Toggle(1)" id="M1_BT_1" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">1. Students</button>
+        <button onclick="M1_Toggle(2)" id="M1_BT_2" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">2. Staff/Volunteers</button>
+        <button onclick="M1_Toggle(3)" id="M1_BT_3" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">3. Inflow/Donations</button>
+        <button onclick="M1_Toggle(4)" id="M1_BT_4" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">4. Outflow/Relief</button>
+        <button onclick="M1_Toggle(5)" id="M1_BT_5" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">5. Membership</button>
+        <button onclick="M1_Toggle(6)" id="M1_BT_6" style="flex:1; padding: 12px; background: #ffcc00; color: #050a30; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">6. Grants</button>
     </div>
 
-    <div id="M1_DESK_1" class="m1-desk-block" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <div style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; color: #050a30;">DESK 1: STUDENT MASTER DATA [STATIC_LOCK]</div>
-        <div style="padding: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div>
-                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Legal Name</label>
-                <input type="text" readonly value="[LOCKED_FOR_AUDIT]" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
+    <div id="M1_DESK_1" class="m1-desk-block" style="display: none;"> </div>
+    <div id="M1_DESK_2" class="m1-desk-block" style="display: none;"> </div>
+    <div id="M1_DESK_3" class="m1-desk-block" style="display: none;"> </div>
+    <div id="M1_DESK_4" class="m1-desk-block" style="display: none;"> </div>
+    <div id="M1_DESK_5" class="m1-desk-block" style="display: none;"> </div>
+
+    <div id="M1_DESK_6" class="m1-desk-block" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; color: #050a30;">DESK 6: GRANT PIPELINE & COMPLIANCE [STATIC_LOCK]</div>
+        
+        <div style="padding: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 25px;">
+                <div>
+                    <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Granting Entity / Donor</label>
+                    <input type="text" readonly value="[LOCKED_FOR_ENTRY]" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
+                </div>
+                <div>
+                    <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Grant Reference Number</label>
+                    <input type="text" readonly value="GRNT-2025-00X" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
+                </div>
             </div>
-            <div>
-                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Ghana Card ID</label>
-                <input type="text" readonly value="GHA-000000000-0" style="width:100%; padding: 12px; border: 1px solid #edf2f7; background: #f8fafc; border-radius: 4px; box-sizing: border-box;">
-            </div>
-            <div style="text-align: right;">
-                <label style="display:block; font-size: 8px; font-weight: 900; color: #64748b; margin-bottom: 5px; text-transform: uppercase;">Cell Integrity</label>
-                <span style="font-size: 10px; font-weight: 900; color: #27ae60; background: #ebfef2; padding: 5px 10px; border-radius: 4px;">VERIFIED_BLOCK</span>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 6px; border-left: 4px solid #050a30;">
+                    <label style="font-size: 8px; color: #475569;">FUNDING CEILING</label>
+                    <div style="font-size: 14px; font-weight: 900;">[LOCKED]</div>
+                </div>
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 6px; border-left: 4px solid #050a30;">
+                    <label style="font-size: 8px; color: #475569;">DISBURSEMENT STATUS</label>
+                    <div style="font-size: 10px; font-weight: 900; color: #050a30;">NOTARIZATION_PENDING</div>
+                </div>
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 6px; border-left: 4px solid #27ae60;">
+                    <label style="font-size: 8px; color: #475569;">COMPLIANCE VERDICT</label>
+                    <div style="font-size: 10px; font-weight: 900; color: #27ae60;">VALID_BLUEPRINT</div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="M1_DESK_2" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
-        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">
-            <div style="margin-bottom: 10px;">[BLOCK_2_LOCKED]</div>
-            AWAITING CLINICAL SSNIT/TAX LOGIC INITIALIZATION
-        </div>
-    </div>
-
-    <div id="M1_DESK_3" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
-        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_3_LOCKED]</div>
-    </div>
-
-    <div id="M1_DESK_4" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
-        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_4_LOCKED]</div>
-    </div>
-
-    <div id="M1_DESK_5" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px;">
-        <div style="padding: 50px; text-align: center; color: #94a3b8; font-size: 12px; font-weight: 700;">[BLOCK_5_LOCKED]</div>
-    </div>
-
 </div>
 
 <script>
+    // COORDINATOR LOGIC (STATIC STATE)
     function M1_Toggle(n) {
-        // Block-Level Visibility Control
         const blocks = document.getElementsByClassName('m1-desk-block');
-        for (let i = 0; i < blocks.length; i++) {
-            blocks[i].style.display = 'none';
-        }
+        for (let i = 0; i < blocks.length; i++) { blocks[i].style.display = 'none'; }
         document.getElementById('M1_DESK_' + n).style.display = 'block';
 
-        // Button State UI (Non-Functional change to other blocks)
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 6; i++) {
             const btn = document.getElementById('M1_BT_' + i);
             if (i === n) {
                 btn.style.background = '#ffcc00';
