@@ -1,95 +1,131 @@
-<div class="module-container" style="background: #ffffff; border-radius: 12px; border: 1px solid #cbd5e0; min-height: 85vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; overflow: hidden;">
+<div class="module-container" style="background: #ffffff; border-radius: 12px; border: 1px solid #cbd5e0; min-height: 85vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; overflow: hidden; box-shadow: 0 20px 50px rgba(5, 10, 48, 0.15);">
     
-    <div class="console-header" style="background: #f8fafc; border-bottom: 2px solid #edf2f7; padding: 15px 25px; display: flex; gap: 8px;">
-        <button class="tab-nav active" onclick="GlobalSwitch(1)" id="nav-1" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #050a30; background: #050a30; color: #ffcc00; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Chronological Ledger</button>
-        <button class="tab-nav" onclick="GlobalSwitch(2)" id="nav-2" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Forensic Trace</button>
-        <button class="tab-nav" onclick="GlobalSwitch(3)" id="nav-3" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Notarized Reports</button>
-        <button class="tab-nav" onclick="GlobalSwitch(4)" id="nav-4" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Glocal Tax Mirror</button>
-        <button class="tab-nav" onclick="GlobalSwitch(5)" id="nav-5" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">ISO Compliance Map</button>
-        <button class="tab-nav" onclick="GlobalSwitch(6)" id="nav-6" style="padding: 10px 14px; font-size: 9px; font-weight: 900; border: 1px solid #cbd5e0; background: white; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Archival Vault</button>
+    <div class="console-header" style="background: #050a30; padding: 15px 25px; display: flex; gap: 10px; border-bottom: 4px solid #ffcc00;">
+        <button class="tab-nav active" onclick="GlobalSwitch(1)" id="nav-1" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid #ffcc00; background: #ffcc00; color: #050a30; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">Immutable Ledger</button>
+        <button class="tab-nav" onclick="GlobalSwitch(2)" id="nav-2" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #ffffff; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">Forensic Analysis</button>
+        <button class="tab-nav" onclick="GlobalSwitch(3)" id="nav-3" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #ffffff; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">Notarized Reports</button>
+        <button class="tab-nav" onclick="GlobalSwitch(4)" id="nav-4" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #ffffff; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">Glocal Tax Mirror</button>
+        <button class="tab-nav" onclick="GlobalSwitch(5)" id="nav-5" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #ffffff; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">ISO Compliance Map</button>
+        <button class="tab-nav" onclick="GlobalSwitch(6)" id="nav-6" style="padding: 12px 18px; font-size: 10px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #ffffff; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s;">Archival Vault</button>
     </div>
 
-    <div id="panel-1" class="tab-panel" style="padding: 30px; display: block;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Granular Transactional Chronology</div>
+    <div style="flex-grow: 1; overflow-y: auto; background: #f8fafc;">
         
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
-                <thead style="background: #050a30; color: #ffcc00;">
-                    <tr>
-                        <th style="padding: 12px; text-align: left;">TIMESTAMP (UTC)</th>
-                        <th style="padding: 12px; text-align: left;">MODULE ID</th>
-                        <th style="padding: 12px; text-align: left;">ACTOR ID</th>
-                        <th style="padding: 12px; text-align: left;">SHA-256 NOTARIZATION HASH</th>
-                        <th style="padding: 12px; text-align: center;">VERDICT</th>
-                    </tr>
-                </thead>
-                <tbody style="font-family: monospace; color: #334155;">
-                    <tr style="border-bottom: 1px solid #edf2f7;">
-                        <td style="padding: 10px;">2025-12-31 03:30:12</td>
-                        <td style="padding: 10px;">M07 (Logistics)</td>
-                        <td style="padding: 10px;">ADM-04</td>
-                        <td style="padding: 10px;">8f92...a3e1</td>
-                        <td style="padding: 10px; text-align: center; color: #27ae60; font-weight: 900;">VALID</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #edf2f7;">
-                        <td style="padding: 10px;">2025-12-31 03:35:45</td>
-                        <td style="padding: 10px;">M05 (Finance)</td>
-                        <td style="padding: 10px;">SYS-EXE</td>
-                        <td style="padding: 10px;">c4d1...77b2</td>
-                        <td style="padding: 10px; text-align: center; color: #27ae60; font-weight: 900;">VALID</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="panel-1" class="tab-panel" style="padding: 30px; display: block;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #050a30; padding-bottom: 10px; margin-bottom: 25px;">
+                <span style="font-size: 14px; font-weight: 900; color: #050a30; text-transform: uppercase; letter-spacing: 1px;">Chronological Transactional Ledger</span>
+                <span style="font-size: 10px; background: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: 900;">ISO 25010 CERTIFIED</span>
+            </div>
+
+            <div style="background: white; border: 1px solid #cbd5e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <thead style="background: #f1f5f9; color: #475569; text-transform: uppercase;">
+                        <tr>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid #cbd5e0;">Sequence</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid #cbd5e0;">Timestamp (UTC)</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid #cbd5e0;">Origin Module</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid #cbd5e0;">Actor Signature</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid #cbd5e0;">Cryptographic SHA-256 Hash</th>
+                            <th style="padding: 15px; text-align: center; border-bottom: 2px solid #cbd5e0;">Integrity</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-family: 'Courier New', monospace;">
+                        <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 15px; font-weight: 900;">#88421</td>
+                            <td style="padding: 12px 15px;">2025-12-31 03:40:01</td>
+                            <td style="padding: 12px 15px;">M05-FINANCE</td>
+                            <td style="padding: 12px 15px; color: #050a30; font-weight: 700;">USER_ID: ADM_GH_01</td>
+                            <td style="padding: 12px 15px; color: #64748b; font-size: 9px;">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+                            <td style="padding: 12px 15px; text-align: center;"><span style="color: #27ae60; font-weight: 900;">SEALED</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7; background: #fafafa;">
+                            <td style="padding: 12px 15px; font-weight: 900;">#88420</td>
+                            <td style="padding: 12px 15px;">2025-12-31 03:38:55</td>
+                            <td style="padding: 12px 15px;">M07-LOGISTICS</td>
+                            <td style="padding: 12px 15px; color: #050a30; font-weight: 700;">USER_ID: LOG_OPS_04</td>
+                            <td style="padding: 12px 15px; color: #64748b; font-size: 9px;">5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</td>
+                            <td style="padding: 12px 15px; text-align: center;"><span style="color: #27ae60; font-weight: 900;">SEALED</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="panel-2" class="tab-panel" style="padding: 30px; display: none;">
+            <div style="font-size: 14px; font-weight: 900; color: #050a30; border-bottom: 2px solid #050a30; padding-bottom: 10px; margin-bottom: 25px; text-transform: uppercase;">Forensic Discrepancy Isolation</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div style="background: white; border: 1px solid #cbd5e0; padding: 25px; border-radius: 12px; border-top: 5px solid #ffcc00;">
+                    <label style="font-size: 10px; font-weight: 900; color: #64748b;">Investigation Swimlane: FINANCIAL DEVIATION</label>
+                    <div style="margin-top: 15px; font-size: 12px; line-height: 1.6;">
+                        <span style="color: #e74c3c; font-weight: 900;">[CRITICAL]</span> Discrepancy detected between Module 1 (Payroll) and Module 5 (General Ledger). <br>
+                        <strong>Amount:</strong> GHS 1,240.00 <br>
+                        <strong>Origin:</strong> SSNIT Calculation Logic mismatch.
+                    </div>
+                    <button style="margin-top: 20px; width: 100%; padding: 12px; background: #050a30; color: white; border: none; font-size: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase;">Launch Deep Trace</button>
+                </div>
+                <div style="background: white; border: 1px solid #cbd5e0; padding: 25px; border-radius: 12px; border-top: 5px solid #050a30;">
+                    <label style="font-size: 10px; font-weight: 900; color: #64748b;">Actor Behavior Analytics (HCD)</label>
+                    <div style="margin-top: 15px; font-size: 12px; color: #475569;">
+                        Trace analysis shows <strong>USER_ID: ADM_GH_01</strong> performed this action from <strong>IP: 154.160.2.x (Accra Central)</strong> using 2FA bypass.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-4" class="tab-panel" style="padding: 30px; display: none;">
+            <div style="font-size: 14px; font-weight: 900; color: #050a30; border-bottom: 2px solid #050a30; padding-bottom: 10px; margin-bottom: 25px; text-transform: uppercase;">Glocal Regulatory Mirror (GRA vs IFRS)</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div style="background: #fff; border: 1px solid #cbd5e0; padding: 20px; border-radius: 8px;">
+                    <label style="font-size: 9px; font-weight: 900; color: #64748b;">GRA PAYE (Ghana)</label>
+                    <div style="font-size: 20px; font-weight: 900; color: #050a30; margin: 10px 0;">GHS 42,350.00</div>
+                    <div style="font-size: 10px; color: #27ae60; font-weight: 800;">[MUST] TIER 1/2 COMPLIANT</div>
+                </div>
+                <div style="background: #fff; border: 1px solid #cbd5e0; padding: 20px; border-radius: 8px;">
+                    <label style="font-size: 9px; font-weight: 900; color: #64748b;">IFRS REVENUE</label>
+                    <div style="font-size: 20px; font-weight: 900; color: #050a30; margin: 10px 0;">USD 14,200.00</div>
+                    <div style="font-size: 10px; color: #050a30; font-weight: 800;">[SHOULD] ACCRUAL BASIS</div>
+                </div>
+                <div style="background: #fff; border: 1px solid #cbd5e0; padding: 20px; border-radius: 8px;">
+                    <label style="font-size: 9px; font-weight: 900; color: #64748b;">VAT/NHIL/GETFUND</label>
+                    <div style="font-size: 20px; font-weight: 900; color: #050a30; margin: 10px 0;">COMPUTED</div>
+                    <div style="font-size: 10px; color: #e74c3c; font-weight: 800;">[MUST] FILE BY 15TH</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="panel-2" class="tab-panel" style="padding: 30px; display: none;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Forensic Swimlane: Discrepancy Isolation</div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="border-left: 4px solid #050a30; padding: 15px; background: #f8fafc;">
-                <label style="font-size: 8px; font-weight: 900;">INVESTIGATION TRIGGER [MUST]</label>
-                <div style="font-size: 12px;">Deviation detected in Payroll M01 vs Finance M05.</div>
-            </div>
-            <div style="border-left: 4px solid #ffcc00; padding: 15px; background: #fffcf0;">
-                <label style="font-size: 8px; font-weight: 900;">LOGICAL RECONCILIATION [SHOULD]</label>
-                <div style="font-size: 12px;">Auto-tracing actor permissions and IP geolocation for timestamp 2025-12-31.</div>
-            </div>
+    <div style="background: #050a30; padding: 25px; display: flex; justify-content: space-between; align-items: center; border-top: 4px solid #ffcc00;">
+        <div style="color: white;">
+            <div style="font-size: 10px; font-weight: 900; opacity: 0.7; text-transform: uppercase;">System Integrity Verdict</div>
+            <div style="font-size: 16px; font-weight: 900; color: #ffcc00;">UNASSAILABLE / SEALED</div>
         </div>
+        <button style="padding: 15px 40px; background: #ffcc00; color: #050a30; border: none; border-radius: 6px; font-weight: 900; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);">Seal Ledger & Transmit to Cloud Vault</button>
     </div>
-
-    <div id="panel-4" class="tab-panel" style="padding: 30px; display: none;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 20px; text-transform: uppercase;">Regulatory Mirror: GRA (Ghana) vs. International (IFRS)</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="border: 1px solid #cbd5e0; border-radius: 8px; padding: 20px;">
-                <div style="font-size: 10px; font-weight: 900; color: #64748b;">GHANA REVENUE AUTHORITY</div>
-                <div style="font-size: 16px; font-weight: 900; margin-top: 10px;">NHIL / GETFund / COVID-19 Levy</div>
-                <div style="font-size: 9px; color: #27ae60; margin-top: 5px;">NOTARIZED STATUS: READY</div>
-            </div>
-            <div style="border: 1px solid #cbd5e0; border-radius: 8px; padding: 20px;">
-                <div style="font-size: 10px; font-weight: 900; color: #64748b;">IFRS GLOBAL STANDARDS</div>
-                <div style="font-size: 16px; font-weight: 900; margin-top: 10px;">Fair Value / Accrual Basis</div>
-                <div style="font-size: 9px; color: #27ae60; margin-top: 5px;">NOTARIZED STATUS: READY</div>
-            </div>
-        </div>
-    </div>
-
-    <button style="width: 100%; padding: 22px; background: #050a30; color: #ffcc00; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: auto; border-radius: 0 0 12px 12px; letter-spacing: 1px;">Seal Ledger & Execute Final Audit</button>
 </div>
 
 <script>
     function GlobalSwitch(n) {
+        // Hide all panels
         const panels = document.getElementsByClassName('tab-panel');
-        for (let i = 0; i < panels.length; i++) { panels[i].style.display = 'none'; }
+        for (let i = 0; i < panels.length; i++) {
+            panels[i].style.display = 'none';
+        }
+        
+        // Reset navigation buttons
         const navs = document.getElementsByClassName('tab-nav');
         for (let i = 0; i < navs.length; i++) {
-            navs[i].style.background = 'white';
-            navs[i].style.color = '#050a30';
-            navs[i].style.borderColor = '#cbd5e0';
+            navs[i].style.background = 'transparent';
+            navs[i].style.color = '#ffffff';
+            navs[i].style.borderColor = 'rgba(255,255,255,0.2)';
         }
+
+        // Show target panel
         document.getElementById('panel-' + n).style.display = 'block';
-        const targetNav = document.getElementById('nav-' + n);
-        targetNav.style.background = '#050a30';
-        targetNav.style.color = '#ffcc00';
-        targetNav.style.borderColor = '#050a30';
+        
+        // Active button styling
+        const activeNav = document.getElementById('nav-' + n);
+        activeNav.style.background = '#ffcc00';
+        activeNav.style.color = '#050a30';
+        activeNav.style.borderColor = '#ffcc00';
     }
 </script>
