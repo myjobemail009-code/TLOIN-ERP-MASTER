@@ -1,78 +1,71 @@
-<div id="TLOIN_M1_MASTER" style="all: initial; display: block; font-family: 'Segoe UI', sans-serif; background: #f4f7f9; min-height: 90vh; padding: 20px; box-sizing: border-box;">
-
-    <div id="M1_BLOCK_NAV" style="margin-bottom: 20px; display: flex; gap: 8px; background: #050a30; padding: 15px; border-radius: 8px;">
-        <button onclick="M1_Toggle(1)" id="M1_BT_1" style="flex:1; padding: 12px; background: #ffcc00; color: #050a30; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">1. Students</button>
-        <button onclick="M1_Toggle(2)" id="M1_BT_2" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">2. Staff/Volunteers</button>
-        <button onclick="M1_Toggle(3)" id="M1_BT_3" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">3. Inflow/Donations</button>
-        <button onclick="M1_Toggle(4)" id="M1_BT_4" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">4. Outflow/Relief</button>
-        <button onclick="M1_Toggle(5)" id="M1_BT_5" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">5. Membership</button>
-        <button onclick="M1_Toggle(6)" id="M1_BT_6" style="flex:1; padding: 12px; background: #1a1f3c; color: #ffffff; border: none; font-weight: 900; font-size: 9px; cursor: pointer; text-transform: uppercase;">6. Grants</button>
+<div id="M1_DESK_1" class="m1-desk-block" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 0; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    
+    <div style="background: #f8fafc; padding: 15px; border-bottom: 2px solid #050a30; font-size: 11px; font-weight: 900; color: #050a30; display: flex; justify-content: space-between;">
+        <span>DESK 1: STUDENT MASTER REGISTRY</span>
+        <span style="color: #27ae60; font-size: 9px;">STATUS: DESIGN_ACTIVE</span>
     </div>
 
-    <div id="M1_DESK_1" class="m1-desk-block" style="display: block; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">STUDENT REGISTRY DESIGN</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">FULL NAME</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">ENROLLMENT DATE</label><input type="date" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">GHANA CARD ID</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-        </div>
+    <div style="padding: 30px;">
+        <fieldset style="border: 1px solid #edf2f7; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+            <legend style="font-size: 10px; font-weight: 900; color: #050a30; background: #ffcc00; padding: 2px 12px; border-radius: 4px; text-transform: uppercase;">Student Biodata</legend>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Full Name</label>
+                    <input type="text" placeholder="Surname First" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Classroom Selector</label>
+                    <select style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                        <option>Creche</option>
+                        <option>Nursery 1</option>
+                        <option>Nursery 2</option>
+                        <option>K.G 1</option>
+                        <option>K.G 2</option>
+                        <option>Primary 1</option>
+                        <option>Primary 2</option>
+                        <option>Primary 3</option>
+                        <option>Primary 4</option>
+                        <option>Primary 5</option>
+                        <option>Primary 6</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Ghana Card ID</label>
+                    <input type="text" placeholder="GHA-000000000-0" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 20px; margin-bottom: 20px;">
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Blood Group</label>
+                    <select style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                        <option>A+</option><option>A-</option>
+                        <option>B+</option><option>B-</option>
+                        <option>O+</option><option>O-</option>
+                        <option>AB+</option><option>AB-</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Allergies</label>
+                    <input type="text" placeholder="e.g. Peanuts, Penicillin" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Medical History</label>
+                    <input type="text" placeholder="Previous conditions or surgeries" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: #fff5f5; border: 1px dashed #fc8181; padding: 15px; border-radius: 6px;">
+                    <label style="font-size: 8px; font-weight: 900; color: #c53030;">MANDATORY: PICTURE UPLOADER</label>
+                    <input type="file" accept="image/*" style="font-size: 10px; margin-top: 5px;">
+                </div>
+                <div style="background: #f0f7ff; border: 1px dashed #4299e1; padding: 15px; border-radius: 6px;">
+                    <label style="font-size: 8px; font-weight: 900; color: #2b6cb0;">OPTIONAL: DOCUMENT UPLOADER</label>
+                    <input type="file" accept=".pdf,.doc,.docx" style="font-size: 10px; margin-top: 5px;">
+                </div>
+            </div>
+        </fieldset>
     </div>
-
-    <div id="M1_DESK_2" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">STAFF & VOLUNTEER DESIGN [STATUTORY]</div>
-        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">LEGAL NAME</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">SSNIT NUMBER</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">TIN</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-        </div>
-    </div>
-
-    <div id="M1_DESK_3" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">INFLOW: DONATIONS & GRANTS DESIGN</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">DONOR SOURCE</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">AMOUNT</label><input type="number" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">CURRENCY</label><select style="width:100%; padding: 10px;"><option>GHS</option><option>USD</option></select></div>
-        </div>
-    </div>
-
-    <div id="M1_DESK_4" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">OUTFLOW: RELIEF & IMPACT DESIGN</div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">BENEFICIARY TARGET</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">DISBURSEMENT TYPE</label><select style="width:100%; padding: 10px;"><option>Cash</option><option>Supplies</option></select></div>
-        </div>
-    </div>
-
-    <div id="M1_DESK_5" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">MEMBERSHIP CLUB DESIGN</div>
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">MEMBER NAME</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">TIER STATUS</label><select style="width:100%; padding: 10px;"><option>Platinum</option><option>Gold</option></select></div>
-        </div>
-    </div>
-
-    <div id="M1_DESK_6" class="m1-desk-block" style="display: none; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 30px;">
-        <div style="font-size: 11px; font-weight: 900; color: #050a30; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px;">GRANT PIPELINE DESIGN</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">GRANTING BODY</label><input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0;"></div>
-            <div><label style="font-size: 8px; font-weight: 900; color: #64748b;">APPLICATION STATUS</label><select style="width:100%; padding: 10px;"><option>Applied</option><option>Secured</option></select></div>
-        </div>
-    </div>
-
-    <button style="width: 100%; padding: 20px; background: #050a30; color: #ffcc00; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 20px; border-radius: 8px;">Commit All Design Edits</button>
-
 </div>
-
-<script>
-    function M1_Toggle(n) {
-        const blocks = document.getElementsByClassName('m1-desk-block');
-        for (let i = 0; i < blocks.length; i++) { blocks[i].style.display = 'none'; }
-        document.getElementById('M1_DESK_' + n).style.display = 'block';
-        for (let i = 1; i <= 6; i++) {
-            const btn = document.getElementById('M1_BT_' + i);
-            btn.style.background = (i === n) ? '#ffcc00' : '#1a1f3c';
-            btn.style.color = (i === n) ? '#050a30' : '#ffffff';
-        }
-    }
-</script>
