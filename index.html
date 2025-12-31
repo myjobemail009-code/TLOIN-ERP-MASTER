@@ -21,14 +21,36 @@
                      <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;"><option>Ghana Card</option><option>Voter ID</option><option>NHIS</option></select></div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding-top: 10px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 20px; margin-bottom: 25px;">
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Date of Hire (Selector)</label>
+                     <input type="date" style="width:100%; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; background: white;"></div>
+                
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Contact</label>
+                     <input type="tel" placeholder="+233..." style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; box-sizing: border-box;"></div>
+                
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Institutional Type</label>
+                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;"><option>NGO</option><option>School</option><option>Vocational Centre</option></select></div>
+            </div>
+
+            <div style="background: #fffcf0; border: 1px dashed #d4af37; padding: 20px; border-radius: 10px; margin-bottom: 25px; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px;">
+                <div><label style="font-size: 8px; font-weight: 900; color: #856404; text-transform: uppercase; display: block; margin-bottom: 8px;">Emergency Contact Name</label>
+                     <input type="text" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; background: white;"></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #856404; text-transform: uppercase; display: block; margin-bottom: 8px;">Relationship (Selector)</label>
+                     <select style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white;">
+                        <option>Spouse</option><option>Parent</option><option>Sibling</option><option>Guardian</option><option>Other</option>
+                     </select></div>
+                <div><label style="font-size: 8px; font-weight: 900; color: #856404; text-transform: uppercase; display: block; margin-bottom: 8px;">Emergency Contact Number</label>
+                     <input type="tel" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; background: white;"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
                 <div style="background: #fff5f5; border: 1px dashed #feb2b2; padding: 15px; border-radius: 10px;">
                     <label style="font-size: 8px; font-weight: 900; color: #c53030; text-transform: uppercase; display: block; margin-bottom: 8px;">★ Mandatory Staff Photo</label>
-                    <input type="file" required style="font-size: 10px; color: #c53030;">
+                    <input type="file" required style="font-size: 10px;">
                 </div>
                 <div style="background: #f0f9ff; border: 1px dashed #90cdf4; padding: 15px; border-radius: 10px;">
                     <label style="font-size: 8px; font-weight: 900; color: #2b6cb0; text-transform: uppercase; display: block; margin-bottom: 8px;">○ Optional Contract/CV</label>
-                    <input type="file" style="font-size: 10px; color: #2b6cb0;">
+                    <input type="file" style="font-size: 10px;">
                 </div>
             </div>
         </fieldset>
@@ -49,12 +71,7 @@
 
             <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 15px;">
                 <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Bank Institution (Ghana)</label>
-                     <select style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 8px; background: white; font-size: 11px;">
-                        <option>GCB Bank PLC</option><option>Ecobank Ghana</option><option>Absa Bank Ghana</option>
-                        <option>Stanbic Bank</option><option>Zenith Bank</option><option>Fidelity Bank</option>
-                        <option>CalBank</option><option>Access Bank</option><option>CBG</option>
-                        <option>Agricultural Development Bank (ADB)</option><option>Republic Bank</option>
-                     </select></div>
+                     <select style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 8px; background: white; font-size: 11px;"><option>GCB Bank PLC</option><option>Ecobank Ghana</option><option>Absa Bank Ghana</option></select></div>
                 <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">A/C Number</label>
                      <input type="text" style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 8px;"></div>
                 <div style="background: #f0f9ff; padding: 10px; border-radius: 8px; border: 1px solid #e0f2fe; text-align: center;">
