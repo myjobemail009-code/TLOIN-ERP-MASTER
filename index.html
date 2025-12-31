@@ -1,67 +1,59 @@
-<div id="M1_DESK_1" class="m1-desk-block" style="display: block; background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%); border: 1px solid #cbd5e0; border-radius: 12px; padding: 0; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+<div id="M1_DESK_1_PARENT_WRAP" style="margin-top: 25px;">
     
-    <div style="background: #050a30; padding: 18px 25px; border-bottom: 3px solid #ffcc00; font-size: 11px; font-weight: 900; color: #ffcc00; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px;">
-        <span>DESK 1 // STUDENT MASTER REGISTRY</span>
-        <span style="background: rgba(39, 174, 96, 0.2); color: #27ae60; padding: 4px 10px; border-radius: 20px; font-size: 8px; border: 1px solid #27ae60;">INTEGRITY: SECURED</span>
-    </div>
-
-    <div style="padding: 35px;">
-        <fieldset style="border: 1px solid rgba(203, 213, 224, 0.5); background: rgba(255, 255, 255, 0.8); border-radius: 10px; padding: 25px; backdrop-filter: blur(5px);">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #050a30; padding: 4px 15px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">Student Biodata</legend>
-            
-            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 25px;">
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Full Name</label>
-                    <input type="text" placeholder="SURNAME / FIRST NAME / MIDDLE" style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px; outline-color: #050a30;">
-                </div>
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Classroom Level</label>
-                    <select style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px; background: white; cursor: pointer;">
-                        <option>Creche</option>
-                        <option>Nursery 1</option><option>Nursery 2</option>
-                        <option>K.G 1</option><option>K.G 2</option>
-                        <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
-                        <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Academic Term</label>
-                    <select style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px; background: white; cursor: pointer; font-weight: bold;">
-                        <option>Term 1 (Michaelmas)</option>
-                        <option>Term 2 (Lent)</option>
-                        <option>Term 3 (Trinity)</option>
-                    </select>
-                </div>
+    <fieldset style="border: 2px solid #050a30; background: #f8fafc; border-radius: 10px; padding: 25px; box-shadow: inset 0 0 10px rgba(5,10,48,0.05);">
+        <legend style="font-size: 10px; font-weight: 900; color: #ffcc00; background: #050a30; padding: 5px 15px; border-radius: 5px; text-transform: uppercase; letter-spacing: 1px;">Parent / Guardian Biodata</legend>
+        
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Parent/Guardian Name</label>
+                <input type="text" placeholder="Full Legal Name" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
             </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 20px; margin-bottom: 25px;">
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Blood Group</label>
-                    <select style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px; background: white;">
-                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                        <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Allergies</label>
-                    <input type="text" placeholder="Critical Allergies Only" style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px;">
-                </div>
-                <div>
-                    <label style="font-size: 8px; font-weight: 900; color: #4a5568; text-transform: uppercase; margin-bottom: 8px; display: block;">Medical History</label>
-                    <input type="text" placeholder="Significant conditions/history" style="width:100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 6px; font-size: 13px;">
-                </div>
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Relationship</label>
+                <select style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px; background: white;">
+                    <option>Father</option>
+                    <option>Mother</option>
+                    <option>Legal Guardian</option>
+                    <option>Other</option>
+                </select>
             </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div style="background: rgba(254, 215, 215, 0.4); border: 2px dashed #f56565; padding: 15px; border-radius: 8px; text-align: center;">
-                    <label style="font-size: 8px; font-weight: 900; color: #c53030; display: block; margin-bottom: 10px;">[MANDATORY] STUDENT PHOTO</label>
-                    <input type="file" accept="image/*" style="font-size: 9px; color: #c53030;">
-                </div>
-                <div style="background: rgba(190, 227, 248, 0.4); border: 2px dashed #4299e1; padding: 15px; border-radius: 8px; text-align: center;">
-                    <label style="font-size: 8px; font-weight: 900; color: #2b6cb0; display: block; margin-bottom: 10px;">[OPTIONAL] SUPPORTING DOCS</label>
-                    <input type="file" accept=".pdf,.doc" style="font-size: 9px; color: #2b6cb0;">
-                </div>
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Contact Detail</label>
+                <input type="tel" placeholder="+233 -- --- ----" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
             </div>
-        </fieldset>
-    </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Residential Address</label>
+            <input type="text" placeholder="Digital Address / Hse No / Landmark" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
+        </div>
+
+        <div style="border-top: 1px dashed #050a30; margin: 20px 0; padding-top: 20px;">
+            <span style="font-size: 9px; font-weight: 900; color: #c53030; text-transform: uppercase; display: block; margin-bottom: 15px;">— Emergency Contact Protocol —</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Emergency Person Name</label>
+                <input type="text" placeholder="Full Legal Name" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
+            </div>
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Relationship</label>
+                <select style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px; background: white;">
+                    <option>Relative</option>
+                    <option>Neighbor</option>
+                    <option>Colleague</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Contact Detail</label>
+                <input type="tel" placeholder="+233 -- --- ----" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
+            </div>
+        </div>
+
+        <div>
+            <label style="font-size: 8px; font-weight: 900; color: #050a30; text-transform: uppercase; margin-bottom: 8px; display: block;">Emergency Address</label>
+            <input type="text" placeholder="Primary location for emergency response" style="width:100%; padding: 12px; border: 1.5px solid #050a30; border-radius: 6px; font-size: 13px;">
+        </div>
+    </fieldset>
 </div>
