@@ -2,73 +2,70 @@
     
     <div style="background: #0f172a; padding: 22px 40px; border-bottom: 4px solid #d4af37; display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <span style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase;">Financial Reporting & Statements</span>
-            <div style="font-size: 8px; color: #d4af37; font-weight: 700; margin-top: 2px;">EXECUTIVE INTELLIGENCE & AUDIT VIEWS // MODULE 02 - DESK 04</div>
+            <span style="font-size: 14px; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase;">Executive Intelligence Hub</span>
+            <div style="font-size: 8px; color: #d4af37; font-weight: 700; margin-top: 2px;">ADVANCED ANALYTICS & PIVOT VIEWS // MODULE 02 - DESK 04</div>
         </div>
-        <div style="font-size: 9px; color: #ffffff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px;">INTEL_REPORT_v1.0</div>
+        <div style="font-size: 9px; color: #ffffff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 4px;">INTEL_v1.2_REFINED</div>
     </div>
 
     <div style="padding: 40px; background: #f8fafc;">
 
         <fieldset style="border: 1px solid #cbd5e0; border-radius: 12px; padding: 30px; background: #ffffff; margin-bottom: 35px;">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #0f172a; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">1.0 Report Parameters</legend>
+            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #0f172a; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">1.0 Multidimensional Filters</legend>
             
-            <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px;">
-                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Reporting Cycle</label>
-                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;">
-                        <option>Monthly Snapshot</option>
-                        <option>Quarterly Review (Q1-Q4)</option>
-                        <option>Annual Fiscal Statement</option>
-                        <option>Project-Specific Audit</option>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Target Department</label>
+                     <select style="width:100%; padding: 12px; border: 1.5px solid #334155; border-radius: 8px; background: #f8fafc; font-weight: 600;">
+                        <option>ALL DEPARTMENTS</option>
+                        <option>Administration</option>
+                        <option>Vocational School</option>
+                        <option>Medical/Health Unit</option>
+                        <option>IT & Digital Lab</option>
                      </select></div>
                 
+                <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Expenditure Tier</label>
+                     <select style="width:100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: white;">
+                        <option>ALL TIERS</option>
+                        <option>Essential (Critical)</option>
+                        <option>Operational (Daily)</option>
+                        <option>CAPEX (Equipment)</option>
+                     </select></div>
+
                 <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Start Date</label>
                      <input type="date" style="width:100%; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
                 
                 <div><label style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">End Date</label>
                      <input type="date" style="width:100%; padding: 11px; border: 1.5px solid #e2e8f0; border-radius: 8px;"></div>
             </div>
+
+            <div style="display: flex; gap: 10px;">
+                 <span style="font-size: 9px; padding: 5px 12px; background: #e2e8f0; color: #475569; border-radius: 20px; font-weight: 700;">Filter Status: ACTIVE</span>
+                 <span style="font-size: 9px; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 20px; font-weight: 700;">Audit Ready: YES</span>
+            </div>
         </fieldset>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 35px;">
-            <div style="background: #ecfdf5; border-left: 5px solid #059669; padding: 20px; border-radius: 8px;">
-                <div style="font-size: 8px; font-weight: 900; color: #065f46; text-transform: uppercase;">Total Income (GHS)</div>
-                <div style="font-size: 22px; font-weight: 900; color: #064e3b; margin-top: 5px;">0.00</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 35px;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; border-top: 4px solid #059669;">
+                <div style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Grant Income</div>
+                <div style="font-size: 18px; font-weight: 900; color: #0f172a; margin-top: 5px;">0.00</div>
             </div>
-            <div style="background: #fef2f2; border-left: 5px solid #dc2626; padding: 20px; border-radius: 8px;">
-                <div style="font-size: 8px; font-weight: 900; color: #991b1b; text-transform: uppercase;">Total Expenses (GHS)</div>
-                <div style="font-size: 22px; font-weight: 900; color: #7f1d1d; margin-top: 5px;">0.00</div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; border-top: 4px solid #ef4444;">
+                <div style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Expenditure</div>
+                <div style="font-size: 18px; font-weight: 900; color: #0f172a; margin-top: 5px;">0.00</div>
             </div>
-            <div style="background: #eff6ff; border-left: 5px solid #2563eb; padding: 20px; border-radius: 8px;">
-                <div style="font-size: 8px; font-weight: 900; color: #1e40af; text-transform: uppercase;">Net Cash Flow</div>
-                <div style="font-size: 22px; font-weight: 900; color: #1e3a8a; margin-top: 5px;">0.00</div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; border-top: 4px solid #3b82f6;">
+                <div style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Burn Rate / Mo</div>
+                <div style="font-size: 18px; font-weight: 900; color: #0f172a; margin-top: 5px;">0.00</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; border-top: 4px solid #d4af37;">
+                <div style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase;">Tax Accrued</div>
+                <div style="font-size: 18px; font-weight: 900; color: #0f172a; margin-top: 5px;">0.00</div>
             </div>
         </div>
 
-        <fieldset style="border: 1px solid #d4af37; border-radius: 12px; padding: 30px; background: #ffffff;">
-            <legend style="font-size: 10px; font-weight: 900; color: #ffffff; background: #d4af37; padding: 5px 15px; border-radius: 5px; text-transform: uppercase;">3.0 Tax Liability Report (WHT/VAT)</legend>
-            
-            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px;">
-                <div>
-                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-                        <span style="font-size: 11px; color: #64748b;">Accrued Withholding Tax (WHT)</span>
-                        <span style="font-size: 11px; font-weight: 900; color: #0f172a;">GHS 0.00</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-                        <span style="font-size: 11px; color: #64748b;">Total VAT Payable</span>
-                        <span style="font-size: 11px; font-weight: 900; color: #0f172a;">GHS 0.00</span>
-                    </div>
-                </div>
-                <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e0; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">Average Monthly Burn Rate</div>
-                    <div style="font-size: 18px; font-weight: 900; color: #475569;">GHS 0.00</div>
-                </div>
-            </div>
-        </fieldset>
-
-        <div style="display: flex; justify-content: center; padding-top: 35px; gap: 15px;">
-            <button type="button" style="width: 200px; background: #0f172a; color: #ffffff; border: none; padding: 15px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer;">GENERATE PDF</button>
-            <button type="button" style="width: 200px; background: #ffffff; color: #0f172a; border: 2px solid #0f172a; padding: 15px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer;">EXPORT TO EXCEL</button>
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <button style="flex: 1; max-width: 250px; background: #0f172a; color: #ffffff; border: none; padding: 18px; border-radius: 8px; font-size: 11px; font-weight: 900; letter-spacing: 2px; cursor: pointer; text-transform: uppercase;">Update Report View</button>
+            <button style="flex: 1; max-width: 250px; background: #ffffff; color: #0f172a; border: 2.5px solid #0f172a; padding: 18px; border-radius: 8px; font-size: 11px; font-weight: 900; letter-spacing: 2px; cursor: pointer; text-transform: uppercase;">Export Executive Summary</button>
         </div>
     </div>
 </div>
